@@ -1,0 +1,37 @@
+﻿{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "SampleService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9001",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10001,
+              "typeName": "Client.ISampleService,Client",
+              "enabled": true,
+              "actions": [
+                {
+                  "actionId": 1,
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

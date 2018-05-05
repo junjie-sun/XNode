@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Sun junjie</Authors>
+    <Company>Sun junjie</Company>
+    <Description>Zipkin extension for XNode.</Description>
+    <Version>0.1.0</Version>
+    <PackageTags>distributed,rpc,xnode</PackageTags>
+    <PackageProjectUrl>https://github.com/junjie-sun/XNode</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Zipkin" Version="1.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XNode\XNode.csproj" />
+  </ItemGroup>
+
+</Project>

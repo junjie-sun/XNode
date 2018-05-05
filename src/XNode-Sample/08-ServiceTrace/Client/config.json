@@ -1,0 +1,25 @@
+﻿{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "CustomerService",
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9001",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10001,
+              "typeName": "Contract.ICustomerService,Contract",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

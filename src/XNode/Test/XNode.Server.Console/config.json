@@ -1,0 +1,92 @@
+﻿{
+  "xnode": {
+    "client": {
+    },
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9001"
+      },
+      "services": [
+        {
+          "serviceId": 10001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true,
+              "authorizes": [
+                {
+                  "account": "Test01",
+                  "dateLimit": "2017-10-31~2050-10-31",
+                  "timeLimit": "9:30~19:00"
+                }
+              ]
+            },
+            {
+              "actionId": 2,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            },
+            {
+              "actionId": 3,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            },
+            {
+              "actionId": 4,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            },
+            {
+              "actionId": 5,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            },
+            {
+              "actionId": 6,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            }
+          ]
+        },
+        {
+          "serviceId": 10002,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            },
+            {
+              "actionId": 2,
+              "authorizes": [
+                { "account": "Test01" },
+                { "account": "Test02" }
+              ]
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": []
+            }
+          ]
+        }
+      }
+    }
+  }
+}

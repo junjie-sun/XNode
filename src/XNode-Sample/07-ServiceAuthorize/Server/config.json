@@ -1,0 +1,40 @@
+﻿{
+  "xnode": {
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9001"
+      },
+      "services": [
+        {
+          "serviceId": 10001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true,
+              "authorizes": [
+                {
+                  "account": "Test01",
+                  "dateLimit": "2018-01-01~2030-12-31",
+                  "timeLimit": "9:30~19:00"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": [ "10.246.84.201" ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+﻿{
+  "name": "OrderService",
+  "xnode": {
+    "global": {
+      "minWorkThreads": 100
+    },
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9003"
+      },
+      "services": [
+        {
+          "serviceId": 10002,
+          "enabled": true
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": []
+            }
+          ]
+        }
+      }
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "GoodsService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9002",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10001,
+              "typeName": "Contract.Service.IGoodsService,Contract",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

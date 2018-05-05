@@ -1,0 +1,58 @@
+﻿{
+  "name": "XNode-Demo",
+  "xnode": {
+    "global": {
+      "minWorkThreads": 100
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "CustomerService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9001",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10003,
+              "typeName": "Contract.Service.ICustomerService,Contract",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "proxyName": "GoodsService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9002",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10001,
+              "typeName": "Contract.Service.IGoodsService,Contract",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

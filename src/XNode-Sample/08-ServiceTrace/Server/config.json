@@ -1,0 +1,31 @@
+﻿{
+  "xnode": {
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9001"
+      }
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "OrderService",
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9002",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 20001,
+              "typeName": "Contract.IOrderService,Contract",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

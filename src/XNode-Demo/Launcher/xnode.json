@@ -1,0 +1,58 @@
+﻿{
+  "name": "Service",
+  "xnode": {
+    "global": {
+      "minWorkThreads": 100
+    },
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9001"
+      },
+      "services": [
+        {
+          "serviceId": 10003,
+          "enabled": true
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": []
+            }
+          ]
+        }
+      }
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "OrderService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9003",
+              "localHost": "10.246.84.201"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10002,
+              "typeName": "Contract.Service.IOrderService,Contract",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

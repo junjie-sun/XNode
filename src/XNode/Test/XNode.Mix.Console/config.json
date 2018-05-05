@@ -1,0 +1,104 @@
+﻿{
+  "name": "Client",
+  "xnode": {
+    "global": {
+      "minWorkThreads": 1000
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "CustomerService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9001",
+              "localHost": "10.246.84.201",
+              "reconnectCount": 3,
+              "reconnectInterval": 30000
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10001,
+              "typeName": "XNode.Mix.Console.Services.ICustomerService,XNode.Mix.Console",
+              "enabled": true,
+              "actions": [
+                {
+                  "actionId": 1,
+                  "timeout": 10000
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "proxyName": "OrderService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "10.246.84.201",
+              "port": "9002",
+              "localHost": "10.246.84.201",
+              "reconnectCount": 3,
+              "reconnectInterval": 30000
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 10002,
+              "typeName": "XNode.Mix.Console.Services.IOrderService,XNode.Mix.Console",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    },
+    "server": {
+      "serverInfo": {
+        "host": "10.246.84.201",
+        "port": "9101"
+      },
+      "services": [
+        {
+          "serviceId": 10001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 5,
+              "enabled": false,
+              "authorizes": [
+                {
+                  "account": "Test01",
+                  "dateLimit": "2017-10-31~2050-10-31",
+                  "timeLimit": "9:30~19:00"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": []
+            }
+          ]
+        }
+      }
+    }
+  }
+}
