@@ -1,38 +1,106 @@
-# XNode ¿ª·¢Ö¸ÄÏ
-[TOC]
-## ¼ò½é
-XNodeÊÇ»ùÓÚ.Net Standard 2.0¿ª·¢µÄÇáÁ¿¼¶·Ö²¼Ê½·şÎñ¿ò¼Ü£¬ËüÌá¹©ÁËÍ¨¹ıÉÙÁ¿´úÂë¼°¼òµ¥ÅäÖÃ¼´¿ÉÊµÏÖ·Ö²¼Ê½²¿ÊğµÄÄÜÁ¦¡£XNode¶ÔÒµÎñ´úÂëµÄÇÖÈëĞÔ½ÏĞ¡£¬Í¨¹ıÒ»Ğ©ÅäÖÃÒÔ¼°½«Ö¸¶¨µÄAttributeÓ¦ÓÃÔÚ·şÎñ½Ó¿Ú¼°ÊµÌåÉÏ¾ÍÄÜÊ¹XNode·şÎñÕı³£ÔËĞĞ£¬µ±¿ª·¢ÕßÏë¸ü»»ÆäËü·Ö²¼Ê½¿ò¼ÜÊ±Ö»ĞèÒª½øĞĞÒ»Ğ©ÉÙÁ¿µÄĞŞ¸Ä¡£XNodeÌá¹©ÁË±¾µØ/Ô¶³Ìµ÷ÓÃÍ¸Ã÷»¯µÄÄÜÁ¦£¬¿ª·¢ÈËÔ±µ÷ÓÃÒ»¸öXNode·şÎñÓëµ÷ÓÃ±¾µØ·şÎñÃ»ÓĞÇø±ğ£¬µ±ĞèÒª½«Ò»¸ö±¾µØ·şÎñ²¿Êğµ½Ô¶³Ì»úÆ÷Ê±£¬Ö»ĞèĞŞ¸ÄÏàÓ¦µÄÅäÖÃ¶ø²»ĞèÒª¶ÔÏÖÓĞ´úÂë½øĞĞÈÎºÎĞŞ¸Ä¡£XNodeÒ²Ìá¹©ÁËÒ»Ğ©À©Õ¹µãÒÔ±ã¿ª·¢ÈËÔ±ÄÜ¹»¸ù¾İÊµ¼ÊĞèÒª¶Ô¹¦ÄÜ½øĞĞÀ©Õ¹£¬ÀıÈçÈ¨ÏŞ¡¢·şÎñ¸ú×ÙµÈ¡£
+# XNode å¼€å‘æŒ‡å—
+<!-- TOC -->
 
-### XNode·şÎñ¶Ë¼Ü¹¹Í¼
+- [XNode å¼€å‘æŒ‡å—](#xnode-å¼€å‘æŒ‡å—)
+    - [ç®€ä»‹](#ç®€ä»‹)
+        - [XNodeæœåŠ¡ç«¯æ¶æ„å›¾](#xnodeæœåŠ¡ç«¯æ¶æ„å›¾)
+        - [XNodeå®¢æˆ·ç«¯æ¶æ„å›¾](#xnodeå®¢æˆ·ç«¯æ¶æ„å›¾)
+        - [XNodeéƒ¨ç½²å›¾](#xnodeéƒ¨ç½²å›¾)
+        - [XNodeé€šä¿¡åè®®](#xnodeé€šä¿¡åè®®)
+    - [ç¬¬ä¸€ä¸ªXNodeæœåŠ¡](#ç¬¬ä¸€ä¸ªxnodeæœåŠ¡)
+        - [å®ç°XNodeæœåŠ¡](#å®ç°xnodeæœåŠ¡)
+        - [å®ç°XNodeä»£ç†](#å®ç°xnodeä»£ç†)
+        - [è¿è¡Œ](#è¿è¡Œ)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç )
+    - [ä½¿ç”¨AOPæŠ€æœ¯ä½¿æœåŠ¡è°ƒç”¨é€æ˜åŒ–](#ä½¿ç”¨aopæŠ€æœ¯ä½¿æœåŠ¡è°ƒç”¨é€æ˜åŒ–)
+        - [ä½¿ç”¨Autofacæ”¹è¿›XNodeä»£ç†](#ä½¿ç”¨autofacæ”¹è¿›xnodeä»£ç†)
+        - [è¿è¡Œ](#è¿è¡Œ-1)
+        - [æœåŠ¡ç«¯å¯¹Autofacçš„æ”¯æŒ](#æœåŠ¡ç«¯å¯¹autofacçš„æ”¯æŒ)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -1)
+    - [å®ä½“](#å®ä½“)
+        - [åˆ›å»ºä½œä¸ºå‚æ•°çš„å®ä½“](#åˆ›å»ºä½œä¸ºå‚æ•°çš„å®ä½“)
+        - [åˆ›å»ºä½œä¸ºè¿”å›å€¼çš„å®ä½“](#åˆ›å»ºä½œä¸ºè¿”å›å€¼çš„å®ä½“)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -2)
+    - [åºåˆ—åŒ–](#åºåˆ—åŒ–)
+        - [ä¿®æ”¹æœåŠ¡ç«¯åºåˆ—åŒ–ç»„ä»¶](#ä¿®æ”¹æœåŠ¡ç«¯åºåˆ—åŒ–ç»„ä»¶)
+        - [ä¿®æ”¹å®¢æˆ·ç«¯åºåˆ—åŒ–ç»„ä»¶](#ä¿®æ”¹å®¢æˆ·ç«¯åºåˆ—åŒ–ç»„ä»¶)
+        - [è¿è¡Œ](#è¿è¡Œ-2)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -3)
+    - [æœåŠ¡å’Œä»£ç†çš„å¯ç”¨ä¸ç¦ç”¨](#æœåŠ¡å’Œä»£ç†çš„å¯ç”¨ä¸ç¦ç”¨)
+        - [æœåŠ¡å¯ç”¨/ç¦ç”¨](#æœåŠ¡å¯ç”¨ç¦ç”¨)
+            - [ä½¿ç”¨Attributeçš„æ–¹å¼è®¾ç½®](#ä½¿ç”¨attributeçš„æ–¹å¼è®¾ç½®)
+            - [ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®](#ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®)
+        - [ä»£ç†å¯ç”¨/ç¦ç”¨](#ä»£ç†å¯ç”¨ç¦ç”¨)
+            - [ä½¿ç”¨Attributeçš„æ–¹å¼è®¾ç½®](#ä½¿ç”¨attributeçš„æ–¹å¼è®¾ç½®-1)
+            - [ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®](#ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®-1)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -4)
+    - [æœåŠ¡èº«ä»½éªŒè¯](#æœåŠ¡èº«ä»½éªŒè¯)
+        - [ä½¿ç”¨é»˜è®¤èº«ä»½éªŒè¯](#ä½¿ç”¨é»˜è®¤èº«ä»½éªŒè¯)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -5)
+    - [æœåŠ¡æˆæƒ](#æœåŠ¡æˆæƒ)
+        - [ä½¿ç”¨é»˜è®¤æœåŠ¡æˆæƒ](#ä½¿ç”¨é»˜è®¤æœåŠ¡æˆæƒ)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -6)
+    - [æœåŠ¡è¿½è¸ª](#æœåŠ¡è¿½è¸ª)
+        - [ç¤ºä¾‹ç»“æ„](#ç¤ºä¾‹ç»“æ„)
+        - [Contractå®ç°](#contractå®ç°)
+        - [Serviceå®ç°](#serviceå®ç°)
+        - [OrderServerå®ç°](#orderserverå®ç°)
+        - [CustomerServerå®ç°](#customerserverå®ç°)
+        - [Clientå®ç°](#clientå®ç°)
+        - [è¿è¡Œ](#è¿è¡Œ-3)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -7)
+    - [æ‰©å±•ç‚¹](#æ‰©å±•ç‚¹)
+        - [æœåŠ¡ç«¯æ‰©å±•æ¥å£](#æœåŠ¡ç«¯æ‰©å±•æ¥å£)
+        - [å®¢æˆ·ç«¯æ‰©å±•æ¥å£](#å®¢æˆ·ç«¯æ‰©å±•æ¥å£)
+    - [Demoè§£æ](#demoè§£æ)
+        - [Demoä»‹ç»](#demoä»‹ç»)
+        - [Entity](#entity)
+        - [Contract](#contract)
+        - [Repository](#repository)
+        - [Service](#service)
+        - [Web](#web)
+            - [DTOå®šä¹‰](#dtoå®šä¹‰)
+            - [æœåŠ¡/ä»£ç†æ³¨å†Œ](#æœåŠ¡ä»£ç†æ³¨å†Œ)
+            - [Controllerå®ç°](#controllerå®ç°)
+        - [Launcher](#launcher)
+        - [è¿è¡Œ](#è¿è¡Œ-4)
+        - [å®Œæ•´ç¤ºä¾‹ä»£ç ](#å®Œæ•´ç¤ºä¾‹ä»£ç -8)
+    - [æŠ€æœ¯äº¤æµ](#æŠ€æœ¯äº¤æµ)
+
+<!-- /TOC -->
+## ç®€ä»‹
+XNodeæ˜¯åŸºäº.Net Standard 2.0å¼€å‘çš„è½»é‡çº§åˆ†å¸ƒå¼æœåŠ¡æ¡†æ¶ï¼Œå®ƒæä¾›äº†é€šè¿‡å°‘é‡ä»£ç åŠç®€å•é…ç½®å³å¯å®ç°åˆ†å¸ƒå¼éƒ¨ç½²çš„èƒ½åŠ›ã€‚XNodeå¯¹ä¸šåŠ¡ä»£ç çš„ä¾µå…¥æ€§è¾ƒå°ï¼Œé€šè¿‡ä¸€äº›é…ç½®ä»¥åŠå°†æŒ‡å®šçš„Attributeåº”ç”¨åœ¨æœåŠ¡æ¥å£åŠå®ä½“ä¸Šå°±èƒ½ä½¿XNodeæœåŠ¡æ­£å¸¸è¿è¡Œï¼Œå½“å¼€å‘è€…æƒ³æ›´æ¢å…¶å®ƒåˆ†å¸ƒå¼æ¡†æ¶æ—¶åªéœ€è¦è¿›è¡Œä¸€äº›å°‘é‡çš„ä¿®æ”¹ã€‚XNodeæä¾›äº†æœ¬åœ°/è¿œç¨‹è°ƒç”¨é€æ˜åŒ–çš„èƒ½åŠ›ï¼Œå¼€å‘äººå‘˜è°ƒç”¨ä¸€ä¸ªXNodeæœåŠ¡ä¸è°ƒç”¨æœ¬åœ°æœåŠ¡æ²¡æœ‰åŒºåˆ«ï¼Œå½“éœ€è¦å°†ä¸€ä¸ªæœ¬åœ°æœåŠ¡éƒ¨ç½²åˆ°è¿œç¨‹æœºå™¨æ—¶ï¼Œåªéœ€ä¿®æ”¹ç›¸åº”çš„é…ç½®è€Œä¸éœ€è¦å¯¹ç°æœ‰ä»£ç è¿›è¡Œä»»ä½•ä¿®æ”¹ã€‚XNodeä¹Ÿæä¾›äº†ä¸€äº›æ‰©å±•ç‚¹ä»¥ä¾¿å¼€å‘äººå‘˜èƒ½å¤Ÿæ ¹æ®å®é™…éœ€è¦å¯¹åŠŸèƒ½è¿›è¡Œæ‰©å±•ï¼Œä¾‹å¦‚æƒé™ã€æœåŠ¡è·Ÿè¸ªç­‰ã€‚
+
+### XNodeæœåŠ¡ç«¯æ¶æ„å›¾
 <img src="img/Architecture-Server.png" />
 
-### XNode¿Í»§¶Ë¼Ü¹¹Í¼
+### XNodeå®¢æˆ·ç«¯æ¶æ„å›¾
 <img src="img/Architecture-Client.png" />
 
-### XNode²¿ÊğÍ¼
+### XNodeéƒ¨ç½²å›¾
 <img src="img/Deployment.png" />
 
-### XNodeÍ¨ĞÅĞ­Òé
+### XNodeé€šä¿¡åè®®
 <table>
-<tr><td style="width: 80px">ÆğÊ¼×Ö½Ú</td><td style="width: 80px">³¤¶È</td><td>ËµÃ÷</td></tr>
-<tr><td>0</td><td>4</td><td>Ğ£ÑéÂë£¨32Î»£¬ÔİÎ´Ê¹ÓÃ£©</td></tr>
-<tr><td>4</td><td>4</td><td>ÏûÏ¢×Ü³¤¶È£¨32Î»£©£¬°üÀ¨ÏûÏ¢Í·ÓëÏûÏ¢Ìå</td></tr>
-<tr><td>8</td><td>8</td><td>ÇëÇóID£¨64Î»£©</td></tr>
-<tr><td>16</td><td>1</td><td>ÏûÏ¢ÀàĞÍ£¨8Î»£©£¬0£ºÒµÎñÇëÇóÏûÏ¢£¬1£ºÒµÎñÏìÓ¦ÏûÏ¢£¬2£ºÒµÎñONE WAYÏûÏ¢£¬3£ºÎÕÊÖÇëÇóÏûÏ¢£¬4£ºÎÕÊÖÓ¦´ğÏûÏ¢£¬5£ºĞÄÌøÇëÇóÏûÏ¢£¬6£ºĞÄÌøÓ¦´ğÏûÏ¢</td></tr>
-<tr><td>17</td><td>1</td><td>ÏûÏ¢ÓÅÏÈ¼¶£¨8Î»£¬ÔİÎ´Ê¹ÓÃ£©</td></tr>
-<tr><td>18</td><td>4</td><td>¸½¼ÓÊı¾İÊıÁ¿</td></tr>
-<tr><td>22</td><td>¿É±ä</td><td>¸½¼ÓÊı¾İ£¬ÓÃÓÚÀ©Õ¹ÏûÏ¢Í·£¬key³¤¶È£¨UTF-8±àÂëºó£©+key£¨UTF-8±àÂëºó£©+value³¤¶È+value</td></tr>
-<tr><td>22+¸½¼ÓÊı¾İ³¤¶È</td><td>4</td><td>ÏûÏ¢Ìå³¤¶È</td></tr>
-<tr><td>22+¸½¼ÓÊı¾İ³¤¶È+4</td><td>ÏûÏ¢Ìå³¤¶È</td><td>ÏûÏ¢Ìå</td></tr>
+<tr><td style="width: 80px">èµ·å§‹å­—èŠ‚</td><td style="width: 80px">é•¿åº¦</td><td>è¯´æ˜</td></tr>
+<tr><td>0</td><td>4</td><td>æ ¡éªŒç ï¼ˆ32ä½ï¼Œæš‚æœªä½¿ç”¨ï¼‰</td></tr>
+<tr><td>4</td><td>4</td><td>æ¶ˆæ¯æ€»é•¿åº¦ï¼ˆ32ä½ï¼‰ï¼ŒåŒ…æ‹¬æ¶ˆæ¯å¤´ä¸æ¶ˆæ¯ä½“</td></tr>
+<tr><td>8</td><td>8</td><td>è¯·æ±‚IDï¼ˆ64ä½ï¼‰</td></tr>
+<tr><td>16</td><td>1</td><td>æ¶ˆæ¯ç±»å‹ï¼ˆ8ä½ï¼‰ï¼Œ0ï¼šä¸šåŠ¡è¯·æ±‚æ¶ˆæ¯ï¼Œ1ï¼šä¸šåŠ¡å“åº”æ¶ˆæ¯ï¼Œ2ï¼šä¸šåŠ¡ONE WAYæ¶ˆæ¯ï¼Œ3ï¼šæ¡æ‰‹è¯·æ±‚æ¶ˆæ¯ï¼Œ4ï¼šæ¡æ‰‹åº”ç­”æ¶ˆæ¯ï¼Œ5ï¼šå¿ƒè·³è¯·æ±‚æ¶ˆæ¯ï¼Œ6ï¼šå¿ƒè·³åº”ç­”æ¶ˆæ¯</td></tr>
+<tr><td>17</td><td>1</td><td>æ¶ˆæ¯ä¼˜å…ˆçº§ï¼ˆ8ä½ï¼Œæš‚æœªä½¿ç”¨ï¼‰</td></tr>
+<tr><td>18</td><td>4</td><td>é™„åŠ æ•°æ®æ•°é‡</td></tr>
+<tr><td>22</td><td>å¯å˜</td><td>é™„åŠ æ•°æ®ï¼Œç”¨äºæ‰©å±•æ¶ˆæ¯å¤´ï¼Œkeyé•¿åº¦ï¼ˆUTF-8ç¼–ç åï¼‰+keyï¼ˆUTF-8ç¼–ç åï¼‰+valueé•¿åº¦+value</td></tr>
+<tr><td>22+é™„åŠ æ•°æ®é•¿åº¦</td><td>4</td><td>æ¶ˆæ¯ä½“é•¿åº¦</td></tr>
+<tr><td>22+é™„åŠ æ•°æ®é•¿åº¦+4</td><td>æ¶ˆæ¯ä½“é•¿åº¦</td><td>æ¶ˆæ¯ä½“</td></tr>
 </table>
 
-## µÚÒ»¸öXNode·şÎñ
-±¾½Ú½«´´½¨Ò»¸ö¼òµ¥µÄXNode·şÎñ£¬Ê¹¿ª·¢Õß¶ÔXNodeÓĞ¸öÖ±¹ÛµÄÈÏÊ¶£¬ºóĞøµÄÕÂ½Ú½«¶ÔÏ¸½Ú½øĞĞĞğÊö¡£
+## ç¬¬ä¸€ä¸ªXNodeæœåŠ¡
+æœ¬èŠ‚å°†åˆ›å»ºä¸€ä¸ªç®€å•çš„XNodeæœåŠ¡ï¼Œä½¿å¼€å‘è€…å¯¹XNodeæœ‰ä¸ªç›´è§‚çš„è®¤è¯†ï¼Œåç»­çš„ç« èŠ‚å°†å¯¹ç»†èŠ‚è¿›è¡Œå™è¿°ã€‚
 
-### ÊµÏÖXNode·şÎñ
-Ê×ÏÈ´´½¨Ò»¸öÃûÎªServerµÄ.Net Core 2.0¿ØÖÆÌ¨ÏîÄ¿£¬ÔÚÕâ¸öÏîÄ¿ÖĞ½«ÊµÏÖXNode·şÎñ¡£
+### å®ç°XNodeæœåŠ¡
+é¦–å…ˆåˆ›å»ºä¸€ä¸ªåä¸ºServerçš„.Net Core 2.0æ§åˆ¶å°é¡¹ç›®ï¼Œåœ¨è¿™ä¸ªé¡¹ç›®ä¸­å°†å®ç°XNodeæœåŠ¡ã€‚
 
-ÔÚServerÏîÄ¿ÖĞÍ¨¹ıNugetÒıÈëÒÔÏÂÒÀÀµÏî£º
+åœ¨Serveré¡¹ç›®ä¸­é€šè¿‡Nugetå¼•å…¥ä»¥ä¸‹ä¾èµ–é¡¹ï¼š
 XNode
 XNode.Serializer.ProtoBuf
 XNode.Communication.DotNetty
@@ -40,7 +108,7 @@ Microsoft.Extensions.Configuration.Binder
 Microsoft.Extensions.Configuration.Json
 Microsoft.Extensions.Logging.Console
 
-´´½¨SampleService.csÎÄ¼ş²¢¼ÓÈëÒÔÏÂ´úÂë£º
+åˆ›å»ºSampleService.csæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹ä»£ç ï¼š
 ``` c#
 [Service("SampleService", 10001, true)]
 public interface ISampleService
@@ -57,9 +125,9 @@ public class SampleService : ISampleService
     }
 }
 ```
-ÒÔÉÏ´úÂëÊµÏÖÁËÃûÎªSampleServiceµÄ·şÎñ½Ó¿Ú£¬²¢ÔÚ½Ó¿ÚÉÏÍ¨¹ıAttributeÖ¸¶¨ÎªXNode·şÎñ¡£
+ä»¥ä¸Šä»£ç å®ç°äº†åä¸ºSampleServiceçš„æœåŠ¡æ¥å£ï¼Œå¹¶åœ¨æ¥å£ä¸Šé€šè¿‡AttributeæŒ‡å®šä¸ºXNodeæœåŠ¡ã€‚
 
-´´½¨config.jsonÎÄ¼ş²¢¼ÓÈëÒÔÏÂÅäÖÃ£º
+åˆ›å»ºconfig.jsonæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹é…ç½®ï¼š
 ``` javascript
 {
   "xnode": {
@@ -72,9 +140,9 @@ public class SampleService : ISampleService
   }
 }
 ```
-Õâ¶ÎÊÇXNode×î»ù±¾µÄÅäÖÃ£¬XNode·şÎñ¶ÔÍâ¹«¿ªµÄIPÓë¶Ë¿Ú£¬¿ª·¢Õß¿ÉÒÔ¸ù¾İ×Ô¼º»úÆ÷µÄÊµ¼ÊÇé¿ö¶ÔÉÏÃæµÄÅäÖÃ½øĞĞĞŞ¸Ä¡£
+è¿™æ®µæ˜¯XNodeæœ€åŸºæœ¬çš„é…ç½®ï¼ŒXNodeæœåŠ¡å¯¹å¤–å…¬å¼€çš„IPä¸ç«¯å£ï¼Œå¼€å‘è€…å¯ä»¥æ ¹æ®è‡ªå·±æœºå™¨çš„å®é™…æƒ…å†µå¯¹ä¸Šé¢çš„é…ç½®è¿›è¡Œä¿®æ”¹ã€‚
 
-´ò¿ªProgram.csÎÄ¼ş²¢¼ÓÈëÒÔÏÂ´úÂë£º
+æ‰“å¼€Program.csæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹ä»£ç ï¼š
 ``` c#
 class Program
 {
@@ -83,10 +151,10 @@ class Program
         Console.InputEncoding = Encoding.UTF8;
         Console.OutputEncoding = Encoding.UTF8;
 
-        //ÅäÖÃ·şÎñ¶ËÈÕÖ¾¹¤³§
+        //é…ç½®æœåŠ¡ç«¯æ—¥å¿—å·¥å‚
         LoggerManager.ServerLoggerFactory.AddConsole(LogLevel.Error);
 
-        //¼ÓÔØÅäÖÃÎÄ¼ş
+        //åŠ è½½é…ç½®æ–‡ä»¶
         string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
         var configRoot = new ConfigurationBuilder()
             .AddJsonFile(path)
@@ -94,7 +162,7 @@ class Program
 
         var serverConfig = configRoot.GetServerConfig();
 
-        //ÅäÖÃ·şÎñ
+        //é…ç½®æœåŠ¡
         var nodeServer = new NodeServerBuilder()
             .ApplyConfig(serverConfig)
             .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
@@ -102,29 +170,29 @@ class Program
             .UseDotNetty(serverConfig.ServerInfo)
             .Build();
 
-        //Æô¶¯·şÎñ
+        //å¯åŠ¨æœåŠ¡
         nodeServer.StartAsync().Wait();
 
         Console.ReadLine();
 
-        //¹Ø±Õ·şÎñ
+        //å…³é—­æœåŠ¡
         nodeServer.StopAsync();
     }
 
     private static XNode.Server.IServiceProvider GetServiceProvider()
     {
-        //×¢²á·şÎñ
+        //æ³¨å†ŒæœåŠ¡
         return new DefaultServiceProvider()
             .RegistService(typeof(ISampleService), typeof(SampleService));
     }
 }
 ```
-Õâ¶Î´úÂëÅäÖÃÁË·şÎñÊ¹ÓÃµÄĞòÁĞ»¯×é¼şÒÔ¼°¶Ô·şÎñ½øĞĞ×¢²á²¢ÇÒÊ¹ÓÃDotNetty×÷Îªµ×²ãÍ¨ĞÅ×é¼ş£¬È»ºóÆô¶¯·şÎñ£¬ÔÚÊäÈë»Ø³µºóÔò¹Ø±Õ·şÎñ¡£ÖÁ´Ë·şÎñ¶ËÒÑ¿ª·¢Íê±Ï¡£
+è¿™æ®µä»£ç é…ç½®äº†æœåŠ¡ä½¿ç”¨çš„åºåˆ—åŒ–ç»„ä»¶ä»¥åŠå¯¹æœåŠ¡è¿›è¡Œæ³¨å†Œå¹¶ä¸”ä½¿ç”¨DotNettyä½œä¸ºåº•å±‚é€šä¿¡ç»„ä»¶ï¼Œç„¶åå¯åŠ¨æœåŠ¡ï¼Œåœ¨è¾“å…¥å›è½¦ååˆ™å…³é—­æœåŠ¡ã€‚è‡³æ­¤æœåŠ¡ç«¯å·²å¼€å‘å®Œæ¯•ã€‚
 
-### ÊµÏÖXNode´úÀí
-ÏÂÃæÔÙ´´½¨Ò»¸öÃûÎªClientµÄ.Net Core 2.0¿ØÖÆÌ¨ÏîÄ¿£¬ÔÚÕâ¸öÏîÄ¿ÖĞ½«ÊµÏÖÒ»¸ö¿Í»§¶ËÀ´µ÷ÓÃXNode·şÎñ¡£
+### å®ç°XNodeä»£ç†
+ä¸‹é¢å†åˆ›å»ºä¸€ä¸ªåä¸ºClientçš„.Net Core 2.0æ§åˆ¶å°é¡¹ç›®ï¼Œåœ¨è¿™ä¸ªé¡¹ç›®ä¸­å°†å®ç°ä¸€ä¸ªå®¢æˆ·ç«¯æ¥è°ƒç”¨XNodeæœåŠ¡ã€‚
 
-ÔÚClientÏîÄ¿ÖĞÍ¨¹ıNugetÒıÈëÒÔÏÂÒÀÀµÏî£º 
+åœ¨Clienté¡¹ç›®ä¸­é€šè¿‡Nugetå¼•å…¥ä»¥ä¸‹ä¾èµ–é¡¹ï¼š 
 XNode
 XNode.Serializer.ProtoBuf
 XNode.Communication.DotNetty
@@ -132,7 +200,7 @@ Microsoft.Extensions.Configuration.Binder
 Microsoft.Extensions.Configuration.Json
 Microsoft.Extensions.Logging.Console
 
-´´½¨ISampleService.csÎÄ¼ş²¢¼ÓÈëÒÔÏÂ´úÂë£º
+åˆ›å»ºISampleService.csæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹ä»£ç ï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001)]
 public interface ISampleService
@@ -141,9 +209,9 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-ÒÔÉÏ´úÂëÍ¨¹ıXNodeÌá¹©µÄAttributeÊµÏÖÁËSampleServiceµÄ´úÀí½Ó¿Ú¡£
+ä»¥ä¸Šä»£ç é€šè¿‡XNodeæä¾›çš„Attributeå®ç°äº†SampleServiceçš„ä»£ç†æ¥å£ã€‚
 
-´´½¨config.jsonÎÄ¼ş²¢¼ÓÈëÒÔÏÂÅäÖÃ£º
+åˆ›å»ºconfig.jsonæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹é…ç½®ï¼š
 ``` javascript
 {
   "xnode": {
@@ -171,9 +239,9 @@ public interface ISampleService
   }
 }
 ```
-ÒÔÉÏ¶ÔXNode´úÀí½øĞĞÁËÅäÖÃ£¬Ö¸¶¨SampleServiceËùÔÚµÄ·şÎñÆ÷IPÓë¶Ë¿Ú£¬ÅäÖÃÁË·şÎñIdÎª10001µÄ´úÀíÀà²¢ÉèÖÃÎª¿ªÆô×´Ì¬¡£connectionsÅäÖÃ½Ú¿ÉÒÔÅäÖÃ¶à¸öÁ¬½ÓĞÅÏ¢£¬Ä¬ÈÏÇé¿öÏÂXNode´úÀí»áÂÖÁ÷·ÃÎÊÕâĞ©·şÎñÆ÷ÒÔÆğµ½¸ºÔØ¾ùºâµÄ×÷ÓÃ¡£
+ä»¥ä¸Šå¯¹XNodeä»£ç†è¿›è¡Œäº†é…ç½®ï¼ŒæŒ‡å®šSampleServiceæ‰€åœ¨çš„æœåŠ¡å™¨IPä¸ç«¯å£ï¼Œé…ç½®äº†æœåŠ¡Idä¸º10001çš„ä»£ç†ç±»å¹¶è®¾ç½®ä¸ºå¼€å¯çŠ¶æ€ã€‚connectionsé…ç½®èŠ‚å¯ä»¥é…ç½®å¤šä¸ªè¿æ¥ä¿¡æ¯ï¼Œé»˜è®¤æƒ…å†µä¸‹XNodeä»£ç†ä¼šè½®æµè®¿é—®è¿™äº›æœåŠ¡å™¨ä»¥èµ·åˆ°è´Ÿè½½å‡è¡¡çš„ä½œç”¨ã€‚
 
-´ò¿ªProgram.csÎÄ¼ş²¢¼ÓÈëÒÔÏÂ´úÂë£º
+æ‰“å¼€Program.csæ–‡ä»¶å¹¶åŠ å…¥ä»¥ä¸‹ä»£ç ï¼š
 ``` c#
 class Program
 {
@@ -185,10 +253,10 @@ class Program
         Console.InputEncoding = Encoding.UTF8;
         Console.OutputEncoding = Encoding.UTF8;
 
-        //ÅäÖÃ¿Í»§¶ËÈÕÖ¾¹¤³§
+        //é…ç½®å®¢æˆ·ç«¯æ—¥å¿—å·¥å‚
         LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Error);
 
-        //¼ÓÔØÅäÖÃÎÄ¼ş
+        //åŠ è½½é…ç½®æ–‡ä»¶
         string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
         var configRoot = new ConfigurationBuilder()
             .AddJsonFile(path)
@@ -202,7 +270,7 @@ class Program
 
         if (clientConfig.ServiceProxies != null)
         {
-            //×¢²á·şÎñ´úÀí
+            //æ³¨å†ŒæœåŠ¡ä»£ç†
             foreach (var config in clientConfig.ServiceProxies)
             {
                 serviceProxyManager
@@ -219,7 +287,7 @@ class Program
 
         try
         {
-            //Á¬½Ó·şÎñ
+            //è¿æ¥æœåŠ¡
             serviceProxyManager.ConnectAsync().Wait();
         }
         catch (AggregateException ex)
@@ -239,7 +307,7 @@ class Program
 
         try
         {
-            //µ÷ÓÃ·şÎñ
+            //è°ƒç”¨æœåŠ¡
             var serviceProxy = serviceProxyManager.GetServiceProxy(typeof(ISampleService));
             var result = serviceProxy.CallRemoteServiceAsync(GetSampleServiceActionType("Welcome"), new object[] { "XNode" }).Result as string;
             Console.WriteLine(result);
@@ -259,7 +327,7 @@ class Program
 
         Console.ReadLine();
 
-        //¹Ø±Õ·şÎñÁ¬½Ó
+        //å…³é—­æœåŠ¡è¿æ¥
         serviceProxyManager.CloseAsync();
     }
 
@@ -270,22 +338,22 @@ class Program
     }
 }
 ```
-Õâ¶Î´úÂë×¢²áÁË·şÎñ´úÀí£¬È»ºóÁ¬½Ó·şÎñ²¢½øĞĞµ÷ÓÃ£¬ÔÚÊäÈë»Ø³µºóÔò¹Ø±ÕÁ¬½Ó¡£ÖÁ´Ë¿Í»§¶ËÒ²¿ª·¢Íê±ÏÁË¡£
+è¿™æ®µä»£ç æ³¨å†Œäº†æœåŠ¡ä»£ç†ï¼Œç„¶åè¿æ¥æœåŠ¡å¹¶è¿›è¡Œè°ƒç”¨ï¼Œåœ¨è¾“å…¥å›è½¦ååˆ™å…³é—­è¿æ¥ã€‚è‡³æ­¤å®¢æˆ·ç«¯ä¹Ÿå¼€å‘å®Œæ¯•äº†ã€‚
 
-### ÔËĞĞ
-¶ÔServerÓëClient½øĞĞ±àÒë²¢Æô¶¯£¬È»ºóÔÚClientÖĞÊäÈë»Ø³µºó½«»á¶ÔServerÖĞµÄXNode·şÎñ½øĞĞµ÷ÓÃ£¬Èôµ÷ÓÃÕı³£½«ÔÚClientÏÔÊ¾·şÎñ·µ»ØµÄ½á¹û£ºHello XNode¡£
+### è¿è¡Œ
+å¯¹Serverä¸Clientè¿›è¡Œç¼–è¯‘å¹¶å¯åŠ¨ï¼Œç„¶ååœ¨Clientä¸­è¾“å…¥å›è½¦åå°†ä¼šå¯¹Serverä¸­çš„XNodeæœåŠ¡è¿›è¡Œè°ƒç”¨ï¼Œè‹¥è°ƒç”¨æ­£å¸¸å°†åœ¨Clientæ˜¾ç¤ºæœåŠ¡è¿”å›çš„ç»“æœï¼šHello XNodeã€‚
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/01-QuickStart
 
-## Ê¹ÓÃAOP¼¼ÊõÊ¹·şÎñµ÷ÓÃÍ¸Ã÷»¯
-ÔÚÇ°ÃæµÄÊ¾ÀıÖĞ£¬¿Í»§¶Ëµ÷XNode·şÎñµÄ¹ı³Ìµ±ÖĞ±©Â¶ÁËÒ»Ğ©¼¼ÊõÏ¸½Ú£¬ÏÔÈ»ÕâĞ©Ï¸½Ú±È½Ï·±ËöÇÒ²»Ó¦¸Ã³öÏÖÔÚÒµÎñ´úÂëÖĞ¡£Í¨¹ıÊ¹ÓÃAOP¼¼Êõ¿ÉÒÔ½«ÕâĞ©Ï¸½Ú·â×°ÆğÀ´£¬Ê¹µÃÔÚÒµÎñ´úÂëµ÷ÓÃXNode·şÎñÓëµ÷ÓÃ±¾µØ½Ó¿Ú·½·¨Ò»Ñù¡£.NetÆ½Ì¨ÏÂÓĞ¶àÖÖÖ§³ÖAOP×é¼ş£¬XNodeÄ¬ÈÏÌá¹©ÁË¶ÔAutofacµÄÖ§³Ö£¬ÏÂÃæ¿´Ò»ÏÂÈçºÎÊ¹ÓÃAutofac¸Ä½øXNode·şÎñµ÷ÓÃ¡£
+## ä½¿ç”¨AOPæŠ€æœ¯ä½¿æœåŠ¡è°ƒç”¨é€æ˜åŒ–
+åœ¨å‰é¢çš„ç¤ºä¾‹ä¸­ï¼Œå®¢æˆ·ç«¯è°ƒXNodeæœåŠ¡çš„è¿‡ç¨‹å½“ä¸­æš´éœ²äº†ä¸€äº›æŠ€æœ¯ç»†èŠ‚ï¼Œæ˜¾ç„¶è¿™äº›ç»†èŠ‚æ¯”è¾ƒç¹çä¸”ä¸åº”è¯¥å‡ºç°åœ¨ä¸šåŠ¡ä»£ç ä¸­ã€‚é€šè¿‡ä½¿ç”¨AOPæŠ€æœ¯å¯ä»¥å°†è¿™äº›ç»†èŠ‚å°è£…èµ·æ¥ï¼Œä½¿å¾—åœ¨ä¸šåŠ¡ä»£ç è°ƒç”¨XNodeæœåŠ¡ä¸è°ƒç”¨æœ¬åœ°æ¥å£æ–¹æ³•ä¸€æ ·ã€‚.Netå¹³å°ä¸‹æœ‰å¤šç§æ”¯æŒAOPç»„ä»¶ï¼ŒXNodeé»˜è®¤æä¾›äº†å¯¹Autofacçš„æ”¯æŒï¼Œä¸‹é¢çœ‹ä¸€ä¸‹å¦‚ä½•ä½¿ç”¨Autofacæ”¹è¿›XNodeæœåŠ¡è°ƒç”¨ã€‚
 
-### Ê¹ÓÃAutofac¸Ä½øXNode´úÀí
-ÕâÀïÎÒÃÇÔÚÉÏÒ»¸öÊ¾ÀıµÄ»ù´¡½øĞĞ¸Ä½ø£¬Server²¿·ÖµÄ´úÂë²»ĞèÒª½øĞĞÈÎºÎĞŞ¸Ä£¬Client²¿·ÖĞèÒªÍ¨¹ıNugetÒıÈëĞÂµÄÒÀÀµÏî£º
+### ä½¿ç”¨Autofacæ”¹è¿›XNodeä»£ç†
+è¿™é‡Œæˆ‘ä»¬åœ¨ä¸Šä¸€ä¸ªç¤ºä¾‹çš„åŸºç¡€è¿›è¡Œæ”¹è¿›ï¼ŒServeréƒ¨åˆ†çš„ä»£ç ä¸éœ€è¦è¿›è¡Œä»»ä½•ä¿®æ”¹ï¼ŒClientéƒ¨åˆ†éœ€è¦é€šè¿‡Nugetå¼•å…¥æ–°çš„ä¾èµ–é¡¹ï¼š
 XNode.Autofac
 
-ĞÂÔöÒ»¸öÀàÎÄ¼şSampleService.cs£º
+æ–°å¢ä¸€ä¸ªç±»æ–‡ä»¶SampleService.csï¼š
 ``` c#
 public class SampleService : ISampleService
 {
@@ -295,16 +363,16 @@ public class SampleService : ISampleService
     }
 }
 ```
-ÔÚ±¾ÀıÖĞ£¬Õâ¸öÀà²»ĞèÒªÈÎºÎÊµÏÖ£¬ËüÖ»ÊÇ±»ÓÃÓÚ×¢²áµ½AutofacÈİÆ÷ÖĞ¡£ÔÚÊµ¼ÊÏîÄ¿¿ª·¢¹ı³ÌÖĞ£¬¿ÉÒÔ°ÑÕæÕıÒµÎñÂß¼­ÊµÏÖÔÚÀàÖĞ£¬ÒÔ±ãÔÚµ÷ÓÃ·şÎñÊ±ÊµÏÖ±¾µØ/Ô¶³ÌÍ¸Ã÷»¯£¬ÏêÏ¸Çé¿ö»áÔÚºóĞøµÄÕÂ½ÚÖĞĞğÊö¡£
+åœ¨æœ¬ä¾‹ä¸­ï¼Œè¿™ä¸ªç±»ä¸éœ€è¦ä»»ä½•å®ç°ï¼Œå®ƒåªæ˜¯è¢«ç”¨äºæ³¨å†Œåˆ°Autofacå®¹å™¨ä¸­ã€‚åœ¨å®é™…é¡¹ç›®å¼€å‘è¿‡ç¨‹ä¸­ï¼Œå¯ä»¥æŠŠçœŸæ­£ä¸šåŠ¡é€»è¾‘å®ç°åœ¨ç±»ä¸­ï¼Œä»¥ä¾¿åœ¨è°ƒç”¨æœåŠ¡æ—¶å®ç°æœ¬åœ°/è¿œç¨‹é€æ˜åŒ–ï¼Œè¯¦ç»†æƒ…å†µä¼šåœ¨åç»­çš„ç« èŠ‚ä¸­å™è¿°ã€‚
 
-´ò¿ªProgram.csÎÄ¼ş£¬Ê×ÏÈÔÚ´´½¨ServiceProxyManagerÊµÀıÖ®ºó¼ÓÉÏ´´½¨AutofacÈİÆ÷µÄ´úÂë£º
+æ‰“å¼€Program.csæ–‡ä»¶ï¼Œé¦–å…ˆåœ¨åˆ›å»ºServiceProxyManagerå®ä¾‹ä¹‹ååŠ ä¸Šåˆ›å»ºAutofacå®¹å™¨çš„ä»£ç ï¼š
 ``` c#
 var serviceProxyManager = new ServiceProxyManager();
 
-//´´½¨AutofacÈİÆ÷²¢×¢²á·şÎñÀàĞÍ
+//åˆ›å»ºAutofacå®¹å™¨å¹¶æ³¨å†ŒæœåŠ¡ç±»å‹
 var container = GetAutofacContainer(serviceProxyManager);
 ```
-GetAutofacContainer·½·¨ÓÃÓÚ´´½¨AutofacÈİÆ÷Óë·şÎñ×¢²á£¬ÏÂÃæÊÇÕâ¸ö·½·¨µÄÊµÏÖ£º
+GetAutofacContaineræ–¹æ³•ç”¨äºåˆ›å»ºAutofacå®¹å™¨ä¸æœåŠ¡æ³¨å†Œï¼Œä¸‹é¢æ˜¯è¿™ä¸ªæ–¹æ³•çš„å®ç°ï¼š
 ``` c#
 private static IContainer GetAutofacContainer(IServiceProxyManager serviceProxyManager)
 {
@@ -320,13 +388,13 @@ private static IContainer GetAutofacContainer(IServiceProxyManager serviceProxyM
     return container;
 }
 ```
-ÔÚÕâ¸ö·½·¨ÖĞ£¬ServiceProxyInterceptorÀàÊµÏÖÁËAutofacÀ¹½ØÆ÷½Ó¿Ú¡£µ±·şÎñ´úÀí±»µ÷ÓÃÊ±Í¨¹ıÀ¹½ØÆ÷ÒÔ¼°ÅäÖÃ¿ÉÒÔ¾ö¶¨´úÀíµ÷ÓÃµÄÊÇ±¾µØÊµÏÖ»¹ÊÇÔ¶³Ì·şÎñ¡£½«Ëü×¢²áµ½AutofacÈİÆ÷ºóËùÓĞ×÷ÎªXNode·şÎñ´úÀíµÄ½Ó¿Ú¶¼ĞèÒªÍ¨¹ıInterceptedBy·½·¨Ö¸¶¨À¹½ØÆ÷¡£
+åœ¨è¿™ä¸ªæ–¹æ³•ä¸­ï¼ŒServiceProxyInterceptorç±»å®ç°äº†Autofacæ‹¦æˆªå™¨æ¥å£ã€‚å½“æœåŠ¡ä»£ç†è¢«è°ƒç”¨æ—¶é€šè¿‡æ‹¦æˆªå™¨ä»¥åŠé…ç½®å¯ä»¥å†³å®šä»£ç†è°ƒç”¨çš„æ˜¯æœ¬åœ°å®ç°è¿˜æ˜¯è¿œç¨‹æœåŠ¡ã€‚å°†å®ƒæ³¨å†Œåˆ°Autofacå®¹å™¨åæ‰€æœ‰ä½œä¸ºXNodeæœåŠ¡ä»£ç†çš„æ¥å£éƒ½éœ€è¦é€šè¿‡InterceptedByæ–¹æ³•æŒ‡å®šæ‹¦æˆªå™¨ã€‚
 
-×îºó£¬¿´Ò»ÏÂ¸Ä½øºóÈçºÎµ÷ÓÃXNode·şÎñ£º
+æœ€åï¼Œçœ‹ä¸€ä¸‹æ”¹è¿›åå¦‚ä½•è°ƒç”¨XNodeæœåŠ¡ï¼š
 ``` c#
 try
 {
-    //µ÷ÓÃ·şÎñ
+    //è°ƒç”¨æœåŠ¡
     var sampleService = container.Resolve<ISampleService>();
     var result = sampleService.Welcome("XNode");
     Console.WriteLine(result);
@@ -344,35 +412,35 @@ catch (Exception ex)
     Console.WriteLine($"Error: {ex.Message}");
 }
 ```
-ÕıÈç´úÂëËùÊ¾£¬´ËÊ±µ÷ÓÃXNode·şÎñÓëµ÷ÓÃ±¾µØ½Ó¿Ú·½·¨ÒÑ¾­Ã»ÓĞÇø±ğ£¬ºóÃæµÄÕÂ½Ú»¹»á½éÉÜÍ¨¹ıÅäÖÃÁé»îµØÇĞ»»µ÷ÓÃ±¾µØÊµÏÖ»òÔ¶³ÌXNode·şÎñ¡£
+æ­£å¦‚ä»£ç æ‰€ç¤ºï¼Œæ­¤æ—¶è°ƒç”¨XNodeæœåŠ¡ä¸è°ƒç”¨æœ¬åœ°æ¥å£æ–¹æ³•å·²ç»æ²¡æœ‰åŒºåˆ«ï¼Œåé¢çš„ç« èŠ‚è¿˜ä¼šä»‹ç»é€šè¿‡é…ç½®çµæ´»åœ°åˆ‡æ¢è°ƒç”¨æœ¬åœ°å®ç°æˆ–è¿œç¨‹XNodeæœåŠ¡ã€‚
 
-### ÔËĞĞ
-¶ÔServerÓëClient½øĞĞ±àÒë²¢Æô¶¯£¬È»ºóÔÚClientÖĞÊäÈë»Ø³µºó½«»á¶ÔServerÖĞµÄXNode·şÎñ½øĞĞµ÷ÓÃ£¬Èôµ÷ÓÃÕı³£½«ÔÚClientÏÔÊ¾·şÎñ·µ»ØµÄ½á¹û£ºHello XNode¡£
+### è¿è¡Œ
+å¯¹Serverä¸Clientè¿›è¡Œç¼–è¯‘å¹¶å¯åŠ¨ï¼Œç„¶ååœ¨Clientä¸­è¾“å…¥å›è½¦åå°†ä¼šå¯¹Serverä¸­çš„XNodeæœåŠ¡è¿›è¡Œè°ƒç”¨ï¼Œè‹¥è°ƒç”¨æ­£å¸¸å°†åœ¨Clientæ˜¾ç¤ºæœåŠ¡è¿”å›çš„ç»“æœï¼šHello XNodeã€‚
 
-### ·şÎñ¶Ë¶ÔAutofacµÄÖ§³Ö
-Ç°ÃæÑİÊ¾ÁËXNode¿Í»§¶Ë´úÀíÈçºÎÊ¹ÓÃAutofacµÄAOP¹¦ÄÜ¼òµ¥»¯¶Ô·şÎñµÄµ÷ÓÃ¡£Í¬Ñù£¬XNode·şÎñ¶ËÒ²Ìá¹©ÁË¶ÔAutofacµÄÖ§³Ö£¬¿ª·¢ÈËÔ±Ö»ĞèÒª½«·şÎñ×¢²áµ½AutofacÈİÆ÷ÖĞ£¬²»ĞèÒªÖØ¸´µÄÔÚXNodeÖĞÔÙ´Î×¢²á¡£ÒıÈëXNode·şÎñ¶Ë¶ÔAutofacµÄÖ§³ÖÖ»ĞèÒªÔÚÅäÖÃ·şÎñÆ÷µÄÊ±ºòµ÷ÓÃUseAutofac·½·¨¼´¿É£º
+### æœåŠ¡ç«¯å¯¹Autofacçš„æ”¯æŒ
+å‰é¢æ¼”ç¤ºäº†XNodeå®¢æˆ·ç«¯ä»£ç†å¦‚ä½•ä½¿ç”¨Autofacçš„AOPåŠŸèƒ½ç®€å•åŒ–å¯¹æœåŠ¡çš„è°ƒç”¨ã€‚åŒæ ·ï¼ŒXNodeæœåŠ¡ç«¯ä¹Ÿæä¾›äº†å¯¹Autofacçš„æ”¯æŒï¼Œå¼€å‘äººå‘˜åªéœ€è¦å°†æœåŠ¡æ³¨å†Œåˆ°Autofacå®¹å™¨ä¸­ï¼Œä¸éœ€è¦é‡å¤çš„åœ¨XNodeä¸­å†æ¬¡æ³¨å†Œã€‚å¼•å…¥XNodeæœåŠ¡ç«¯å¯¹Autofacçš„æ”¯æŒåªéœ€è¦åœ¨é…ç½®æœåŠ¡å™¨çš„æ—¶å€™è°ƒç”¨UseAutofacæ–¹æ³•å³å¯ï¼š
 ``` c#
 ......
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
-    //.ConfigServiceProvider(GetServiceProvider())      //Ä¬ÈÏµÄ·şÎñ×¢²á²»ĞèÒªÁË
-    .UseAutofac(container, LoggerManager.ServerLoggerFactory)      //Ôö¼ÓAutofacÖ§³Ö
+    //.ConfigServiceProvider(GetServiceProvider())      //é»˜è®¤çš„æœåŠ¡æ³¨å†Œä¸éœ€è¦äº†
+    .UseAutofac(container, LoggerManager.ServerLoggerFactory)      //å¢åŠ Autofacæ”¯æŒ
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
 ......
 ```
-´úÂëÖĞÈ¥³ıÁËÄ¬ÈÏµÄ·şÎñ×¢²á£¬Ôö¼ÓÁË¶ÔUseAutofac·½·¨µÄµ÷ÓÃ²¢´«ÈëAutofacÈİÆ÷£¬ÕâÑùXNode·şÎñ¶Ë»á×Ô¶¯´ÓAutofacÈİÆ÷ÖĞÕÒµ½XNode·şÎñ²¢½øĞĞ×¢²á¡£
+ä»£ç ä¸­å»é™¤äº†é»˜è®¤çš„æœåŠ¡æ³¨å†Œï¼Œå¢åŠ äº†å¯¹UseAutofacæ–¹æ³•çš„è°ƒç”¨å¹¶ä¼ å…¥Autofacå®¹å™¨ï¼Œè¿™æ ·XNodeæœåŠ¡ç«¯ä¼šè‡ªåŠ¨ä»Autofacå®¹å™¨ä¸­æ‰¾åˆ°XNodeæœåŠ¡å¹¶è¿›è¡Œæ³¨å†Œã€‚
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/02-AOP
 
-## ÊµÌå
-ÔÚÇ°ÃæµÄÊ¾ÀıÖĞ£¬²ÎÊıÓë·µ»ØÖµ¶¼ÊÇ¼òµ¥ÀàĞÍ£¬XNodeÒ²Ö§³Ö´«µİ¸´ÔÓÀàĞÍ×÷Îª²ÎÊıÓë·µ»ØÖµ¡£ÏÂÃæ¿´Ò»ÏÂÈçºÎÊ¹ÓÃ¸´ÔÓÀàĞÍ×÷Îª²ÎÊıÓë·µ»ØÖµ¡£
+## å®ä½“
+åœ¨å‰é¢çš„ç¤ºä¾‹ä¸­ï¼Œå‚æ•°ä¸è¿”å›å€¼éƒ½æ˜¯ç®€å•ç±»å‹ï¼ŒXNodeä¹Ÿæ”¯æŒä¼ é€’å¤æ‚ç±»å‹ä½œä¸ºå‚æ•°ä¸è¿”å›å€¼ã€‚ä¸‹é¢çœ‹ä¸€ä¸‹å¦‚ä½•ä½¿ç”¨å¤æ‚ç±»å‹ä½œä¸ºå‚æ•°ä¸è¿”å›å€¼ã€‚
 
-### ´´½¨×÷Îª²ÎÊıµÄÊµÌå
-ÒÀÈ»½Ó×ÅÇ°ÃæµÄÊ¾Àı£¬ÒòÎªÊµÌåµÄ¶¨Òå¶ÔÓÚ·şÎñ¶ËºÍ¿Í»§¶ËÊÇÒ»ÑùµÄ£¬ËùÒÔĞÂ½¨Ò»¸öÃûÎªEntityÏîÄ¿£¬²¢ĞÂ½¨Ò»¸öÃûÎªNameµÄÀà¡£
+### åˆ›å»ºä½œä¸ºå‚æ•°çš„å®ä½“
+ä¾ç„¶æ¥ç€å‰é¢çš„ç¤ºä¾‹ï¼Œå› ä¸ºå®ä½“çš„å®šä¹‰å¯¹äºæœåŠ¡ç«¯å’Œå®¢æˆ·ç«¯æ˜¯ä¸€æ ·çš„ï¼Œæ‰€ä»¥æ–°å»ºä¸€ä¸ªåä¸ºEntityé¡¹ç›®ï¼Œå¹¶æ–°å»ºä¸€ä¸ªåä¸ºNameçš„ç±»ã€‚
 ``` c#
 [DataContract]
 public class Name
@@ -384,9 +452,9 @@ public class Name
     public string LastName { get; set; }
 }
 ```
-ÔÚÊµÌåÀàÓëÊôĞÔÉÏ·Ö±ğÊ¹ÓÃXNodeĞòÁĞ»¯Æ÷¿ÉÒÔÊ¶±ğµÄAttribute¡£Ä¿Ç°XNodeÖ§³ÖµÄĞòÁĞ»¯Æ÷ProtoBufºÍMsgPack¶¼¿ÉÊ¶±ğDataContractºÍDataMember£¬ÈôÊ¹ÓÃÆäËüµÄĞòÁĞ»¯Æ÷¿ÉÄÜ»áÓĞËù²»Í¬¡£DataMemberµÄOrderÊôĞÔÎª½øĞĞ¶ş½øÖÆĞòÁĞ»¯Ê±µÄË³Ğò£¬ÎªÁËÍ¬Ê±¼æÈİÕâ2ÖÖĞòÁĞ×é¼şÒÔ±ãÓÚÎ´À´¿ÉÒÔÎŞ·ìÌæ»»½¨Òé´Ó1×÷ÎªÆğÊ¼½øĞĞÉèÖÃ¡£
+åœ¨å®ä½“ç±»ä¸å±æ€§ä¸Šåˆ†åˆ«ä½¿ç”¨XNodeåºåˆ—åŒ–å™¨å¯ä»¥è¯†åˆ«çš„Attributeã€‚ç›®å‰XNodeæ”¯æŒçš„åºåˆ—åŒ–å™¨ProtoBufå’ŒMsgPackéƒ½å¯è¯†åˆ«DataContractå’ŒDataMemberï¼Œè‹¥ä½¿ç”¨å…¶å®ƒçš„åºåˆ—åŒ–å™¨å¯èƒ½ä¼šæœ‰æ‰€ä¸åŒã€‚DataMemberçš„Orderå±æ€§ä¸ºè¿›è¡ŒäºŒè¿›åˆ¶åºåˆ—åŒ–æ—¶çš„é¡ºåºï¼Œä¸ºäº†åŒæ—¶å…¼å®¹è¿™2ç§åºåˆ—ç»„ä»¶ä»¥ä¾¿äºæœªæ¥å¯ä»¥æ— ç¼æ›¿æ¢å»ºè®®ä»1ä½œä¸ºèµ·å§‹è¿›è¡Œè®¾ç½®ã€‚
 
-ĞŞ¸Ä·şÎñ¶Ë½Ó¿ÚÓë·şÎñ´úÂë£¬Ê¹ÓÃNameÀà×÷Îª²ÎÊı£º
+ä¿®æ”¹æœåŠ¡ç«¯æ¥å£ä¸æœåŠ¡ä»£ç ï¼Œä½¿ç”¨Nameç±»ä½œä¸ºå‚æ•°ï¼š
 ``` c#
 [Service("SampleService", 10001, true)]
 public interface ISampleService
@@ -403,7 +471,7 @@ public class SampleService : ISampleService
     }
 }
 ```
-ÏàÓ¦µÄÒ²ĞŞ¸Ä¿Í»§¶Ë´úÂë£º
+ç›¸åº”çš„ä¹Ÿä¿®æ”¹å®¢æˆ·ç«¯ä»£ç ï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001)]
 public interface ISampleService
@@ -420,17 +488,17 @@ public class SampleService : ISampleService
     }
 }
 ```
-×îºó¶Ô·şÎñµ÷ÓÃ´úÂë½øĞĞĞŞ¸Ä£º
+æœ€åå¯¹æœåŠ¡è°ƒç”¨ä»£ç è¿›è¡Œä¿®æ”¹ï¼š
 ``` c#
-//µ÷ÓÃ·şÎñ
+//è°ƒç”¨æœåŠ¡
 var sampleService = container.Resolve<ISampleService>();
 var result = sampleService.Welcome(new Name() { FirstName = "Michael", LastName = "Sun" });
 Console.WriteLine(result);
 ```
-¶ÔServerÓëClient½øĞĞ±àÒë²¢Æô¶¯£¬È»ºóÔÚClientÖĞÊäÈë»Ø³µºó½«»á¶ÔServerÖĞµÄXNode·şÎñ½øĞĞµ÷ÓÃ£¬Èôµ÷ÓÃÕı³£½«ÔÚClientÏÔÊ¾·şÎñ·µ»ØµÄ½á¹û£ºHello Michael Sun¡£
+å¯¹Serverä¸Clientè¿›è¡Œç¼–è¯‘å¹¶å¯åŠ¨ï¼Œç„¶ååœ¨Clientä¸­è¾“å…¥å›è½¦åå°†ä¼šå¯¹Serverä¸­çš„XNodeæœåŠ¡è¿›è¡Œè°ƒç”¨ï¼Œè‹¥è°ƒç”¨æ­£å¸¸å°†åœ¨Clientæ˜¾ç¤ºæœåŠ¡è¿”å›çš„ç»“æœï¼šHello Michael Sunã€‚
 
-### ´´½¨×÷Îª·µ»ØÖµµÄÊµÌå
-·µ»ØÖµÊµÌåÓë²ÎÊıÊµÌåµÄ´´½¨·½·¨Ò»Ñù£¬ÏÂÃæÔÚEntityÏîÄ¿ÖĞĞÂ½¨2¸öÀàOrderºÍOrderDetail¡£
+### åˆ›å»ºä½œä¸ºè¿”å›å€¼çš„å®ä½“
+è¿”å›å€¼å®ä½“ä¸å‚æ•°å®ä½“çš„åˆ›å»ºæ–¹æ³•ä¸€æ ·ï¼Œä¸‹é¢åœ¨Entityé¡¹ç›®ä¸­æ–°å»º2ä¸ªç±»Orderå’ŒOrderDetailã€‚
 ``` c#
 [DataContract]
 public class Order
@@ -467,7 +535,7 @@ public class OrderDetail
     public int Amount { get; set; }
 }
 ```
-ÔÚServerÏîÄ¿ÖĞµÄISampleService½Ó¿ÚÖĞÔö¼ÓGetOrders·½·¨£º
+åœ¨Serveré¡¹ç›®ä¸­çš„ISampleServiceæ¥å£ä¸­å¢åŠ GetOrdersæ–¹æ³•ï¼š
 ``` c#
 [Service("SampleService", 10001, true)]
 public interface ISampleService
@@ -479,7 +547,7 @@ public interface ISampleService
     Task<IList<Order>> GetOrders();
 }
 ```
-Í¬Ê±ÔÚSampleServiceÀàÖĞÊµÏÖÕâ¸ö·½·¨£º
+åŒæ—¶åœ¨SampleServiceç±»ä¸­å®ç°è¿™ä¸ªæ–¹æ³•ï¼š
 ``` c#
 public Task<IList<Order>> GetOrders()
 {
@@ -538,7 +606,7 @@ public Task<IList<Order>> GetOrders()
     });
 }
 ```
-¿Í»§¶ËÏàÓ¦µÄ´úÀí½Ó¿ÚÓëÀàÒ²½øĞĞÏàÓ¦ĞŞ¸Ä£º
+å®¢æˆ·ç«¯ç›¸åº”çš„ä»£ç†æ¥å£ä¸ç±»ä¹Ÿè¿›è¡Œç›¸åº”ä¿®æ”¹ï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001)]
 public interface ISampleService
@@ -563,9 +631,9 @@ public class SampleService : ISampleService
     }
 }
 ```
-×îºó£¬ÔÚProgram.csÖĞÔö¼ÓÏàÓ¦µÄ·şÎñµ÷ÓÃ´úÂë£º
+æœ€åï¼Œåœ¨Program.csä¸­å¢åŠ ç›¸åº”çš„æœåŠ¡è°ƒç”¨ä»£ç ï¼š
 ``` c#
-//µ÷ÓÃGetOrders·şÎñ
+//è°ƒç”¨GetOrdersæœåŠ¡
 var orders = sampleService.GetOrders().Result;
 foreach (var order in orders)
 {
@@ -577,7 +645,7 @@ foreach (var order in orders)
     Console.WriteLine("----------------------------------------------------------------");
 }
 ```
-¶Ô½â¾ö·½°¸½øĞĞ±àÒë²¢Æô¶¯£¬È»ºóÔÚClientÖĞÊäÈë»Ø³µºó½«»á¶ÔServerÖĞµÄXNode·şÎñ½øĞĞµ÷ÓÃ£¬Èôµ÷ÓÃÕı³£½«ÔÚClientÏÔÊ¾GetOrders·şÎñ·µ»ØµÄ½á¹û£º
+å¯¹è§£å†³æ–¹æ¡ˆè¿›è¡Œç¼–è¯‘å¹¶å¯åŠ¨ï¼Œç„¶ååœ¨Clientä¸­è¾“å…¥å›è½¦åå°†ä¼šå¯¹Serverä¸­çš„XNodeæœåŠ¡è¿›è¡Œè°ƒç”¨ï¼Œè‹¥è°ƒç”¨æ­£å¸¸å°†åœ¨Clientæ˜¾ç¤ºGetOrdersæœåŠ¡è¿”å›çš„ç»“æœï¼š
 ``` c#
 OrderId=1, CustomerId=1, CustomerName=Customer1
 GoodsId=1, GoodsName=A, Price=12, Amount=10
@@ -589,44 +657,44 @@ GoodsId=1, GoodsName=A, Price=12, Amount=3
 ----------------------------------------------------------------
 ```
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/03-Entity
 
-## ĞòÁĞ»¯
-XNodeµÄ·şÎñ¶ËÓë¿Í»§¶ËÊÇÒÔ³¤Á¬½Ó²¢»ùÓÚTCPĞ­Òé½øĞĞÍ¨ĞÅ£¬Òò´ËĞèÒªÍ¨¹ıĞòÁĞ»¯×é¼ş½«¶ÔÏóĞòÁĞ»¯ºó½øĞĞ´«Êä¡£XNode¶¨ÒåÁËĞòÁĞ»¯×é¼ş½Ó¿Ú£¬Ö»ÒªÊµÏÖÁË´Ë½Ó¿ÚXNode¾Í¿ÉÒÔ°´ÕÕ¿ª·¢ÈËÔ±ËùÏ£ÍûµÄ·½Ê½½øĞĞĞòÁĞ»¯²Ù×÷£¬½Ó¿Ú¶¨ÒåÈçÏÂ£º
+## åºåˆ—åŒ–
+XNodeçš„æœåŠ¡ç«¯ä¸å®¢æˆ·ç«¯æ˜¯ä»¥é•¿è¿æ¥å¹¶åŸºäºTCPåè®®è¿›è¡Œé€šä¿¡ï¼Œå› æ­¤éœ€è¦é€šè¿‡åºåˆ—åŒ–ç»„ä»¶å°†å¯¹è±¡åºåˆ—åŒ–åè¿›è¡Œä¼ è¾“ã€‚XNodeå®šä¹‰äº†åºåˆ—åŒ–ç»„ä»¶æ¥å£ï¼Œåªè¦å®ç°äº†æ­¤æ¥å£XNodeå°±å¯ä»¥æŒ‰ç…§å¼€å‘äººå‘˜æ‰€å¸Œæœ›çš„æ–¹å¼è¿›è¡Œåºåˆ—åŒ–æ“ä½œï¼Œæ¥å£å®šä¹‰å¦‚ä¸‹ï¼š
 ``` c#
 /// <summary>
-/// ĞòÁĞ»¯Æ÷½Ó¿Ú
+/// åºåˆ—åŒ–å™¨æ¥å£
 /// </summary>
 public interface ISerializer
 {
     /// <summary>
-    /// ĞòÁĞ»¯Æ÷Ãû³Æ
+    /// åºåˆ—åŒ–å™¨åç§°
     /// </summary>
     string Name { get; }
 
     /// <summary>
-    /// Ö´ĞĞĞòÁĞ»¯²Ù×÷
+    /// æ‰§è¡Œåºåˆ—åŒ–æ“ä½œ
     /// </summary>
-    /// <param name="obj">ĞòÁĞ»¯²Ù×÷µÄ¶ÔÏó</param>
+    /// <param name="obj">åºåˆ—åŒ–æ“ä½œçš„å¯¹è±¡</param>
     /// <returns></returns>
     Task<byte[]> SerializeAsync(object obj);
 
     /// <summary>
-    /// Ö´ĞĞ·´ĞòÁĞ»¯²Ù×÷
+    /// æ‰§è¡Œååºåˆ—åŒ–æ“ä½œ
     /// </summary>
-    /// <param name="type">·´ĞòÁĞ»¯µÄÄ¿±êÀàĞÍ</param>
-    /// <param name="data">·´ĞòÁĞ»¯²Ù×÷µÄ¶ş½øÖÆÊı¾İ</param>
+    /// <param name="type">ååºåˆ—åŒ–çš„ç›®æ ‡ç±»å‹</param>
+    /// <param name="data">ååºåˆ—åŒ–æ“ä½œçš„äºŒè¿›åˆ¶æ•°æ®</param>
     /// <returns></returns>
     Task<object> DeserializeAsync(Type type, byte[] data);
 }
 ```
-Ä¿Ç°£¬XNodeÖ§³ÖµÄĞòÁĞ»¯×é¼ş°üÀ¨ProtoBuf(ĞèÒıÈëXNode.Serializer.ProtoBuf)ºÍMsgPack(ĞèÒıÈëXNode.Serializer.MsgPack)£¬Èç¹û¿ª·¢ÈËÔ±Ï£ÍûÊ¹ÓÃÆäËüµÄĞòÁĞ»¯×é¼ş¿ÉÒÔÍ¨¹ıÊµÏÖISerializer½Ó¿Ú½øĞĞÊÊÅä¡£Ç°ÃæµÄÊ¾Àı²ÉÓÃÁËProtoBuf½øĞĞĞòÁĞ»¯£¬ÏÂÃæ½«ÒÔÊ¾Àı03-EntityÎª»ù´¡½øĞĞĞŞ¸ÄÀ´ÑİÊ¾Ê¹ÓÃMsgPack½øĞĞĞòÁĞ»¯¡£
+ç›®å‰ï¼ŒXNodeæ”¯æŒçš„åºåˆ—åŒ–ç»„ä»¶åŒ…æ‹¬ProtoBuf(éœ€å¼•å…¥XNode.Serializer.ProtoBuf)å’ŒMsgPack(éœ€å¼•å…¥XNode.Serializer.MsgPack)ï¼Œå¦‚æœå¼€å‘äººå‘˜å¸Œæœ›ä½¿ç”¨å…¶å®ƒçš„åºåˆ—åŒ–ç»„ä»¶å¯ä»¥é€šè¿‡å®ç°ISerializeræ¥å£è¿›è¡Œé€‚é…ã€‚å‰é¢çš„ç¤ºä¾‹é‡‡ç”¨äº†ProtoBufè¿›è¡Œåºåˆ—åŒ–ï¼Œä¸‹é¢å°†ä»¥ç¤ºä¾‹03-Entityä¸ºåŸºç¡€è¿›è¡Œä¿®æ”¹æ¥æ¼”ç¤ºä½¿ç”¨MsgPackè¿›è¡Œåºåˆ—åŒ–ã€‚
 
-### ĞŞ¸Ä·şÎñ¶ËĞòÁĞ»¯×é¼ş
-Ê×ÏÈÒÆ³ıServerÏîÄ¿ÖĞµÄNugetÒıÓÃXNode.Serializer.ProtoBuf,²¢ÒıÈëXNode.Serializer.MsgPack¡£È»ºó´ò¿ªProgram.csÎÄ¼ş£¬½«ĞòÁĞ»¯ÅäÖÃ´ÓProtoBufSerializer¸ÄÎªMsgPackSerializer£º
+### ä¿®æ”¹æœåŠ¡ç«¯åºåˆ—åŒ–ç»„ä»¶
+é¦–å…ˆç§»é™¤Serveré¡¹ç›®ä¸­çš„Nugetå¼•ç”¨XNode.Serializer.ProtoBuf,å¹¶å¼•å…¥XNode.Serializer.MsgPackã€‚ç„¶åæ‰“å¼€Program.csæ–‡ä»¶ï¼Œå°†åºåˆ—åŒ–é…ç½®ä»ProtoBufSerializeræ”¹ä¸ºMsgPackSerializerï¼š
 ``` c#
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new MsgPackSerializer(LoggerManager.ServerLoggerFactory))
@@ -635,19 +703,19 @@ var nodeServer = new NodeServerBuilder()
     .Build();
 ```
 
-### ĞŞ¸Ä¿Í»§¶ËĞòÁĞ»¯×é¼ş
-Í¬Ñù£¬ÒÆ³ıClientÏîÄ¿ÖĞµÄNugetÒıÓÃXNode.Serializer.ProtoBuf,²¢ÒıÈëXNode.Serializer.MsgPack¡£È»ºó´ò¿ªProgram.csÎÄ¼ş£¬½«ĞòÁĞ»¯ÅäÖÃ´ÓProtoBufSerializer¸ÄÎªMsgPackSerializer£º
+### ä¿®æ”¹å®¢æˆ·ç«¯åºåˆ—åŒ–ç»„ä»¶
+åŒæ ·ï¼Œç§»é™¤Clienté¡¹ç›®ä¸­çš„Nugetå¼•ç”¨XNode.Serializer.ProtoBuf,å¹¶å¼•å…¥XNode.Serializer.MsgPackã€‚ç„¶åæ‰“å¼€Program.csæ–‡ä»¶ï¼Œå°†åºåˆ—åŒ–é…ç½®ä»ProtoBufSerializeræ”¹ä¸ºMsgPackSerializerï¼š
 ``` c#
 var serializer = new MsgPackSerializer(LoggerManager.ClientLoggerFactory);
 
 var serviceProxyManager = new ServiceProxyManager();
 
-//´´½¨AutofacÈİÆ÷²¢×¢²á·şÎñÀàĞÍ
+//åˆ›å»ºAutofacå®¹å™¨å¹¶æ³¨å†ŒæœåŠ¡ç±»å‹
 var container = GetAutofacContainer(serviceProxyManager);
 
 if (clientConfig.ServiceProxies != null)
 {
-    //×¢²á·şÎñ´úÀí
+    //æ³¨å†ŒæœåŠ¡ä»£ç†
     foreach (var config in clientConfig.ServiceProxies)
     {
         serviceProxyManager
@@ -662,10 +730,10 @@ if (clientConfig.ServiceProxies != null)
     }
 }
 ```
-ÕâÑù£¬¾Í½«XNodeµÄĞòÁĞ»¯×é¼ş±ä¸üÎªMsgPackÁË¡£
+è¿™æ ·ï¼Œå°±å°†XNodeçš„åºåˆ—åŒ–ç»„ä»¶å˜æ›´ä¸ºMsgPackäº†ã€‚
 
-### ÔËĞĞ
-¶ÔServerÓëClient½øĞĞ±àÒë²¢Æô¶¯£¬È»ºóÔÚClientÖĞÊäÈë»Ø³µºó½«»á¶ÔServerÖĞµÄXNode·şÎñ½øĞĞµ÷ÓÃ£¬Èôµ÷ÓÃÕı³£½«ÔÚClientÏÔÊ¾·şÎñ·µ»ØµÄ½á¹û£º
+### è¿è¡Œ
+å¯¹Serverä¸Clientè¿›è¡Œç¼–è¯‘å¹¶å¯åŠ¨ï¼Œç„¶ååœ¨Clientä¸­è¾“å…¥å›è½¦åå°†ä¼šå¯¹Serverä¸­çš„XNodeæœåŠ¡è¿›è¡Œè°ƒç”¨ï¼Œè‹¥è°ƒç”¨æ­£å¸¸å°†åœ¨Clientæ˜¾ç¤ºæœåŠ¡è¿”å›çš„ç»“æœï¼š
 ``` c#
 Hello Michael Sun
 
@@ -679,18 +747,18 @@ GoodsId=1, GoodsName=A, Price=12, Amount=3
 ----------------------------------------------------------------
 ```
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/04-Serializer
 
-## ·şÎñºÍ´úÀíµÄÆôÓÃÓë½ûÓÃ
-XNode·şÎñÓë´úÀí¿ÉÒÔÁé»îµØÉèÖÃÆôÓÃºÍ½ûÓÃ¡£¶ÔÓÚXNode·şÎñ¿ÉÒÔ½ûÓÃÕû¸öService£¬Ò²¿ÉÒÔ½ûÓÃServiceÖĞµÄÄ³Ò»¸öAction¡£Í¬Ñù£¬¶ÔÓÚXNode´úÀíÒ²¿ÉÄÜÍ¨¹ıÆôÓÃÓë½ûÓÃ¹¦ÄÜÊ¹´úÀíÄÜÔÚµ÷ÓÃ±¾µØ´úÂëÓëÔ¶³Ì´úÂëÖ®¼ä½øĞĞÇĞ»»£¬Õâ¶ÔÓÚÔÚ¿ª·¢½×¶Î½øĞĞ³ÌĞòµ÷ÊÔºÜÓĞ°ïÖú£¬Í¬Ê±¶ÔÓÚÒ»Ğ©ÏîÄ¿ÔÚ³õÆÚÒµÎñÁ¿²¢²»´óµÄÇé¿öÏÂ£¬ËùÓĞ·şÎñ¿ÉÒÔ²¿ÊğÔÚÍ¬Ò»Ì¨·şÎñÆ÷£¬¶øËæ×ÅÒµÎñÁ¿µÄÌáÉıÖğ½¥Ê¹ÓÃ·Ö²¼Ê½²¿Êğ¡£±¾½Ú½«½éÉÜÈçºÎ¶Ô·şÎñºÍ´úÀíÉèÖÃÆôÓÃÓë½ûÓÃ£¬±¾½Ú´úÂë½«»ùÓÚ02-AOP»ù´¡ÉÏ½øĞĞĞŞ¸Ä¡£
+## æœåŠ¡å’Œä»£ç†çš„å¯ç”¨ä¸ç¦ç”¨
+XNodeæœåŠ¡ä¸ä»£ç†å¯ä»¥çµæ´»åœ°è®¾ç½®å¯ç”¨å’Œç¦ç”¨ã€‚å¯¹äºXNodeæœåŠ¡å¯ä»¥ç¦ç”¨æ•´ä¸ªServiceï¼Œä¹Ÿå¯ä»¥ç¦ç”¨Serviceä¸­çš„æŸä¸€ä¸ªActionã€‚åŒæ ·ï¼Œå¯¹äºXNodeä»£ç†ä¹Ÿå¯èƒ½é€šè¿‡å¯ç”¨ä¸ç¦ç”¨åŠŸèƒ½ä½¿ä»£ç†èƒ½åœ¨è°ƒç”¨æœ¬åœ°ä»£ç ä¸è¿œç¨‹ä»£ç ä¹‹é—´è¿›è¡Œåˆ‡æ¢ï¼Œè¿™å¯¹äºåœ¨å¼€å‘é˜¶æ®µè¿›è¡Œç¨‹åºè°ƒè¯•å¾ˆæœ‰å¸®åŠ©ï¼ŒåŒæ—¶å¯¹äºä¸€äº›é¡¹ç›®åœ¨åˆæœŸä¸šåŠ¡é‡å¹¶ä¸å¤§çš„æƒ…å†µä¸‹ï¼Œæ‰€æœ‰æœåŠ¡å¯ä»¥éƒ¨ç½²åœ¨åŒä¸€å°æœåŠ¡å™¨ï¼Œè€Œéšç€ä¸šåŠ¡é‡çš„æå‡é€æ¸ä½¿ç”¨åˆ†å¸ƒå¼éƒ¨ç½²ã€‚æœ¬èŠ‚å°†ä»‹ç»å¦‚ä½•å¯¹æœåŠ¡å’Œä»£ç†è®¾ç½®å¯ç”¨ä¸ç¦ç”¨ï¼Œæœ¬èŠ‚ä»£ç å°†åŸºäº02-AOPåŸºç¡€ä¸Šè¿›è¡Œä¿®æ”¹ã€‚
 
-### ·şÎñÆôÓÃ/½ûÓÃ
-XNode·şÎñ¿ÉÒÔÍ¨¹ıAttributeÓëÅäÖÃÎÄ¼şµÄ·½Ê½ÉèÖÃÆôÓÃÓë½ûÓÃ£¬ÅäÖÃÎÄ¼şµÄ·½Ê½ÓÅÏÈ¼¶´óÓÚAttributeµÄ·½Ê½¡£
+### æœåŠ¡å¯ç”¨/ç¦ç”¨
+XNodeæœåŠ¡å¯ä»¥é€šè¿‡Attributeä¸é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®å¯ç”¨ä¸ç¦ç”¨ï¼Œé…ç½®æ–‡ä»¶çš„æ–¹å¼ä¼˜å…ˆçº§å¤§äºAttributeçš„æ–¹å¼ã€‚
 
-#### Ê¹ÓÃAttributeµÄ·½Ê½ÉèÖÃ
-AttributeµÄÉèÖÃ·½Ê½¿ÉÒÔÍ¨¹ıServiceAttributeºÍActionAttributeÊµÏÖ£¬ServiceAttributeÊÇÕë¶ÔService½øĞĞÉèÖÃ£¬¶øActionAttributeÔòÊÇÕë¶ÔÄ³Ò»¸öAction½øĞĞÉèÖÃ¡£
-ÏÈ¿´Ò»ÏÂServiceAttributeµÄÔ­ĞÍ£º
+#### ä½¿ç”¨Attributeçš„æ–¹å¼è®¾ç½®
+Attributeçš„è®¾ç½®æ–¹å¼å¯ä»¥é€šè¿‡ServiceAttributeå’ŒActionAttributeå®ç°ï¼ŒServiceAttributeæ˜¯é’ˆå¯¹Serviceè¿›è¡Œè®¾ç½®ï¼Œè€ŒActionAttributeåˆ™æ˜¯é’ˆå¯¹æŸä¸€ä¸ªActionè¿›è¡Œè®¾ç½®ã€‚
+å…ˆçœ‹ä¸€ä¸‹ServiceAttributeçš„åŸå‹ï¼š
 ``` c#
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
 public class ServiceAttribute : Attribute
@@ -703,7 +771,7 @@ public class ServiceAttribute : Attribute
     public bool Enabled { get; }
 }
 ```
-´Ó¹¹Ôìº¯ÊıÀ´¿´£¬²ÎÊıenabledµÄÄ¬ÈÏÖµÎªfalse£¬Òò´ËÈç¹ûÃ»ÓĞÏÔÊ½µÄÉèÖÃ²ÎÊıenabledÎªtrue£¬·şÎñÄ¬ÈÏÊÇ²»¿ªÆôµÄ£¬ÏÂÃæĞŞ¸ÄÒ»ÏÂServerÏîÄ¿ÖĞ½Ó¿ÚISampleServiceµÄ´úÂëÒÆ³ı²ÎÊıenabled£º
+ä»æ„é€ å‡½æ•°æ¥çœ‹ï¼Œå‚æ•°enabledçš„é»˜è®¤å€¼ä¸ºfalseï¼Œå› æ­¤å¦‚æœæ²¡æœ‰æ˜¾å¼çš„è®¾ç½®å‚æ•°enabledä¸ºtrueï¼ŒæœåŠ¡é»˜è®¤æ˜¯ä¸å¼€å¯çš„ï¼Œä¸‹é¢ä¿®æ”¹ä¸€ä¸‹Serveré¡¹ç›®ä¸­æ¥å£ISampleServiceçš„ä»£ç ç§»é™¤å‚æ•°enabledï¼š
 ``` c#
 [Service("SampleService", 10001)]
 public interface ISampleService
@@ -712,13 +780,13 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-±àÒë²¢ÔËĞĞºó¿Í»§¶Ë»áµÃµ½ÈçÏÂÒì³£ĞÅÏ¢£º
+ç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯ä¼šå¾—åˆ°å¦‚ä¸‹å¼‚å¸¸ä¿¡æ¯ï¼š
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
       Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
-³ıÁËÎªServiceÉèÖÃÆôÓÃ/½ûÓÃ£¬Ò²¿ÉÒÔÎªÄ³¸öµ¥¶ÀµÄAction½øĞĞÉèÖÃ¡£ĞèÒª×¢ÒâµÄÊÇ£¬Ò»¸öActionÊÇ·ñÆôÓÃÈ¡¾öÓÚServiceµÄEnabledÓëActionµÄEnabledµÄ½»¼¯£¬Ò²¾ÍÊÇËµµ±ÉèÖÃÁËServiceµÄEnabledÎªfalse£¬ÎŞÂÛActionÈçºÎÉèÖÃ£¬Õâ¸öServiceÏÂµÄËùÓĞAction¶¼½«±»½ûÓÃ¡£Òò´Ë£¬ÏÈ½«ServiceAttributeµÄenabled²ÎÊı»¹Ô­Îªtrue£º
+é™¤äº†ä¸ºServiceè®¾ç½®å¯ç”¨/ç¦ç”¨ï¼Œä¹Ÿå¯ä»¥ä¸ºæŸä¸ªå•ç‹¬çš„Actionè¿›è¡Œè®¾ç½®ã€‚éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œä¸€ä¸ªActionæ˜¯å¦å¯ç”¨å–å†³äºServiceçš„Enabledä¸Actionçš„Enabledçš„äº¤é›†ï¼Œä¹Ÿå°±æ˜¯è¯´å½“è®¾ç½®äº†Serviceçš„Enabledä¸ºfalseï¼Œæ— è®ºActionå¦‚ä½•è®¾ç½®ï¼Œè¿™ä¸ªServiceä¸‹çš„æ‰€æœ‰Actionéƒ½å°†è¢«ç¦ç”¨ã€‚å› æ­¤ï¼Œå…ˆå°†ServiceAttributeçš„enabledå‚æ•°è¿˜åŸä¸ºtrueï¼š
 ``` c#
 [Service("SampleService", 10001, true)]
 public interface ISampleService
@@ -727,7 +795,7 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-´ËÊ±±àÒë²¢ÔËĞĞ½«»áÕı³£ÔËĞĞ£¬ÒòÎªActionAttributeµÄenabled²ÎÊıÄ¬ÈÏÖµÎªtrue£¬ÏÂÃæÎªActionAttributeµÄÔ­ĞÍ£º
+æ­¤æ—¶ç¼–è¯‘å¹¶è¿è¡Œå°†ä¼šæ­£å¸¸è¿è¡Œï¼Œå› ä¸ºActionAttributeçš„enabledå‚æ•°é»˜è®¤å€¼ä¸ºtrueï¼Œä¸‹é¢ä¸ºActionAttributeçš„åŸå‹ï¼š
 ``` c#
 [AttributeUsage(AttributeTargets.Method)]
 public class ActionAttribute : Attribute
@@ -740,7 +808,7 @@ public class ActionAttribute : Attribute
     public bool Enabled { get; }
 }
 ```
-ÏÖÔÚ£¬½«ActionAttributeµÄenableÉèÖÃÎªfalse£º
+ç°åœ¨ï¼Œå°†ActionAttributeçš„enableè®¾ç½®ä¸ºfalseï¼š
 ``` c#
 [Service("SampleService", 10001, true)]
 public interface ISampleService
@@ -749,15 +817,15 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-±àÒë²¢ÔËĞĞºó¿Í»§¶Ë»áµÃµ½ÈçÏÂÒì³£ĞÅÏ¢£º
+ç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯ä¼šå¾—åˆ°å¦‚ä¸‹å¼‚å¸¸ä¿¡æ¯ï¼š
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
       Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
 
-#### Ê¹ÓÃÅäÖÃÎÄ¼şµÄ·½Ê½ÉèÖÃ
-ÔÚÊµ¼ÊÏîÄ¿ÖĞ£¬Ö±½ÓÍ¨¹ıAttributeÉèÖÃ·şÎñÆôÓÃ/½ûÓÃ²»Ì«Áé»î£¬ËùÒÔ¿ÉÒÔÍ¨¹ıÅäÖÃÎÄ¼şµÄ·½Ê½¶Ô·şÎñ½øĞĞÉèÖÃ¡£ÅäÖÃÎÄ¼şÖĞµÄ·şÎñÆôÓÃ/½ûÓÃÉèÖÃ»á¸²¸ÇAttributeÖĞµÄÉèÖÃ¡£ÕâÀïÏÈ½«AttributeÖĞenabled²ÎÊıµÄÉèÖÃÒÆ³ı£¬Ö»Ê¹ÓÃAttributeµÄÄ¬ÈÏÖµ£º
+#### ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®
+åœ¨å®é™…é¡¹ç›®ä¸­ï¼Œç›´æ¥é€šè¿‡Attributeè®¾ç½®æœåŠ¡å¯ç”¨/ç¦ç”¨ä¸å¤ªçµæ´»ï¼Œæ‰€ä»¥å¯ä»¥é€šè¿‡é…ç½®æ–‡ä»¶çš„æ–¹å¼å¯¹æœåŠ¡è¿›è¡Œè®¾ç½®ã€‚é…ç½®æ–‡ä»¶ä¸­çš„æœåŠ¡å¯ç”¨/ç¦ç”¨è®¾ç½®ä¼šè¦†ç›–Attributeä¸­çš„è®¾ç½®ã€‚è¿™é‡Œå…ˆå°†Attributeä¸­enabledå‚æ•°çš„è®¾ç½®ç§»é™¤ï¼Œåªä½¿ç”¨Attributeçš„é»˜è®¤å€¼ï¼š
 ``` c#
 [Service("SampleService", 10001)]
 public interface ISampleService
@@ -766,7 +834,7 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-´ò¿ªconfig.json£¬Ôö¼ÓservicesÅäÖÃ½Ú£º
+æ‰“å¼€config.jsonï¼Œå¢åŠ servicesé…ç½®èŠ‚ï¼š
 ``` c#
 {
   "xnode": {
@@ -785,9 +853,9 @@ public interface ISampleService
   }
 }
 ```
-servicesÅäÖÃ½ÚÊÇÒ»¸öÊı×é£¬¿ÉÒÔÔÚÕâÀïÅäÖÃËùÓĞµÄXNode·şÎñ£¬serviceIdÎª·şÎñIdÓëServiceAttributeÖĞµÄserviceId¶ÔÓ¦£¬enabledÓÃÓÚÉèÖÃÊÇ·ñÆôÓÃÖ¸¶¨Service¡£±àÒë²¢ÔËĞĞºó£¬¿Í»§¶Ë½«³É¹¦µ÷ÓÃXNode·şÎñ¡£
+servicesé…ç½®èŠ‚æ˜¯ä¸€ä¸ªæ•°ç»„ï¼Œå¯ä»¥åœ¨è¿™é‡Œé…ç½®æ‰€æœ‰çš„XNodeæœåŠ¡ï¼ŒserviceIdä¸ºæœåŠ¡Idä¸ServiceAttributeä¸­çš„serviceIdå¯¹åº”ï¼Œenabledç”¨äºè®¾ç½®æ˜¯å¦å¯ç”¨æŒ‡å®šServiceã€‚ç¼–è¯‘å¹¶è¿è¡Œåï¼Œå®¢æˆ·ç«¯å°†æˆåŠŸè°ƒç”¨XNodeæœåŠ¡ã€‚
 
-ÅäÖÃ½ÚÖĞµÄenabledÄ¬ÈÏÖµÓëServiceAttributeÓëActionAttributeµÄÒ»Ñù£¬ServiceÄ¬ÈÏÎªfalse£¬ActionÄ¬ÈÏÎªtrue¡£Òò´Ë£¬ÕâÀï²¢Ã»ÓĞ¶ÔActionµÄenabled½øĞĞÉèÖÃ£¬ÏÂÃæĞŞ¸ÄActionµÄÉèÖÃ½«Æä½ûÓÃ£º
+é…ç½®èŠ‚ä¸­çš„enabledé»˜è®¤å€¼ä¸ServiceAttributeä¸ActionAttributeçš„ä¸€æ ·ï¼ŒServiceé»˜è®¤ä¸ºfalseï¼ŒActioné»˜è®¤ä¸ºtrueã€‚å› æ­¤ï¼Œè¿™é‡Œå¹¶æ²¡æœ‰å¯¹Actionçš„enabledè¿›è¡Œè®¾ç½®ï¼Œä¸‹é¢ä¿®æ”¹Actionçš„è®¾ç½®å°†å…¶ç¦ç”¨ï¼š
 ``` c#
 {
   "xnode": {
@@ -812,18 +880,18 @@ servicesÅäÖÃ½ÚÊÇÒ»¸öÊı×é£¬¿ÉÒÔÔÚÕâÀïÅäÖÃËùÓĞµÄXNode·şÎñ£¬serviceIdÎª·şÎñIdÓëServ
   }
 }
 ```
-actionsÅäÖÃ½ÚÍ¬ÑùÎªÊı×é£¬Ä³Ò»¸öServiceÏÂËùÓĞµÄAction¶¼¿ÉÒÔÕâÀïÅäÖÃ£¬actionIdÎªActionIdÓëActionAttributeµÄactionId¶ÔÓ¦£¬enabledÓÃÓÚÉèÖÃÊÇ·ñÆôÓÃÖ¸¶¨Action¡£±àÒë²¢ÔËĞĞºó¿Í»§¶Ë»áµÃµ½ÈçÏÂÒì³£ĞÅÏ¢£º
+actionsé…ç½®èŠ‚åŒæ ·ä¸ºæ•°ç»„ï¼ŒæŸä¸€ä¸ªServiceä¸‹æ‰€æœ‰çš„Actionéƒ½å¯ä»¥è¿™é‡Œé…ç½®ï¼ŒactionIdä¸ºActionIdä¸ActionAttributeçš„actionIdå¯¹åº”ï¼Œenabledç”¨äºè®¾ç½®æ˜¯å¦å¯ç”¨æŒ‡å®šActionã€‚ç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯ä¼šå¾—åˆ°å¦‚ä¸‹å¼‚å¸¸ä¿¡æ¯ï¼š
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
       Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
 
-### ´úÀíÆôÓÃ/½ûÓÃ
-XNode´úÀíÓëXNode·şÎñÒ»Ñù¿ÉÒÔÍ¨¹ıAttributeÓëÅäÖÃÎÄ¼şµÄ·½Ê½ÉèÖÃÆôÓÃÓë½ûÓÃ£¬ÅäÖÃÎÄ¼şµÄ·½Ê½ÓÅÏÈ¼¶´óÓÚAttributeµÄ·½Ê½¡£ÔÚ¿ªÊ¼ÑİÊ¾´úÀíÆôÓÃ/½ûÓÃÖ®Ç°ÏÈ½«ServerÖĞµÄ·şÎñÉèÖÃ»ØÆôÓÃ¡£
+### ä»£ç†å¯ç”¨/ç¦ç”¨
+XNodeä»£ç†ä¸XNodeæœåŠ¡ä¸€æ ·å¯ä»¥é€šè¿‡Attributeä¸é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®å¯ç”¨ä¸ç¦ç”¨ï¼Œé…ç½®æ–‡ä»¶çš„æ–¹å¼ä¼˜å…ˆçº§å¤§äºAttributeçš„æ–¹å¼ã€‚åœ¨å¼€å§‹æ¼”ç¤ºä»£ç†å¯ç”¨/ç¦ç”¨ä¹‹å‰å…ˆå°†Serverä¸­çš„æœåŠ¡è®¾ç½®å›å¯ç”¨ã€‚
 
-#### Ê¹ÓÃAttributeµÄ·½Ê½ÉèÖÃ
-Ä¿Ç°ClientÏîÄ¿ÖĞµÄ´úÂëÊÇÒÔÅäÖÃÎÄ¼ş·½Ê½×¢²á´úÀíÀàĞÍ£¬ÒªÑİÊ¾Attribute·½Ê½ÉèÖÃ´úÀíÆôÓÃ/½ûÓÃ£¬ÏÈÒª½«ÅäÖÃÎÄ¼ş·½Ê½¸ÄÎª±à³Ì·½Ê½×¢²á´úÀíÀàĞÍ¡£ÏÈÒÆ³ıÅäÖÃÎÄ¼şÖĞ×¢²á´úÀíÀàĞÍ²¿·Ö--servicesÅäÖÃ½Ú£¬ĞŞ¸ÄºóµÄÅäÖÃÎÄ¼şÈçÏÂ£º
+#### ä½¿ç”¨Attributeçš„æ–¹å¼è®¾ç½®
+ç›®å‰Clienté¡¹ç›®ä¸­çš„ä»£ç æ˜¯ä»¥é…ç½®æ–‡ä»¶æ–¹å¼æ³¨å†Œä»£ç†ç±»å‹ï¼Œè¦æ¼”ç¤ºAttributeæ–¹å¼è®¾ç½®ä»£ç†å¯ç”¨/ç¦ç”¨ï¼Œå…ˆè¦å°†é…ç½®æ–‡ä»¶æ–¹å¼æ”¹ä¸ºç¼–ç¨‹æ–¹å¼æ³¨å†Œä»£ç†ç±»å‹ã€‚å…ˆç§»é™¤é…ç½®æ–‡ä»¶ä¸­æ³¨å†Œä»£ç†ç±»å‹éƒ¨åˆ†--servicesé…ç½®èŠ‚ï¼Œä¿®æ”¹åçš„é…ç½®æ–‡ä»¶å¦‚ä¸‹ï¼š
 ``` c#
 {
   "xnode": {
@@ -844,13 +912,13 @@ XNode´úÀíÓëXNode·şÎñÒ»Ñù¿ÉÒÔÍ¨¹ıAttributeÓëÅäÖÃÎÄ¼şµÄ·½Ê½ÉèÖÃÆôÓÃÓë½ûÓÃ£¬ÅäÖÃÎÄ¼
   }
 }
 ```
-È»ºó£¬½«Ô­À´´úÀíÀàĞÍ×¢²áµÄÊµÏÖ×¢ÊÍµô£¬²¢¼ÓÈëĞÂµÄ×¢²á´úÂë£º
+ç„¶åï¼Œå°†åŸæ¥ä»£ç†ç±»å‹æ³¨å†Œçš„å®ç°æ³¨é‡Šæ‰ï¼Œå¹¶åŠ å…¥æ–°çš„æ³¨å†Œä»£ç ï¼š
 ``` c#
 var clientConfig = configRoot.GetClientConfig();
 
 if (clientConfig.ServiceProxies != null)
 {
-    //×¢²á·şÎñ´úÀí
+    //æ³¨å†ŒæœåŠ¡ä»£ç†
     foreach (var config in clientConfig.ServiceProxies)
     {
         serviceProxyManager
@@ -864,7 +932,7 @@ if (clientConfig.ServiceProxies != null)
             );
     }
 
-    //×¢²á·şÎñ´úÀí£¨ÅäÖÃÎÄ¼ş·½Ê½£©
+    //æ³¨å†ŒæœåŠ¡ä»£ç†ï¼ˆé…ç½®æ–‡ä»¶æ–¹å¼ï¼‰
     //foreach (var config in clientConfig.ServiceProxies)
     //{
     //    serviceProxyManager
@@ -879,7 +947,7 @@ if (clientConfig.ServiceProxies != null)
     //}
 }
 ```
-×îºó£¬½«ISampleServiceÉÏµÄServiceProxyAttributeÉèÖÃenabledÎªtrue£º
+æœ€åï¼Œå°†ISampleServiceä¸Šçš„ServiceProxyAttributeè®¾ç½®enabledä¸ºtrueï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001, true)]
 public interface ISampleService
@@ -888,9 +956,9 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-±àÒë²¢ÔËĞĞºó£¬¿Í»§¶Ë½«Õı³£µ÷ÓÃXNode·şÎñ¡£
+ç¼–è¯‘å¹¶è¿è¡Œåï¼Œå®¢æˆ·ç«¯å°†æ­£å¸¸è°ƒç”¨XNodeæœåŠ¡ã€‚
 
-Óë·şÎñÆôÓÃ/½ûÓÃÒ»Ñù£¬½«ServiceProxyAttributeµÄenabled»òActionProxyAttributeµÄenabledÉèÖÃÎªfalseÒÔ½ûÓÃ´úÀí¡£µ±Ä³¸öActionµÄEnabledÎªfalse£¬Èç¹ûÍ¨¹ıIServiceProxy.CallRemoteServiceAsyncµ÷ÓÃ´ËAction½«Òı·¢InvalidOperationExceptionÒì³££¬Èç¹ûÒıÓÃXNode.AutofacÍ¨¹ıAOP·½Ê½µ÷ÓÃ½«»áµ÷ÓÃ±¾µØÊµÏÖ¡£Ä¿Ç°£¬ÎÒÃÇµÄÊ¾ÀıÊÇÍ¨¹ıAOP·½·¨µ÷ÓÃµÄ£¬´úÀí±¾µØÊµÏÖÈçÏÂ£º
+ä¸æœåŠ¡å¯ç”¨/ç¦ç”¨ä¸€æ ·ï¼Œå°†ServiceProxyAttributeçš„enabledæˆ–ActionProxyAttributeçš„enabledè®¾ç½®ä¸ºfalseä»¥ç¦ç”¨ä»£ç†ã€‚å½“æŸä¸ªActionçš„Enabledä¸ºfalseï¼Œå¦‚æœé€šè¿‡IServiceProxy.CallRemoteServiceAsyncè°ƒç”¨æ­¤Actionå°†å¼•å‘InvalidOperationExceptionå¼‚å¸¸ï¼Œå¦‚æœå¼•ç”¨XNode.Autofacé€šè¿‡AOPæ–¹å¼è°ƒç”¨å°†ä¼šè°ƒç”¨æœ¬åœ°å®ç°ã€‚ç›®å‰ï¼Œæˆ‘ä»¬çš„ç¤ºä¾‹æ˜¯é€šè¿‡AOPæ–¹æ³•è°ƒç”¨çš„ï¼Œä»£ç†æœ¬åœ°å®ç°å¦‚ä¸‹ï¼š
 ``` c#
 public class SampleService : ISampleService
 {
@@ -900,7 +968,7 @@ public class SampleService : ISampleService
     }
 }
 ```
-ÏÂÃæ£¬ÎÒÃÇ½«ActionÉèÖÃÎªfalse£º
+ä¸‹é¢ï¼Œæˆ‘ä»¬å°†Actionè®¾ç½®ä¸ºfalseï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001, true)]
 public interface ISampleService
@@ -909,13 +977,13 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-±àÒë²¢ÔËĞĞºó¿Í»§¶Ëµ÷ÓÃµÄÊÇ±¾µØÊµÏÖ£¬½á¹ûÏÔÊ¾ÈçÏÂ£º
+ç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯è°ƒç”¨çš„æ˜¯æœ¬åœ°å®ç°ï¼Œç»“æœæ˜¾ç¤ºå¦‚ä¸‹ï¼š
 ``` c#
 Error: The method or operation is not implemented.
 ```
 
-#### Ê¹ÓÃÅäÖÃÎÄ¼şµÄ·½Ê½ÉèÖÃ
-ÕâÀïÔÙÑİÊ¾Ò»ÏÂÊ¹ÓÃÅäÖÃÎÄ¼şµÄ·½Ê½£¬ÏÈ½«ServiceAttributeÓëActionAttributeµÄenabledÉèÖÃÒÆ³ı£º
+#### ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼è®¾ç½®
+è¿™é‡Œå†æ¼”ç¤ºä¸€ä¸‹ä½¿ç”¨é…ç½®æ–‡ä»¶çš„æ–¹å¼ï¼Œå…ˆå°†ServiceAttributeä¸ActionAttributeçš„enabledè®¾ç½®ç§»é™¤ï¼š
 ``` c#
 [ServiceProxy("SampleService", 10001)]
 public interface ISampleService
@@ -924,7 +992,7 @@ public interface ISampleService
     string Welcome(string name);
 }
 ```
-ÅäÖÃÎÄ¼şÖĞÔö¼Ó×¢²á´úÀíÀàĞÍÏà¹ØÅäÖÃ²¢ÉèÖÃenabled£º
+é…ç½®æ–‡ä»¶ä¸­å¢åŠ æ³¨å†Œä»£ç†ç±»å‹ç›¸å…³é…ç½®å¹¶è®¾ç½®enabledï¼š
 ``` c#
 {
   "xnode": {
@@ -952,13 +1020,13 @@ public interface ISampleService
   }
 }
 ```
-Program.csÖĞµÄÏà¹Ø´úÂëÒ²½øĞĞÉèÖÃ£º
+Program.csä¸­çš„ç›¸å…³ä»£ç ä¹Ÿè¿›è¡Œè®¾ç½®ï¼š
 ``` c#
 var clientConfig = configRoot.GetClientConfig();
 
 if (clientConfig.ServiceProxies != null)
 {
-    //×¢²á·şÎñ´úÀí
+    //æ³¨å†ŒæœåŠ¡ä»£ç†
     //foreach (var config in clientConfig.ServiceProxies)
     //{
     //    serviceProxyManager
@@ -972,7 +1040,7 @@ if (clientConfig.ServiceProxies != null)
     //        );
     //}
 
-    //×¢²á·şÎñ´úÀí£¨ÅäÖÃÎÄ¼ş·½Ê½£©
+    //æ³¨å†ŒæœåŠ¡ä»£ç†ï¼ˆé…ç½®æ–‡ä»¶æ–¹å¼ï¼‰
     foreach (var config in clientConfig.ServiceProxies)
     {
         serviceProxyManager
@@ -987,8 +1055,8 @@ if (clientConfig.ServiceProxies != null)
     }
 }
 ```
-±àÒë²¢ÔËĞĞ£¬¿Í»§¶Ë½«Õı³£µ÷ÓÃXNode·şÎñ¡£
-Í¬Ñù£¬½«ÅäÖÃÎÄ¼şÖĞµÄActionÉèÖÃenabledÎªfalse£¬¿ÉÒÔÈÃ´úÀíµ÷ÓÃ±¾µØÊµÏÖ£º
+ç¼–è¯‘å¹¶è¿è¡Œï¼Œå®¢æˆ·ç«¯å°†æ­£å¸¸è°ƒç”¨XNodeæœåŠ¡ã€‚
+åŒæ ·ï¼Œå°†é…ç½®æ–‡ä»¶ä¸­çš„Actionè®¾ç½®enabledä¸ºfalseï¼Œå¯ä»¥è®©ä»£ç†è°ƒç”¨æœ¬åœ°å®ç°ï¼š
 ``` c#
 {
   "xnode": {
@@ -1023,56 +1091,56 @@ if (clientConfig.ServiceProxies != null)
 }
 ```
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/05-Enabled
 
-## ·şÎñÉí·İÑéÖ¤
-XNodeÌá¹©ÁËÉí·İÑéÖ¤»úÖÆÓÃÓÚ¶Ôµ÷ÓÃXNode·şÎñµÄ¿Í»§¶Ë½øĞĞÉí·İÑéÖ¤¡£µ±·şÎñ¶ËÔÚ½ÓÊÜ¿Í»§¶ËÁ¬½ÓÇëÇóºó£¬¿Í»§¶ËĞèÒªÌá¹©ºÏ·¨µÄÉí·İĞÅÏ¢ºó²ÅÄÜÕı³£µ÷ÓÃXNode·şÎñ¡£XNode·şÎñ¶ËÌá¹©ÁËILoginValidator½Ó¿ÚÓÃÓÚÉí·İÑéÖ¤£¬ÒÔÏÂÎªILoginValidator½Ó¿Ú¶¨Òå£º
+## æœåŠ¡èº«ä»½éªŒè¯
+XNodeæä¾›äº†èº«ä»½éªŒè¯æœºåˆ¶ç”¨äºå¯¹è°ƒç”¨XNodeæœåŠ¡çš„å®¢æˆ·ç«¯è¿›è¡Œèº«ä»½éªŒè¯ã€‚å½“æœåŠ¡ç«¯åœ¨æ¥å—å®¢æˆ·ç«¯è¿æ¥è¯·æ±‚åï¼Œå®¢æˆ·ç«¯éœ€è¦æä¾›åˆæ³•çš„èº«ä»½ä¿¡æ¯åæ‰èƒ½æ­£å¸¸è°ƒç”¨XNodeæœåŠ¡ã€‚XNodeæœåŠ¡ç«¯æä¾›äº†ILoginValidatoræ¥å£ç”¨äºèº«ä»½éªŒè¯ï¼Œä»¥ä¸‹ä¸ºILoginValidatoræ¥å£å®šä¹‰ï¼š
 ``` c#
 /// <summary>
-/// µÇÂ¼ÑéÖ¤½Ó¿Ú
+/// ç™»å½•éªŒè¯æ¥å£
 /// </summary>
 public interface ILoginValidator
 {
     /// <summary>
-    /// ĞòÁĞ»¯Æ÷
+    /// åºåˆ—åŒ–å™¨
     /// </summary>
     ISerializer Serializer { set; }
 
     /// <summary>
-    /// µÇÂ¼ÑéÖ¤
+    /// ç™»å½•éªŒè¯
     /// </summary>
-    /// <param name="loginInfo">µÇÂ¼ĞÅÏ¢</param>
+    /// <param name="loginInfo">ç™»å½•ä¿¡æ¯</param>
     /// <returns></returns>
     Task<LoginAuthResult> Validate(LoginRequestInfo loginInfo);
 }
 ```
-XNode¿Í»§¶ËÒ²Ìá¹©ÁËÏàÓ¦µÄ½Ó¿ÚILoginHandlerÓÃÓÚÌá½»µÇÂ¼ĞÅÏ¢ÒÔ¼°´¦ÀíµÇÂ¼½á¹û£¬ÒÔÏÂÎªILoginHandler½Ó¿Ú¶¨Òå£º
+XNodeå®¢æˆ·ç«¯ä¹Ÿæä¾›äº†ç›¸åº”çš„æ¥å£ILoginHandlerç”¨äºæäº¤ç™»å½•ä¿¡æ¯ä»¥åŠå¤„ç†ç™»å½•ç»“æœï¼Œä»¥ä¸‹ä¸ºILoginHandleræ¥å£å®šä¹‰ï¼š
 ``` c#
 /// <summary>
-/// µÇÂ¼´¦ÀíÆ÷
+/// ç™»å½•å¤„ç†å™¨
 /// </summary>
 public interface ILoginHandler
 {
     /// <summary>
-    /// »ñÈ¡µÇÂ¼ĞÅÏ¢
+    /// è·å–ç™»å½•ä¿¡æ¯
     /// </summary>
     /// <returns></returns>
     Task<LoginInfo> GetLoginInfo();
 
     /// <summary>
-    /// µÇÂ¼ÑéÖ¤ÏìÓ¦´¦Àí
+    /// ç™»å½•éªŒè¯å“åº”å¤„ç†
     /// </summary>
-    /// <param name="loginResponseInfo">µÇÂ¼ÑéÖ¤ÏìÓ¦ĞÅÏ¢</param>
-    /// <returns>µÇÂ¼ÑéÖ¤×´Ì¬Âë£¨·Ç0±íÊ¾ÑéÖ¤Ê§°Ü£¬1-30ÎªXNode±£Áô×´Ì¬Âë£©</returns>
+    /// <param name="loginResponseInfo">ç™»å½•éªŒè¯å“åº”ä¿¡æ¯</param>
+    /// <returns>ç™»å½•éªŒè¯çŠ¶æ€ç ï¼ˆé0è¡¨ç¤ºéªŒè¯å¤±è´¥ï¼Œ1-30ä¸ºXNodeä¿ç•™çŠ¶æ€ç ï¼‰</returns>
     Task<byte> LoginResponseHandle(LoginResponseInfo loginResponseInfo);
 }
 ```
-¿ª·¢ÈËÔ±¿ÉÒÔÍ¨¹ıÊµÏÖÕâ2¸ö½Ó¿ÚÀ´¶¨ÖÆÉí·İÑéÖ¤Âß¼­¡£
+å¼€å‘äººå‘˜å¯ä»¥é€šè¿‡å®ç°è¿™2ä¸ªæ¥å£æ¥å®šåˆ¶èº«ä»½éªŒè¯é€»è¾‘ã€‚
 
-### Ê¹ÓÃÄ¬ÈÏÉí·İÑéÖ¤
-XNodeÄÚÖÃÁËÉí·İÑéÖ¤µÄÄ¬ÈÏÊµÏÖ£¬¸ÃÊµÏÖÌá¹©ÁË»ùÓÚÓÃ»§Ãû¡¢ÃÜÂë¡¢IP°×Ãûµ¥µÄÑéÖ¤·½Ê½¡£ÏÂÃæ½éÉÜÈçºÎÊ¹ÓÃXNodeÄ¬ÈÏµÄÉí·İÑéÖ¤£¬±¾½ÚÊ¾Àı»ùÓÚÊ¾Àı05-Enabled½øĞĞĞŞ¸Ä£¬ÏÈ½«05-EnabledÖĞËùÓĞ·şÎñÓë´úÀíµÄÉèÖÃÎªÆôÓÃ¡£
-·şÎñ¶Ë³õÊ¼ÅäÖÃÈçÏÂ£º
+### ä½¿ç”¨é»˜è®¤èº«ä»½éªŒè¯
+XNodeå†…ç½®äº†èº«ä»½éªŒè¯çš„é»˜è®¤å®ç°ï¼Œè¯¥å®ç°æä¾›äº†åŸºäºç”¨æˆ·åã€å¯†ç ã€IPç™½åå•çš„éªŒè¯æ–¹å¼ã€‚ä¸‹é¢ä»‹ç»å¦‚ä½•ä½¿ç”¨XNodeé»˜è®¤çš„èº«ä»½éªŒè¯ï¼Œæœ¬èŠ‚ç¤ºä¾‹åŸºäºç¤ºä¾‹05-Enabledè¿›è¡Œä¿®æ”¹ï¼Œå…ˆå°†05-Enabledä¸­æ‰€æœ‰æœåŠ¡ä¸ä»£ç†çš„è®¾ç½®ä¸ºå¯ç”¨ã€‚
+æœåŠ¡ç«¯åˆå§‹é…ç½®å¦‚ä¸‹ï¼š
 ``` c#
 {
   "xnode": {
@@ -1097,7 +1165,7 @@ XNodeÄÚÖÃÁËÉí·İÑéÖ¤µÄÄ¬ÈÏÊµÏÖ£¬¸ÃÊµÏÖÌá¹©ÁË»ùÓÚÓÃ»§Ãû¡¢ÃÜÂë¡¢IP°×Ãûµ¥µÄÑéÖ¤·½Ê½¡
   }
 }
 ```
-¿Í»§¶Ë³õÊ¼ÅäÖÃÈçÏÂ£º
+å®¢æˆ·ç«¯åˆå§‹é…ç½®å¦‚ä¸‹ï¼š
 ``` c#
 {
   "xnode": {
@@ -1131,7 +1199,7 @@ XNodeÄÚÖÃÁËÉí·İÑéÖ¤µÄÄ¬ÈÏÊµÏÖ£¬¸ÃÊµÏÖÌá¹©ÁË»ùÓÚÓÃ»§Ãû¡¢ÃÜÂë¡¢IP°×Ãûµ¥µÄÑéÖ¤·½Ê½¡
   }
 }
 ```
-Ê×ÏÈ£¬ÔÚ·şÎñ¶ËµÄÅäÖÃÎÄ¼şÖĞ¼ÓÈëµÇÂ¼ÑéÖ¤Ïà¹ØµÄÅäÖÃ½Ú¡ª¡ªsecurity£º
+é¦–å…ˆï¼Œåœ¨æœåŠ¡ç«¯çš„é…ç½®æ–‡ä»¶ä¸­åŠ å…¥ç™»å½•éªŒè¯ç›¸å…³çš„é…ç½®èŠ‚â€”â€”securityï¼š
 ``` c#
 {
   "xnode": {
@@ -1167,23 +1235,23 @@ XNodeÄÚÖÃÁËÉí·İÑéÖ¤µÄÄ¬ÈÏÊµÏÖ£¬¸ÃÊµÏÖÌá¹©ÁË»ùÓÚÓÃ»§Ãû¡¢ÃÜÂë¡¢IP°×Ãûµ¥µÄÑéÖ¤·½Ê½¡
   }
 }
 ```
-ÅäÖÃÖĞaccountsÎª¿ÉÒÔ·ÃÎÊµ±Ç°XNode·şÎñµÄÕËºÅĞÅÏ¢£¬ÆäÖĞaccountNameÎªÕËºÅÃû£¬accountKeyÎªÃÜÔ¿£¬ipWhiteListÎªIP°×Ãûµ¥ÁĞ±í£¬Èç¹û²»ÉèÖÃipWhiteListÔò²»½øĞĞIP°×Ãûµ¥ÑéÖ¤¡£
-È»ºó£¬´ò¿ªServerÏîÄ¿Program.cs½«Ä¬ÈÏµÇÂ¼ÑéÖ¤ÅäÖÃµ½XNode·şÎñ¶ËÖĞ£º
+é…ç½®ä¸­accountsä¸ºå¯ä»¥è®¿é—®å½“å‰XNodeæœåŠ¡çš„è´¦å·ä¿¡æ¯ï¼Œå…¶ä¸­accountNameä¸ºè´¦å·åï¼ŒaccountKeyä¸ºå¯†é’¥ï¼ŒipWhiteListä¸ºIPç™½åå•åˆ—è¡¨ï¼Œå¦‚æœä¸è®¾ç½®ipWhiteListåˆ™ä¸è¿›è¡ŒIPç™½åå•éªŒè¯ã€‚
+ç„¶åï¼Œæ‰“å¼€Serveré¡¹ç›®Program.cså°†é»˜è®¤ç™»å½•éªŒè¯é…ç½®åˆ°XNodeæœåŠ¡ç«¯ä¸­ï¼š
 ``` c#
 ......
-var loginValidator = new DefaultLoginValidator(configRoot.GetDefaultLoginValidatorConfig(), LoggerManager.ServerLoggerFactory);     //´´½¨LoginValidatorÊµÀı
+var loginValidator = new DefaultLoginValidator(configRoot.GetDefaultLoginValidatorConfig(), LoggerManager.ServerLoggerFactory);     //åˆ›å»ºLoginValidatorå®ä¾‹
 
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
-    .ConfigLoginValidator(loginValidator)       //ÅäÖÃLoginValidator
+    .ConfigLoginValidator(loginValidator)       //é…ç½®LoginValidator
     .ConfigServiceProvider(GetServiceProvider())
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
 ......
 ```
-¶ÔÓÚ¿Í»§¶ËÒ²Òª½øĞĞÏàÓ¦µÄÅäÖÃ£¬Ê×ÏÈÔÚÅäÖÃÎÄ¼şÖĞ¼ÓÈëµÇÂ¼ÑéÖ¤Ïà¹ØµÄÅäÖÃ½Ú¡ª¡ªsecurity£º
+å¯¹äºå®¢æˆ·ç«¯ä¹Ÿè¦è¿›è¡Œç›¸åº”çš„é…ç½®ï¼Œé¦–å…ˆåœ¨é…ç½®æ–‡ä»¶ä¸­åŠ å…¥ç™»å½•éªŒè¯ç›¸å…³çš„é…ç½®èŠ‚â€”â€”securityï¼š
 ``` c#
 {
   "xnode": {
@@ -1223,12 +1291,12 @@ var nodeServer = new NodeServerBuilder()
   }
 }
 ```
-È»ºó£¬´ò¿ªClientÏîÄ¿Program.cs½«Ä¬ÈÏµÇÂ¼´¦ÀíÆ÷ÅäÖÃµ½XNode¿Í»§¶ËÖĞ£º
+ç„¶åï¼Œæ‰“å¼€Clienté¡¹ç›®Program.cså°†é»˜è®¤ç™»å½•å¤„ç†å™¨é…ç½®åˆ°XNodeå®¢æˆ·ç«¯ä¸­ï¼š
 ``` c#
 ......
 if (clientConfig.ServiceProxies != null)
 {
-    //×¢²á·şÎñ´úÀí
+    //æ³¨å†ŒæœåŠ¡ä»£ç†
     foreach (var config in clientConfig.ServiceProxies)
     {
         serviceProxyManager
@@ -1237,7 +1305,7 @@ if (clientConfig.ServiceProxies != null)
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
                     .ConfigSerializer(serializer)
-                    .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))     //ÅäÖÃµÇÂ¼´¦ÀíÆ÷
+                    .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))     //é…ç½®ç™»å½•å¤„ç†å™¨
                     .UseDotNetty()
                     .Build()
             );
@@ -1245,33 +1313,33 @@ if (clientConfig.ServiceProxies != null)
 }
 ......
 ```
-±àÒë²¢ÔËĞĞºó¿Í»§¶Ë½«³É¹¦µ÷ÓÃXNode·şÎñ¡£Èç¹û½«¿Í»§¶ËµÄµÇÂ¼ÃÜÔ¿ĞŞ¸ÄÎª´íÎóµÄÃÜÔ¿»ò½«·şÎñ¶ËµÄIP°×Ãûµ¥ÁĞ±íĞŞ¸ÄÎªÆäËüIP£¬ÔËĞĞºó¿Í»§¶Ë½«»áÅ×³öLoginAuthExceptionÒì³£¡£
+ç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯å°†æˆåŠŸè°ƒç”¨XNodeæœåŠ¡ã€‚å¦‚æœå°†å®¢æˆ·ç«¯çš„ç™»å½•å¯†é’¥ä¿®æ”¹ä¸ºé”™è¯¯çš„å¯†é’¥æˆ–å°†æœåŠ¡ç«¯çš„IPç™½åå•åˆ—è¡¨ä¿®æ”¹ä¸ºå…¶å®ƒIPï¼Œè¿è¡Œåå®¢æˆ·ç«¯å°†ä¼šæŠ›å‡ºLoginAuthExceptionå¼‚å¸¸ã€‚
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/06-LoginValidate
 
-## ·şÎñÊÚÈ¨
-XNode·şÎñ¶ËÌá¹©ÁË·şÎñÊÚÈ¨»úÖÆ£¬¿ÉÒÔ¶ÔÃ¿Ò»¸öAction½øĞĞµ¥¶ÀÊÚÈ¨¡£¿ª·¢ÈËÔ±¿ÉÒÔÍ¨¹ıÊµÏÖIServiceAuthorizer½Ó¿Ú¡¢´´½¨ServiceProcessor£¨XNode·şÎñ¶ËµÄÀ©Õ¹µã£¬ºóĞøÕÂ½Ú»á½øĞĞ½éÉÜ£©À´¶¨ÖÆ·şÎñÊÚÈ¨Âß¼­»òÕûºÏµÚÈı·½ÊÚÈ¨ÏµÍ³¡£IServiceAuthorizer½Ó¿Ú¶¨ÒåÈçÏÂ£º
+## æœåŠ¡æˆæƒ
+XNodeæœåŠ¡ç«¯æä¾›äº†æœåŠ¡æˆæƒæœºåˆ¶ï¼Œå¯ä»¥å¯¹æ¯ä¸€ä¸ªActionè¿›è¡Œå•ç‹¬æˆæƒã€‚å¼€å‘äººå‘˜å¯ä»¥é€šè¿‡å®ç°IServiceAuthorizeræ¥å£ã€åˆ›å»ºServiceProcessorï¼ˆXNodeæœåŠ¡ç«¯çš„æ‰©å±•ç‚¹ï¼Œåç»­ç« èŠ‚ä¼šè¿›è¡Œä»‹ç»ï¼‰æ¥å®šåˆ¶æœåŠ¡æˆæƒé€»è¾‘æˆ–æ•´åˆç¬¬ä¸‰æ–¹æˆæƒç³»ç»Ÿã€‚IServiceAuthorizeræ¥å£å®šä¹‰å¦‚ä¸‹ï¼š
 ``` c#
 /// <summary>
-/// ·şÎñÊÚÈ¨ÑéÖ¤½Ó¿Ú
+/// æœåŠ¡æˆæƒéªŒè¯æ¥å£
 /// </summary>
 public interface IServiceAuthorizer
 {
     /// <summary>
-    /// ÊÚÈ¨ÑéÖ¤
+    /// æˆæƒéªŒè¯
     /// </summary>
-    /// <param name="context">·şÎñÉÏÏÂÎÄ</param>
-    /// <param name="serviceId">·şÎñId</param>
+    /// <param name="context">æœåŠ¡ä¸Šä¸‹æ–‡</param>
+    /// <param name="serviceId">æœåŠ¡Id</param>
     /// <param name="actionId">ActionId</param>
-    /// <param name="attachments">¸½¼ÓÊı¾İ</param>
+    /// <param name="attachments">é™„åŠ æ•°æ®</param>
     Task Validate(ServiceContext context, int serviceId, int actionId, IDictionary<string, byte[]> attachments);
 }
 ```
-### Ê¹ÓÃÄ¬ÈÏ·şÎñÊÚÈ¨
-ÓëÇ°ÃæËù½éÉÜµÄÉí·İÑéÖ¤Ò»Ñù£¬XNodeÒ²ÄÚÖÃÁËÊÚÈ¨µÄÄ¬ÈÏÊµÏÖ£¬Ìá¹©ÁË¼òµ¥µÄ·şÎñÊÚÈ¨¹¦ÄÜ¡£ÏÂÃæ½éÉÜÄ¬ÈÏ·şÎñÊÚÈ¨µÄÊ¹ÓÃ·½·¨£¬±¾Ê¾Àı»ùÓÚ06-LoginValidate½øĞĞĞŞ¸Ä¡£
+### ä½¿ç”¨é»˜è®¤æœåŠ¡æˆæƒ
+ä¸å‰é¢æ‰€ä»‹ç»çš„èº«ä»½éªŒè¯ä¸€æ ·ï¼ŒXNodeä¹Ÿå†…ç½®äº†æˆæƒçš„é»˜è®¤å®ç°ï¼Œæä¾›äº†ç®€å•çš„æœåŠ¡æˆæƒåŠŸèƒ½ã€‚ä¸‹é¢ä»‹ç»é»˜è®¤æœåŠ¡æˆæƒçš„ä½¿ç”¨æ–¹æ³•ï¼Œæœ¬ç¤ºä¾‹åŸºäº06-LoginValidateè¿›è¡Œä¿®æ”¹ã€‚
 
-Ê×ÏÈ£¬´ò¿ªServerÏîÄ¿µÄÅäÖÃÎÄ¼ş£¬ÔÚactionsÅäÖÃ½ÚÏÂÔö¼ÓauthorizesÅäÖÃ½Ú£º
+é¦–å…ˆï¼Œæ‰“å¼€Serveré¡¹ç›®çš„é…ç½®æ–‡ä»¶ï¼Œåœ¨actionsé…ç½®èŠ‚ä¸‹å¢åŠ authorizesé…ç½®èŠ‚ï¼š
 ``` c#
 {
   "xnode": {
@@ -1314,54 +1382,54 @@ public interface IServiceAuthorizer
   }
 }
 ```
-authorizesÅäÖÃ½ÚÊÇÒ»¸öÊı×é£¬ÔÚÊ¾ÀıÖĞ±íÊ¾ActionIdÎª1µÄ·şÎñÔö¼ÓÊÚÈ¨¸øÕËºÅTest01£¬²¢ÏŞÖÆ¿É·ÃÎÊÈÕÆÚÎª2018Äê1ÔÂ1ÈÕÖÁ2030Äê12ÔÂ31ÈÕ£¬ÒÔ¼°ÏŞÖÆÃ¿Ìì·ÃÎÊÊ±¼ä¶ÎÎª9µã30·ÖÖÁ19µã¡£ÈÕÆÚÏŞÖÆºÍÊ±¼äÏŞÖÆÒ²¿ÉÒÔÖ»ÅäÖÃÆğÊ¼»ò½áÊø£¬±ÈÈç"2018-01-01~"±íÊ¾2018Äê1ÔÂ1ÈÕ¿ªÊ¼ÖÁÎŞÏŞ»ò"~2030-12-31"±íÊ¾µ½2020Äê12ÔÂ31ÈÕÎªÖ¹¡£
+authorizesé…ç½®èŠ‚æ˜¯ä¸€ä¸ªæ•°ç»„ï¼Œåœ¨ç¤ºä¾‹ä¸­è¡¨ç¤ºActionIdä¸º1çš„æœåŠ¡å¢åŠ æˆæƒç»™è´¦å·Test01ï¼Œå¹¶é™åˆ¶å¯è®¿é—®æ—¥æœŸä¸º2018å¹´1æœˆ1æ—¥è‡³2030å¹´12æœˆ31æ—¥ï¼Œä»¥åŠé™åˆ¶æ¯å¤©è®¿é—®æ—¶é—´æ®µä¸º9ç‚¹30åˆ†è‡³19ç‚¹ã€‚æ—¥æœŸé™åˆ¶å’Œæ—¶é—´é™åˆ¶ä¹Ÿå¯ä»¥åªé…ç½®èµ·å§‹æˆ–ç»“æŸï¼Œæ¯”å¦‚"2018-01-01~"è¡¨ç¤º2018å¹´1æœˆ1æ—¥å¼€å§‹è‡³æ— é™æˆ–"~2030-12-31"è¡¨ç¤ºåˆ°2020å¹´12æœˆ31æ—¥ä¸ºæ­¢ã€‚
 
-È»ºó£¬´ò¿ªServerÏîÄ¿µÄProgram.csÔö¼Ó·şÎñÊÚÈ¨µÄÏà¹ØÅäÖÃ£º
+ç„¶åï¼Œæ‰“å¼€Serveré¡¹ç›®çš„Program.cså¢åŠ æœåŠ¡æˆæƒçš„ç›¸å…³é…ç½®ï¼š
 ``` c#
 ......
 var loginValidator = new DefaultLoginValidator(configRoot.GetDefaultLoginValidatorConfig(), LoggerManager.ServerLoggerFactory);
-var serviceAuthorizer = new DefaultServiceAuthorizer(configRoot.GetDefaultServiceAuthorizeConfig(), LoggerManager.ServerLoggerFactory);     //´´½¨Ä¬ÈÏ·şÎñÊÚÈ¨ÊµÀı
+var serviceAuthorizer = new DefaultServiceAuthorizer(configRoot.GetDefaultServiceAuthorizeConfig(), LoggerManager.ServerLoggerFactory);     //åˆ›å»ºé»˜è®¤æœåŠ¡æˆæƒå®ä¾‹
 
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
     .ConfigLoginValidator(loginValidator)
-    .AddServiceProcessor(new ServiceAuthorizeProcessor(serviceAuthorizer))      //ÅäÖÃÄ¬ÈÏ·şÎñÊÚÈ¨
+    .AddServiceProcessor(new ServiceAuthorizeProcessor(serviceAuthorizer))      //é…ç½®é»˜è®¤æœåŠ¡æˆæƒ
     .ConfigServiceProvider(GetServiceProvider())
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
 ......
 ```
-±àÒë²¢ÔËĞĞ£¬¿Í»§¶Ë½«Õı³£µ÷ÓÃXNode·şÎñ¡£Èç¹û½«ÊÚÈ¨ÅäÖÃĞŞ¸ÄÒ»ÏÂ£¬±ÈÈç°ÑÕËºÅ¸ÄÎªTest02£¬±àÒë²¢ÔËĞĞºó¿Í»§¶Ë½«ÊÕµ½ÒÔÏÂÒì³£ĞÅÏ¢£º
+ç¼–è¯‘å¹¶è¿è¡Œï¼Œå®¢æˆ·ç«¯å°†æ­£å¸¸è°ƒç”¨XNodeæœåŠ¡ã€‚å¦‚æœå°†æˆæƒé…ç½®ä¿®æ”¹ä¸€ä¸‹ï¼Œæ¯”å¦‚æŠŠè´¦å·æ”¹ä¸ºTest02ï¼Œç¼–è¯‘å¹¶è¿è¡Œåå®¢æˆ·ç«¯å°†æ”¶åˆ°ä»¥ä¸‹å¼‚å¸¸ä¿¡æ¯ï¼š
 ``` c#
 Service call exception: ExceptionId=-10005, ExceptionMessage=Service no authorize.
 fail: XNode.Client.NodeClient[0]
       Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10005, ExceptionMessage=Service no authorize.
 ```
-Í¬Ñù£¬½«ÈÕÆÚÓëÊ±¼äÏŞÖÆĞŞ¸ÄÎª²»·ûºÏµ÷ÓÃÌõ¼şµÄÖµÒ²»áÊÕµ½ÏàÓ¦µÄÒì³£ĞÅÏ¢¡£
+åŒæ ·ï¼Œå°†æ—¥æœŸä¸æ—¶é—´é™åˆ¶ä¿®æ”¹ä¸ºä¸ç¬¦åˆè°ƒç”¨æ¡ä»¶çš„å€¼ä¹Ÿä¼šæ”¶åˆ°ç›¸åº”çš„å¼‚å¸¸ä¿¡æ¯ã€‚
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/07-ServiceAuthorize
 
-## ·şÎñ×·×Ù
-·şÎñ×·×Ù¶ÔÓÚ·Ö²¼Ê½·şÎñ¿ò¼ÜÀ´ËµÊÇ·Ç³£ÖØÒªµÄ×é³É²¿·Ö£¬Í¨¹ı·şÎñ×·×Ù¿ÉÒÔÖªµÀÒ»´Î·şÎñµ÷ÓÃ¾­¹ıÄÄĞ©½Úµã¡¢ÏûºÄÁË¶àÉÙÊ±¼ä¡¢ÔÚÄÄ¸ö½Úµã³öÏÖÁËÒì³£µÈµÈ¡£XNodeÄ¿Ç°Ìá¹©ÁË¶Ô¿ªÔ´µÄ·Ö²¼Ê½×·×ÙÏµÍ³ZipkinµÄÖ§³Ö£¬ÓĞ¹ØZipkinÏà¹ØµÄ×ÊÁÏ¿ÉÒÔ²é¿´¹ÙÍø£ºhttps://zipkin.io/¡£ÁíÍâ£¬XNodeÊ¹ÓÃÁË¿ªÔ´×é¼şZipkin.net×÷Îª¿Í»§¶Ë·ÃÎÊZipkin½Ó¿Ú£ºhttps://github.com/d-collab/zipkin.net¡£
+## æœåŠ¡è¿½è¸ª
+æœåŠ¡è¿½è¸ªå¯¹äºåˆ†å¸ƒå¼æœåŠ¡æ¡†æ¶æ¥è¯´æ˜¯éå¸¸é‡è¦çš„ç»„æˆéƒ¨åˆ†ï¼Œé€šè¿‡æœåŠ¡è¿½è¸ªå¯ä»¥çŸ¥é“ä¸€æ¬¡æœåŠ¡è°ƒç”¨ç»è¿‡å“ªäº›èŠ‚ç‚¹ã€æ¶ˆè€—äº†å¤šå°‘æ—¶é—´ã€åœ¨å“ªä¸ªèŠ‚ç‚¹å‡ºç°äº†å¼‚å¸¸ç­‰ç­‰ã€‚XNodeç›®å‰æä¾›äº†å¯¹å¼€æºçš„åˆ†å¸ƒå¼è¿½è¸ªç³»ç»ŸZipkinçš„æ”¯æŒï¼Œæœ‰å…³Zipkinç›¸å…³çš„èµ„æ–™å¯ä»¥æŸ¥çœ‹å®˜ç½‘ï¼šhttps://zipkin.io/ã€‚å¦å¤–ï¼ŒXNodeä½¿ç”¨äº†å¼€æºç»„ä»¶Zipkin.netä½œä¸ºå®¢æˆ·ç«¯è®¿é—®Zipkinæ¥å£ï¼šhttps://github.com/d-collab/zipkin.netã€‚
 
-### Ê¾Àı½á¹¹
-ÎªÁËÄÜ¸üºÃµÄÌåÏÖ·şÎñµÄµ÷ÓÃÁ÷³Ì£¬±¾Ê¾Àı´´½¨ÁË2¸öXNode·şÎñ¶Ë£¬·Ö±ğÌá¹©Customer·şÎñºÍOrder·şÎñ¡£·şÎñµ÷ÓÃÁ÷³ÌÎª£ºClient->Server->Server2¡£Ê¾Àı½â¾ö·½°¸ÓÉ5¸öÏîÄ¿×é³É£º
+### ç¤ºä¾‹ç»“æ„
+ä¸ºäº†èƒ½æ›´å¥½çš„ä½“ç°æœåŠ¡çš„è°ƒç”¨æµç¨‹ï¼Œæœ¬ç¤ºä¾‹åˆ›å»ºäº†2ä¸ªXNodeæœåŠ¡ç«¯ï¼Œåˆ†åˆ«æä¾›CustomeræœåŠ¡å’ŒOrderæœåŠ¡ã€‚æœåŠ¡è°ƒç”¨æµç¨‹ä¸ºï¼šClient->Server->Server2ã€‚ç¤ºä¾‹è§£å†³æ–¹æ¡ˆç”±5ä¸ªé¡¹ç›®ç»„æˆï¼š
 <table>
-<tr><td>ÏîÄ¿Ãû³Æ</td><td>ÏîÄ¿ÀàĞÍ</td><td>ËµÃ÷</td></tr>
-<tr><td>Client</td><td>.Net Core¿ØÖÆÌ¨</td><td>¿Í»§¶Ë£¬½«µ÷ÓÃCustomer·şÎñ£¬ÒÀÀµContract¡¢Service</td></tr>
-<tr><td>Server</td><td>.Net Core¿ØÖÆÌ¨</td><td>·şÎñ¶Ë£¬Ìá¹©Customer·şÎñ£¬ÄÚ²¿»áµ÷ÓÃOrder·şÎñ»ñÈ¡OrderĞÅÏ¢£¬ÒÀÀµContract¡¢Service</td></tr>
-<tr><td>Server2</td><td>.Net Core¿ØÖÆÌ¨</td><td>·şÎñ¶Ë£¬Ìá¹©Order·şÎñ£¬ÒÀÀµContract¡¢Service</td></tr>
-<tr><td>Contract</td><td>.Net CoreÀà¿â</td><td>Ìá¹©XNode·şÎñÆõÔ¼£¨½Ó¿Ú£©</td></tr>
-<tr><td>Service</td><td>.Net CoreÀà¿â</td><td>Ìá¹©·şÎñÊµÏÖ</td></tr>
+<tr><td>é¡¹ç›®åç§°</td><td>é¡¹ç›®ç±»å‹</td><td>è¯´æ˜</td></tr>
+<tr><td>Client</td><td>.Net Coreæ§åˆ¶å°</td><td>å®¢æˆ·ç«¯ï¼Œå°†è°ƒç”¨CustomeræœåŠ¡ï¼Œä¾èµ–Contractã€Service</td></tr>
+<tr><td>Server</td><td>.Net Coreæ§åˆ¶å°</td><td>æœåŠ¡ç«¯ï¼Œæä¾›CustomeræœåŠ¡ï¼Œå†…éƒ¨ä¼šè°ƒç”¨OrderæœåŠ¡è·å–Orderä¿¡æ¯ï¼Œä¾èµ–Contractã€Service</td></tr>
+<tr><td>Server2</td><td>.Net Coreæ§åˆ¶å°</td><td>æœåŠ¡ç«¯ï¼Œæä¾›OrderæœåŠ¡ï¼Œä¾èµ–Contractã€Service</td></tr>
+<tr><td>Contract</td><td>.Net Coreç±»åº“</td><td>æä¾›XNodeæœåŠ¡å¥‘çº¦ï¼ˆæ¥å£ï¼‰</td></tr>
+<tr><td>Service</td><td>.Net Coreç±»åº“</td><td>æä¾›æœåŠ¡å®ç°</td></tr>
 </table>
 
-### ContractÊµÏÖ
-ÔÚ½â¾ö·½°¸ÖĞ´´½¨ÃûÎªContractµÄ.Net CoreÀà¿âÏîÄ¿£¬ÒÀÀµÏî£º
+### Contractå®ç°
+åœ¨è§£å†³æ–¹æ¡ˆä¸­åˆ›å»ºåä¸ºContractçš„.Net Coreç±»åº“é¡¹ç›®ï¼Œä¾èµ–é¡¹ï¼š
 XNode
-ÏîÄ¿ÖĞ´´½¨CustomerºÍOrderµÄÊµÌåÀà£º
+é¡¹ç›®ä¸­åˆ›å»ºCustomerå’ŒOrderçš„å®ä½“ç±»ï¼š
 ``` c#
 //Customer.cs
 [DataContract]
@@ -1411,7 +1479,7 @@ public class OrderDetail
     public int Amount { get; set; }
 }
 ```
-ÏîÄ¿ÖĞ´´½¨ICustomerServiceºÍIOrderService½Ó¿Ú£º
+é¡¹ç›®ä¸­åˆ›å»ºICustomerServiceå’ŒIOrderServiceæ¥å£ï¼š
 ``` c#
 //ICustomerService.cs
 [Service("CustomerService", 10001, true)]
@@ -1435,10 +1503,10 @@ public interface IOrderService
 }
 ```
 
-### ServiceÊµÏÖ
-ÔÚ½â¾ö·½°¸ÖĞ´´½¨ÃûÎªServiceµÄ.Net CoreÀà¿âÏîÄ¿£¬ÒÀÀµÏî£º
+### Serviceå®ç°
+åœ¨è§£å†³æ–¹æ¡ˆä¸­åˆ›å»ºåä¸ºServiceçš„.Net Coreç±»åº“é¡¹ç›®ï¼Œä¾èµ–é¡¹ï¼š
 Contract
-ÏîÄ¿ÖĞ´´½¨·şÎñÊµÏÖCustomerServiceºÍOrderService£º
+é¡¹ç›®ä¸­åˆ›å»ºæœåŠ¡å®ç°CustomerServiceå’ŒOrderServiceï¼š
 ``` c#
 //CustomerService.cs
 public class CustomerService : ICustomerService
@@ -1568,8 +1636,8 @@ public Task<List<Order>> GetOrders(int customerId)
 }
 ```
 
-### OrderServerÊµÏÖ
-ÔÚ½â¾ö·½°¸ÖĞ´´½¨ÃûÎªServer2µÄ.Net Core¿ØÖÆÌ¨ÏîÄ¿£¬ÒÀÀµÏî£º
+### OrderServerå®ç°
+åœ¨è§£å†³æ–¹æ¡ˆä¸­åˆ›å»ºåä¸ºServer2çš„.Net Coreæ§åˆ¶å°é¡¹ç›®ï¼Œä¾èµ–é¡¹ï¼š
 Contract
 Service
 Microsoft.Extensions.Configuration.Binder
@@ -1579,7 +1647,7 @@ XNode
 XNode.Serializer.ProtoBuf
 XNode.Communication.DotNetty
 XNode.Zipkin
-´´½¨ÅäÖÃÎÄ¼şconfig.json£º
+åˆ›å»ºé…ç½®æ–‡ä»¶config.jsonï¼š
 ``` c#
 {
   "xnode": {
@@ -1592,9 +1660,9 @@ XNode.Zipkin
   }
 }
 ```
-´ÓÅäÖÃÎÄ¼ş¿ÉÒÔ¿´³ö£¬Order·şÎñÊ¹ÓÃÁË9002¶Ë¿Ú¡£
-´ò¿ªProgram.cs£¬
-1.½øĞĞÒ»Ğ©³õÊ¼»¯¹¤×÷ºÍÅäÖÃÎÄ¼şµÄ¼ÓÔØ£º
+ä»é…ç½®æ–‡ä»¶å¯ä»¥çœ‹å‡ºï¼ŒOrderæœåŠ¡ä½¿ç”¨äº†9002ç«¯å£ã€‚
+æ‰“å¼€Program.csï¼Œ
+1.è¿›è¡Œä¸€äº›åˆå§‹åŒ–å·¥ä½œå’Œé…ç½®æ–‡ä»¶çš„åŠ è½½ï¼š
 ``` c#
 Console.WriteLine("Please input enter to start order server.");
 Console.ReadLine();
@@ -1602,10 +1670,10 @@ Console.ReadLine();
 Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
 
-//ÅäÖÃ·şÎñ¶ËÈÕÖ¾¹¤³§£¬ÎªÁËÄÜ¿´µ½·şÎñµ÷ÓÃÏ¸½Ú£¬´Ë´¦½«ÈÕÖ¾¼¶±ğÉèÖÃÎªInformation
+//é…ç½®æœåŠ¡ç«¯æ—¥å¿—å·¥å‚ï¼Œä¸ºäº†èƒ½çœ‹åˆ°æœåŠ¡è°ƒç”¨ç»†èŠ‚ï¼Œæ­¤å¤„å°†æ—¥å¿—çº§åˆ«è®¾ç½®ä¸ºInformation
 LoggerManager.ServerLoggerFactory.AddConsole(LogLevel.Information);
 
-//¼ÓÔØÅäÖÃÎÄ¼ş
+//åŠ è½½é…ç½®æ–‡ä»¶
 string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
 var configRoot = new ConfigurationBuilder()
     .AddJsonFile(path)
@@ -1613,13 +1681,13 @@ var configRoot = new ConfigurationBuilder()
     
 var serverConfig = configRoot.GetServerConfig();
 ```
-2.¶ÔXNode·şÎñ½øĞĞÅäÖÃºÍ×¢²á£º
+2.å¯¹XNodeæœåŠ¡è¿›è¡Œé…ç½®å’Œæ³¨å†Œï¼š
 ``` c#
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(configRoot.GetServerConfig())
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
-    .AddServiceProcessor(new ZipkinProcessor())     //Ìí¼ÓZipkinProcessor
+    .AddServiceProcessor(new ZipkinProcessor())     //æ·»åŠ ZipkinProcessor
     .ConfigServiceProvider(GetServiceProvider())
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
@@ -1627,33 +1695,33 @@ var nodeServer = new NodeServerBuilder()
 ``` c#
 private static XNode.Server.IServiceProvider GetServiceProvider()
 {
-    //×¢²á·şÎñ
+    //æ³¨å†ŒæœåŠ¡
     return new DefaultServiceProvider()
         .RegistService(typeof(IOrderService), typeof(OrderService));
 }
 ```
-ÕâÀïµ÷ÓÃÁË.AddServiceProcessor(new ZipkinProcessor())·½·¨£¬±íÊ¾ÔÚXNode·şÎñÖĞÔö¼ÓZipkinÀ©Õ¹¡£
-3.¶ÔZipkin½øĞĞÅäÖÃ£º
+è¿™é‡Œè°ƒç”¨äº†.AddServiceProcessor(new ZipkinProcessor())æ–¹æ³•ï¼Œè¡¨ç¤ºåœ¨XNodeæœåŠ¡ä¸­å¢åŠ Zipkinæ‰©å±•ã€‚
+3.å¯¹Zipkinè¿›è¡Œé…ç½®ï¼š
 ``` c#
-//ZipkinÅäÖÃ
+//Zipkiné…ç½®
 new ZipkinBootstrapper("OrderServer")
     .ZipkinAt("192.168.108.131")
     .WithSampleRate(1.0)
     .Start();
 ```
-4.XNode·şÎñÆô¶¯Óë¹Ø±Õ
+4.XNodeæœåŠ¡å¯åŠ¨ä¸å…³é—­
 ``` c#
-//Æô¶¯·şÎñ
+//å¯åŠ¨æœåŠ¡
 nodeServer.StartAsync().Wait();
 
 Console.ReadLine();
 
-//¹Ø±Õ·şÎñ
+//å…³é—­æœåŠ¡
 nodeServer.StopAsync();
 ```
 
-### CustomerServerÊµÏÖ
-ÔÚ½â¾ö·½°¸ÖĞ´´½¨ÃûÎªServerµÄ.Net Core¿ØÖÆÌ¨ÏîÄ¿£¬ÒÀÀµÏî£º
+### CustomerServerå®ç°
+åœ¨è§£å†³æ–¹æ¡ˆä¸­åˆ›å»ºåä¸ºServerçš„.Net Coreæ§åˆ¶å°é¡¹ç›®ï¼Œä¾èµ–é¡¹ï¼š
 Contract
 Service
 Microsoft.Extensions.Configuration.Binder
@@ -1664,7 +1732,7 @@ XNode.Autofac
 XNode.Serializer.ProtoBuf
 XNode.Communication.DotNetty
 XNode.Zipkin
-´´½¨ÅäÖÃÎÄ¼şconfig.json£º
+åˆ›å»ºé…ç½®æ–‡ä»¶config.jsonï¼š
 ``` c#
 {
   "xnode": {
@@ -1698,9 +1766,9 @@ XNode.Zipkin
   }
 }
 ```
-¶ÔÓÚCustomerServer£¬ÔÚÆäÄÚ²¿»áµ÷ÓÃOrderServerÌá¹©µÄ·şÎñ£¬ËùÒÔËü¼ÈÊÇXNode·şÎñ¶ËÒ²ÊÇXNode¿Í»§¶Ë¡£Òò´Ë£¬ÔÚÅäÖÃÎÄ¼şÖĞ·Ö±ğÓĞserverºÍclientµÄÅäÖÃ½Ú¡£Customer·şÎñÊ¹ÓÃÁË9001¶Ë¿Ú¡£
-´ò¿ªProgram.cs£¬
-1.½øĞĞÒ»Ğ©³õÊ¼»¯¹¤×÷ºÍÅäÖÃÎÄ¼şµÄ¼ÓÔØ£º
+å¯¹äºCustomerServerï¼Œåœ¨å…¶å†…éƒ¨ä¼šè°ƒç”¨OrderServeræä¾›çš„æœåŠ¡ï¼Œæ‰€ä»¥å®ƒæ—¢æ˜¯XNodeæœåŠ¡ç«¯ä¹Ÿæ˜¯XNodeå®¢æˆ·ç«¯ã€‚å› æ­¤ï¼Œåœ¨é…ç½®æ–‡ä»¶ä¸­åˆ†åˆ«æœ‰serverå’Œclientçš„é…ç½®èŠ‚ã€‚CustomeræœåŠ¡ä½¿ç”¨äº†9001ç«¯å£ã€‚
+æ‰“å¼€Program.csï¼Œ
+1.è¿›è¡Œä¸€äº›åˆå§‹åŒ–å·¥ä½œå’Œé…ç½®æ–‡ä»¶çš„åŠ è½½ï¼š
 ``` c#
 Console.WriteLine("Please input enter to start customer server.");
 Console.ReadLine();
@@ -1708,19 +1776,19 @@ Console.ReadLine();
 Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
 
-//ÅäÖÃ·şÎñ¶ËÈÕÖ¾¹¤³§£¬ÎªÁËÄÜ¿´µ½·şÎñµ÷ÓÃÏ¸½Ú£¬´Ë´¦½«ÈÕÖ¾¼¶±ğÉèÖÃÎªInformation
+//é…ç½®æœåŠ¡ç«¯æ—¥å¿—å·¥å‚ï¼Œä¸ºäº†èƒ½çœ‹åˆ°æœåŠ¡è°ƒç”¨ç»†èŠ‚ï¼Œæ­¤å¤„å°†æ—¥å¿—çº§åˆ«è®¾ç½®ä¸ºInformation
 LoggerManager.ServerLoggerFactory.AddConsole(LogLevel.Information);
 
-//ÅäÖÃ¿Í»§¶ËÈÕÖ¾¹¤³§£¬ÎªÁËÄÜ¿´µ½·şÎñµ÷ÓÃÏ¸½Ú£¬´Ë´¦½«ÈÕÖ¾¼¶±ğÉèÖÃÎªInformation
+//é…ç½®å®¢æˆ·ç«¯æ—¥å¿—å·¥å‚ï¼Œä¸ºäº†èƒ½çœ‹åˆ°æœåŠ¡è°ƒç”¨ç»†èŠ‚ï¼Œæ­¤å¤„å°†æ—¥å¿—çº§åˆ«è®¾ç½®ä¸ºInformation
 LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Information);
 
-//¼ÓÔØÅäÖÃÎÄ¼ş
+//åŠ è½½é…ç½®æ–‡ä»¶
 string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
 var configRoot = new ConfigurationBuilder()
     .AddJsonFile(path)
     .Build();
 ```
-2.´´½¨ServiceProxyManagerÊµÀı£¬×¢²áAutofacÈİÆ÷ÒÔ±ãÊ¹ÓÃ·şÎñ´úÀí£º
+2.åˆ›å»ºServiceProxyManagerå®ä¾‹ï¼Œæ³¨å†ŒAutofacå®¹å™¨ä»¥ä¾¿ä½¿ç”¨æœåŠ¡ä»£ç†ï¼š
 ``` c#
 var serviceProxyManager = new ServiceProxyManager();
 var container = GetAutofacContainer(serviceProxyManager);
@@ -1743,15 +1811,15 @@ private static IContainer GetAutofacContainer(IServiceProxyManager serviceProxyM
     return container;
 }
 ```
-ÕâÀïÖ»¶ÔOrderServiceÅäÖÃÁËÀ¹½Ø£¬ÒòÎªÖ»ÓĞOrderServiceÊÇÔ¶³Ì·şÎñ£¬¶øCustomerServiceÎª±¾µØÌá¹©ÊµÏÖ¡£
-3.XNode¿Í»§¶ËÅäÖÃ£º
+è¿™é‡Œåªå¯¹OrderServiceé…ç½®äº†æ‹¦æˆªï¼Œå› ä¸ºåªæœ‰OrderServiceæ˜¯è¿œç¨‹æœåŠ¡ï¼Œè€ŒCustomerServiceä¸ºæœ¬åœ°æä¾›å®ç°ã€‚
+3.XNodeå®¢æˆ·ç«¯é…ç½®ï¼š
 ``` c#
 var clientConfig = configRoot.GetClientConfig();
 
 var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);
 
 var serviceCaller = new ServiceCallerBuilder()
-    .Append(new ZipkinCaller(serializer))       //Ìí¼ÓZipkinCaller
+    .Append(new ZipkinCaller(serializer))       //æ·»åŠ ZipkinCaller
     .UseDefault()
     .Build();
 
@@ -1771,34 +1839,34 @@ if (clientConfig.ServiceProxies != null)
     }
 }
 ```
-ÕâÀïserviceProxyManager.Regist·½·¨´«ÈëÁËserviceCaller²ÎÊı£¬ServiceCallerÊÇXNode·şÎñ´úÀíµÄ¹¦ÄÜÀ©Õ¹µã£¬XNode·şÎñ´úÀí¶ÔZipkinµÄÖ§³Ö¾ÍÊÇÍ¨¹ıServiceCallerÊµÏÖµÄ¡£Í¨¹ıµ÷ÓÃServiceCallerBuilder.Append(new ZipkinCaller(new ProtoBufSerializer()))·½·¨Ôö¼ÓÁËZipkinÀ©Õ¹¡£ServiceCallerBuilder.UseDefault·½·¨±íÊ¾Ê¹ÓÃÄ¬ÈÏµÄÔ¶³Ì·şÎñµ÷ÓÃÊµÏÖ£¬Èç¹ûRegistÖĞÏÔÊ¾´«ÈëServiceCaller¾Í±ØĞëµ÷ÓÃUseDefault·½·¨»òÌí¼ÓÊµÏÖÁËÔ¶³Ì·şÎñµ÷ÓÃµÄServiceCaller£¬·ñÔòÔ¶³Ì·şÎñ½«²»»á±»µ÷ÓÃ¡£
-4.XNode·şÎñ¶ËÅäÖÃ£º
+è¿™é‡ŒserviceProxyManager.Registæ–¹æ³•ä¼ å…¥äº†serviceCallerå‚æ•°ï¼ŒServiceCalleræ˜¯XNodeæœåŠ¡ä»£ç†çš„åŠŸèƒ½æ‰©å±•ç‚¹ï¼ŒXNodeæœåŠ¡ä»£ç†å¯¹Zipkinçš„æ”¯æŒå°±æ˜¯é€šè¿‡ServiceCallerå®ç°çš„ã€‚é€šè¿‡è°ƒç”¨ServiceCallerBuilder.Append(new ZipkinCaller(new ProtoBufSerializer()))æ–¹æ³•å¢åŠ äº†Zipkinæ‰©å±•ã€‚ServiceCallerBuilder.UseDefaultæ–¹æ³•è¡¨ç¤ºä½¿ç”¨é»˜è®¤çš„è¿œç¨‹æœåŠ¡è°ƒç”¨å®ç°ï¼Œå¦‚æœRegistä¸­æ˜¾ç¤ºä¼ å…¥ServiceCallerå°±å¿…é¡»è°ƒç”¨UseDefaultæ–¹æ³•æˆ–æ·»åŠ å®ç°äº†è¿œç¨‹æœåŠ¡è°ƒç”¨çš„ServiceCallerï¼Œå¦åˆ™è¿œç¨‹æœåŠ¡å°†ä¸ä¼šè¢«è°ƒç”¨ã€‚
+4.XNodeæœåŠ¡ç«¯é…ç½®ï¼š
 ``` c#
 var serverConfig = configRoot.GetServerConfig();
 
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
-    .AddServiceProcessor(new ZipkinProcessor())     //Ìí¼ÓZipkinProcessor
+    .AddServiceProcessor(new ZipkinProcessor())     //æ·»åŠ ZipkinProcessor
     .UseAutofac(container)
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
 ```
-ÕâÀïµ÷ÓÃÁË.AddServiceProcessor(new ZipkinProcessor())·½·¨£¬±íÊ¾ÔÚXNode·şÎñÖĞÔö¼ÓZipkinÀ©Õ¹¡£
-5.¶ÔZipkin½øĞĞÅäÖÃ£º
+è¿™é‡Œè°ƒç”¨äº†.AddServiceProcessor(new ZipkinProcessor())æ–¹æ³•ï¼Œè¡¨ç¤ºåœ¨XNodeæœåŠ¡ä¸­å¢åŠ Zipkinæ‰©å±•ã€‚
+5.å¯¹Zipkinè¿›è¡Œé…ç½®ï¼š
 ``` c#
-//ZipkinÅäÖÃ
+//Zipkiné…ç½®
 new ZipkinBootstrapper("CustomerServer")
     .ZipkinAt("192.168.108.131")
     .WithSampleRate(1.0)
     .Start();
 ```
-6.Á¬½ÓÔ¶³ÌXNode·şÎñ£º
+6.è¿æ¥è¿œç¨‹XNodeæœåŠ¡ï¼š
 ``` c#
 try
 {
-    //Á¬½Ó·şÎñ
+    //è¿æ¥æœåŠ¡
     serviceProxyManager.ConnectAsync().Wait();
 }
 catch (AggregateException ex)
@@ -1816,22 +1884,22 @@ catch (AggregateException ex)
     }
 }
 ```
-7.XNode·şÎñÆô¶¯Óë¹Ø±Õ£º
+7.XNodeæœåŠ¡å¯åŠ¨ä¸å…³é—­ï¼š
 ``` c#
-//Æô¶¯·şÎñ
+//å¯åŠ¨æœåŠ¡
 nodeServer.StartAsync().Wait();
 
 Console.ReadLine();
 
-//¹Ø±Õ·şÎñÁ¬½Ó
+//å…³é—­æœåŠ¡è¿æ¥
 serviceProxyManager.CloseAsync();
 
-//¹Ø±Õ·şÎñ
+//å…³é—­æœåŠ¡
 nodeServer.StopAsync();
 ```
 
-### ClientÊµÏÖ
-ÔÚ½â¾ö·½°¸ÖĞ´´½¨ÃûÎªClientµÄ.Net Core¿ØÖÆÌ¨ÏîÄ¿£¬ÒÀÀµÏî£º
+### Clientå®ç°
+åœ¨è§£å†³æ–¹æ¡ˆä¸­åˆ›å»ºåä¸ºClientçš„.Net Coreæ§åˆ¶å°é¡¹ç›®ï¼Œä¾èµ–é¡¹ï¼š
 Contract
 Service
 Microsoft.Extensions.Configuration.Binder
@@ -1842,7 +1910,7 @@ XNode.Autofac
 XNode.Serializer.ProtoBuf
 XNode.Communication.DotNetty
 XNode.Zipkin
-´´½¨ÅäÖÃÎÄ¼şconfig.json£º
+åˆ›å»ºé…ç½®æ–‡ä»¶config.jsonï¼š
 ``` c#
 {
   "xnode": {
@@ -1870,9 +1938,9 @@ XNode.Zipkin
   }
 }
 ```
-¶ÔÓÚClientÀ´Ëµ£¬ËüÖ»ĞèÒªÖªµÀCustomerServiceµÄ´æÔÚ¡£
-´ò¿ªProgram.cs£¬
-1.½øĞĞÒ»Ğ©³õÊ¼»¯¹¤×÷ºÍÅäÖÃÎÄ¼şµÄ¼ÓÔØ£º
+å¯¹äºClientæ¥è¯´ï¼Œå®ƒåªéœ€è¦çŸ¥é“CustomerServiceçš„å­˜åœ¨ã€‚
+æ‰“å¼€Program.csï¼Œ
+1.è¿›è¡Œä¸€äº›åˆå§‹åŒ–å·¥ä½œå’Œé…ç½®æ–‡ä»¶çš„åŠ è½½ï¼š
 ``` c#
 Console.WriteLine("Please input enter to begin.");
 Console.ReadLine();
@@ -1880,16 +1948,16 @@ Console.ReadLine();
 Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
 
-//ÅäÖÃ¿Í»§¶ËÈÕÖ¾¹¤³§
+//é…ç½®å®¢æˆ·ç«¯æ—¥å¿—å·¥å‚
 LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Error);
 
-//¼ÓÔØÅäÖÃÎÄ¼ş
+//åŠ è½½é…ç½®æ–‡ä»¶
 string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
 var configRoot = new ConfigurationBuilder()
     .AddJsonFile(path)
     .Build();
 ```
-2.´´½¨ServiceProxyManagerÊµÀı£¬×¢²áAutofacÈİÆ÷ÒÔ±ãÊ¹ÓÃ·şÎñ´úÀí£º
+2.åˆ›å»ºServiceProxyManagerå®ä¾‹ï¼Œæ³¨å†ŒAutofacå®¹å™¨ä»¥ä¾¿ä½¿ç”¨æœåŠ¡ä»£ç†ï¼š
 ``` c#
 var serviceProxyManager = new ServiceProxyManager();
 var container = GetAutofacContainer(serviceProxyManager);
@@ -1914,17 +1982,17 @@ private static IContainer GetAutofacContainer(IServiceProxyManager serviceProxyM
     return container;
 }
 ```
-¾¡¹ÜClient²»ÒÀÀµIOrderService£¬µ«ÓÉÓÚ±¾ÀıÖĞCustomerServiceµÄÊµÏÖÖĞÒÀÀµÁËIOrderService£¬ÎªÁËÄÜÕıÈ·´ÓÈİÆ÷ÖĞ´´½¨ICustomerServiceµÄÊµÀı£¬ËùÒÔÒ²¶ÔIOrderService½øĞĞÁË×¢²á£¬Êµ¼ÊÔËĞĞ¹ı³ÌÖĞOrderService½«²»»á±»µ÷ÓÃ¡£Èç¹ûÏë±ÜÃâ×¢²áIOrderService£¬¿ÉÒÔÔÚClientÏîÄ¿ÖĞÔö¼Ó¶ÔICustomerService½Ó¿ÚµÄÊµÏÖ²¢²»ÒÀÀµIOrderService¡£
-3.XNode¿Í»§¶ËÅäÖÃ£º
+å°½ç®¡Clientä¸ä¾èµ–IOrderServiceï¼Œä½†ç”±äºæœ¬ä¾‹ä¸­CustomerServiceçš„å®ç°ä¸­ä¾èµ–äº†IOrderServiceï¼Œä¸ºäº†èƒ½æ­£ç¡®ä»å®¹å™¨ä¸­åˆ›å»ºICustomerServiceçš„å®ä¾‹ï¼Œæ‰€ä»¥ä¹Ÿå¯¹IOrderServiceè¿›è¡Œäº†æ³¨å†Œï¼Œå®é™…è¿è¡Œè¿‡ç¨‹ä¸­OrderServiceå°†ä¸ä¼šè¢«è°ƒç”¨ã€‚å¦‚æœæƒ³é¿å…æ³¨å†ŒIOrderServiceï¼Œå¯ä»¥åœ¨Clienté¡¹ç›®ä¸­å¢åŠ å¯¹ICustomerServiceæ¥å£çš„å®ç°å¹¶ä¸ä¾èµ–IOrderServiceã€‚
+3.XNodeå®¢æˆ·ç«¯é…ç½®ï¼š
 ``` c#
-#region ¿Í»§¶ËÅäÖÃ
+#region å®¢æˆ·ç«¯é…ç½®
 
 var clientConfig = configRoot.GetClientConfig();
 
 var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);
 
 var serviceCaller = new ServiceCallerBuilder()
-    .Append(new ZipkinCaller(serializer))       //Ìí¼ÓZipkinCaller
+    .Append(new ZipkinCaller(serializer))       //æ·»åŠ ZipkinCaller
     .UseDefault()
     .Build();
 
@@ -1946,19 +2014,19 @@ if (clientConfig.ServiceProxies != null)
 
 #endregion
 ```
-4.¶ÔZipkin½øĞĞÅäÖÃ£º
+4.å¯¹Zipkinè¿›è¡Œé…ç½®ï¼š
 ``` c#
-//ZipkinÅäÖÃ
+//Zipkiné…ç½®
 new ZipkinBootstrapper("Client")
     .ZipkinAt("192.168.108.131")
     .WithSampleRate(1.0)
     .Start();
 ```
-5.Á¬½ÓÔ¶³ÌXNode·şÎñ£º
+5.è¿æ¥è¿œç¨‹XNodeæœåŠ¡ï¼š
 ``` c#
 try
 {
-    //Á¬½Ó·şÎñ
+    //è¿æ¥æœåŠ¡
     serviceProxyManager.ConnectAsync().Wait();
 }
 catch (AggregateException ex)
@@ -1976,11 +2044,11 @@ catch (AggregateException ex)
     }
 }
 ```
-6.µ÷ÓÃXNode·şÎñ£º
+6.è°ƒç”¨XNodeæœåŠ¡ï¼š
 ``` c#
 try
 {
-    //µ÷ÓÃ·şÎñ
+    //è°ƒç”¨æœåŠ¡
     var customerService = container.Resolve<ICustomerService>();
     var customer = customerService.GetCustomers(1).Result;
     Console.WriteLine($"Id = {customer.Id}, Name = {customer.Name}");
@@ -2011,16 +2079,16 @@ catch (Exception ex)
 
 Console.ReadLine();
 
-//¹Ø±Õ·şÎñÁ¬½Ó
+//å…³é—­æœåŠ¡è¿æ¥
 serviceProxyManager.CloseAsync();
 ```
 
-### ÔËĞĞ
-±àÒë²¢ÔËĞĞºó£¬°´ÒÔÏÂË³ĞòÔÚ3¸ö¿ØÖÆÌ¨ÏîÄ¿ÖĞÊäÈë»Ø³µ£º
+### è¿è¡Œ
+ç¼–è¯‘å¹¶è¿è¡Œåï¼ŒæŒ‰ä»¥ä¸‹é¡ºåºåœ¨3ä¸ªæ§åˆ¶å°é¡¹ç›®ä¸­è¾“å…¥å›è½¦ï¼š
 1.Server2
 2.Server
 3.Client
-Õı³£ÔËĞĞºó£¬ÔÚServerÓëServer2µÄ¿ØÖÆÌ¨ÖĞ¿ÉÒÔ¿´µ½·şÎñÖ´ĞĞµÄÏêÏ¸ĞÅÏ¢£¬ÔÚClientÖĞ¿ÉÒÔ¿´µ½·şÎñÖ´ĞĞ½á¹û£º
+æ­£å¸¸è¿è¡Œåï¼Œåœ¨Serverä¸Server2çš„æ§åˆ¶å°ä¸­å¯ä»¥çœ‹åˆ°æœåŠ¡æ‰§è¡Œçš„è¯¦ç»†ä¿¡æ¯ï¼Œåœ¨Clientä¸­å¯ä»¥çœ‹åˆ°æœåŠ¡æ‰§è¡Œç»“æœï¼š
 ``` c#
 Id = 1, Name = Customer01
 Orders:
@@ -2035,93 +2103,93 @@ Detail:
 GoodsId = 1, GoodsName = C, Price = 5.5, Amount = 5
 -----------------------------------
 ```
-ÔÚZipkin¿ØÖÆÌ¨ÖĞ¿ÉÒÔ¿´µ½·şÎñµ÷ÓÃĞÅÏ¢£º
+åœ¨Zipkinæ§åˆ¶å°ä¸­å¯ä»¥çœ‹åˆ°æœåŠ¡è°ƒç”¨ä¿¡æ¯ï¼š
 <img src="img/Zipkin.png" />
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Sample/08-ServiceTrace
 
-## À©Õ¹µã
-XNode·şÎñ¶ËºÍ¿Í»§¶Ë·Ö±ğÌá¹©ÁË½Ó¿ÚÓÃÓÚ¹¦ÄÜµÄÀ©Õ¹£¬¿ª·¢ÈËÔ±¿ÉÒÔÊµÏÖÀ©Õ¹½Ó¿ÚÎªXNodeÔö¼ÓËùĞèÒªµÄ¹¦ÄÜ¡£
+## æ‰©å±•ç‚¹
+XNodeæœåŠ¡ç«¯å’Œå®¢æˆ·ç«¯åˆ†åˆ«æä¾›äº†æ¥å£ç”¨äºåŠŸèƒ½çš„æ‰©å±•ï¼Œå¼€å‘äººå‘˜å¯ä»¥å®ç°æ‰©å±•æ¥å£ä¸ºXNodeå¢åŠ æ‰€éœ€è¦çš„åŠŸèƒ½ã€‚
 
-### ·şÎñ¶ËÀ©Õ¹½Ó¿Ú
-XNode·şÎñ¶ËÍ¨¹ıIServiceProcessor½Ó¿Ú½øĞĞ¹¦ÄÜµÄÀ©Õ¹£¬½Ó¿ÚÔ­ĞÍÈçÏÂ£º
+### æœåŠ¡ç«¯æ‰©å±•æ¥å£
+XNodeæœåŠ¡ç«¯é€šè¿‡IServiceProcessoræ¥å£è¿›è¡ŒåŠŸèƒ½çš„æ‰©å±•ï¼Œæ¥å£åŸå‹å¦‚ä¸‹ï¼š
 ``` c#
 /// <summary>
-/// ·şÎñ´¦ÀíÆ÷½Ó¿Ú
+/// æœåŠ¡å¤„ç†å™¨æ¥å£
 /// </summary>
 public interface IServiceProcessor
 {
     /// <summary>
-    /// Ğ­ÒéÕ»¹¤³§
+    /// åè®®æ ˆå·¥å‚
     /// </summary>
     IProtocolStackFactory ProtocolStackFactory { set; }
 
     /// <summary>
-    /// ĞòÁĞ»¯Æ÷
+    /// åºåˆ—åŒ–å™¨
     /// </summary>
     ISerializer Serializer { set; }
 
     /// <summary>
-    /// ·şÎñµ÷ÓÃÆ÷
+    /// æœåŠ¡è°ƒç”¨å™¨
     /// </summary>
     IServiceInvoker ServiceInvoker { set; }
 
     /// <summary>
-    /// ÏÂÒ»¸ö·şÎñ´¦ÀíÆ÷
+    /// ä¸‹ä¸€ä¸ªæœåŠ¡å¤„ç†å™¨
     /// </summary>
     IServiceProcessor Next { get; set; }
 
     /// <summary>
-    /// ¶Ô·şÎñÇëÇó½øĞĞ´¦Àí
+    /// å¯¹æœåŠ¡è¯·æ±‚è¿›è¡Œå¤„ç†
     /// </summary>
-    /// <param name="context">·şÎñÉÏÏÂÎÄ£¬Ã¿´Î·şÎñµ÷ÓÃ¹²ÏíÒ»¸öÊµÀı</param>
+    /// <param name="context">æœåŠ¡ä¸Šä¸‹æ–‡ï¼Œæ¯æ¬¡æœåŠ¡è°ƒç”¨å…±äº«ä¸€ä¸ªå®ä¾‹</param>
     /// <returns></returns>
     Task<ServiceProcessResult> ProcessAsync(ServiceContext context);
 }
 ```
-IServiceProcessor½Ó¿Ú±»Éè¼ÆÎª¹ÜÏßµÄ·½Ê½½øĞĞµ÷ÓÃ£¬ÔÚ·şÎñ¶Ë³õÊ¼»¯µÄÊ±ºò¿ÉÒÔÖ¸¶¨¶à¸öServiceProcessor¡£µ±XNode·şÎñ¶Ë½ÓÊÕµ½·şÎñÇëÇóÊ±£¬µÚÒ»¸öServiceProcessor½«»á±»µ÷ÓÃ£¬¶øÖ®ºóµÄServiceProcessorÓÉÇ°Ò»¸öServiceProcessor¾ö¶¨ÊÇ·ñ»á±»µ÷ÓÃ¡£Í¨¹ıServiceProcessor¿ÉÒÔÊµÏÖ·şÎñÊÚÈ¨ÑéÖ¤¡¢·şÎñ×·×Ù¡¢ÈÕÖ¾¼ÇÂ¼µÈ¹¦ÄÜ£¬¿ª·¢ÈËÔ±Ò²¿ÉÒÔ¸ù¾İ×Ô¼ºµÄĞèÇóÊµÏÖÏàÓ¦µÄServiceProcessor¡£ÏÂÃæµÄ´úÂëÑİÊ¾ÁËÈçºÎÅäÖÃServiceProcessor£º
+IServiceProcessoræ¥å£è¢«è®¾è®¡ä¸ºç®¡çº¿çš„æ–¹å¼è¿›è¡Œè°ƒç”¨ï¼Œåœ¨æœåŠ¡ç«¯åˆå§‹åŒ–çš„æ—¶å€™å¯ä»¥æŒ‡å®šå¤šä¸ªServiceProcessorã€‚å½“XNodeæœåŠ¡ç«¯æ¥æ”¶åˆ°æœåŠ¡è¯·æ±‚æ—¶ï¼Œç¬¬ä¸€ä¸ªServiceProcessorå°†ä¼šè¢«è°ƒç”¨ï¼Œè€Œä¹‹åçš„ServiceProcessorç”±å‰ä¸€ä¸ªServiceProcessorå†³å®šæ˜¯å¦ä¼šè¢«è°ƒç”¨ã€‚é€šè¿‡ServiceProcessorå¯ä»¥å®ç°æœåŠ¡æˆæƒéªŒè¯ã€æœåŠ¡è¿½è¸ªã€æ—¥å¿—è®°å½•ç­‰åŠŸèƒ½ï¼Œå¼€å‘äººå‘˜ä¹Ÿå¯ä»¥æ ¹æ®è‡ªå·±çš„éœ€æ±‚å®ç°ç›¸åº”çš„ServiceProcessorã€‚ä¸‹é¢çš„ä»£ç æ¼”ç¤ºäº†å¦‚ä½•é…ç½®ServiceProcessorï¼š
 ``` c#
 ......
-//ÅäÖÃ·şÎñ
+//é…ç½®æœåŠ¡
 var nodeServer = new NodeServerBuilder()
     .ApplyConfig(serverConfig)
     .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
     .ConfigLoginValidator(loginValidator)
-    .AddServiceProcessor(new ServiceAuthorizeProcessor(serviceAuthorizer))      //ÅäÖÃÓÃÓÚ·şÎñÊÚÈ¨µÄServiceProcessor
+    .AddServiceProcessor(new ServiceAuthorizeProcessor(serviceAuthorizer))      //é…ç½®ç”¨äºæœåŠ¡æˆæƒçš„ServiceProcessor
     .ConfigServiceProvider(GetServiceProvider())
     .UseDotNetty(serverConfig.ServerInfo)
     .Build();
 ......
 ```
 
-### ¿Í»§¶ËÀ©Õ¹½Ó¿Ú
-XNode¿Í»§¶ËÍ¨¹ıIServiceCaller½Ó¿Ú½øĞĞ¹¦ÄÜµÄÀ©Õ¹£¬½Ó¿ÚÔ­ĞÍÈçÏÂ£º
+### å®¢æˆ·ç«¯æ‰©å±•æ¥å£
+XNodeå®¢æˆ·ç«¯é€šè¿‡IServiceCalleræ¥å£è¿›è¡ŒåŠŸèƒ½çš„æ‰©å±•ï¼Œæ¥å£åŸå‹å¦‚ä¸‹ï¼š
 ``` c#
 /// <summary>
-/// ÒÔ¹ÜÏß·½Ê½µ÷ÓÃ·şÎñ
+/// ä»¥ç®¡çº¿æ–¹å¼è°ƒç”¨æœåŠ¡
 /// </summary>
 public interface IServiceCaller
 {
     /// <summary>
-    /// ÏÂÒ»¸ö·şÎñµ÷ÓÃÆ÷
+    /// ä¸‹ä¸€ä¸ªæœåŠ¡è°ƒç”¨å™¨
     /// </summary>
     IServiceCaller Next { get; set; }
 
     /// <summary>
-    /// ·şÎñµ÷ÓÃ
+    /// æœåŠ¡è°ƒç”¨
     /// </summary>
-    /// <param name="nodeClientContainer">NodeClientÈİÆ÷</param>
-    /// <param name="info">·şÎñµ÷ÓÃĞÅÏ¢</param>
+    /// <param name="nodeClientContainer">NodeClientå®¹å™¨</param>
+    /// <param name="info">æœåŠ¡è°ƒç”¨ä¿¡æ¯</param>
     /// <returns></returns>
     Task<ServiceCallResult> CallAsync(INodeClientContainer nodeClientContainer, ServiceCallInfo info);
 }
 ```
-IServiceCaller½Ó¿ÚÍ¬ÑùÒ²±»Éè¼ÆÎª¹ÜÏßµÄ·½Ê½½øĞĞµ÷ÓÃ£¬¿Í»§¶Ë³õÊ¼»¯Ê±Ò²¿ÉÒÔÅäÖÃ¶à¸öServiceCaller¡£µ±¿Í»§¶ËÏò·şÎñ¶Ë·¢Æğ·şÎñÇëÇóÊ±£¬ServiceCaller½«»á±»µ÷ÓÃ£¬µ÷ÓÃ·½Ê½ÓëServiceProcessorÀàËÆ¡£Í¨¹ıServiceCaller¿ÉÒÔÊµÏÖ·şÎñ×·×Ù¡¢ÈÕÖ¾¼ÇÂ¼µÈ¹¦ÄÜ¡£ÏÂÃæµÄ´úÂëÑİÊ¾ÁËÈçºÎÅäÖÃServiceCaller£º
+IServiceCalleræ¥å£åŒæ ·ä¹Ÿè¢«è®¾è®¡ä¸ºç®¡çº¿çš„æ–¹å¼è¿›è¡Œè°ƒç”¨ï¼Œå®¢æˆ·ç«¯åˆå§‹åŒ–æ—¶ä¹Ÿå¯ä»¥é…ç½®å¤šä¸ªServiceCallerã€‚å½“å®¢æˆ·ç«¯å‘æœåŠ¡ç«¯å‘èµ·æœåŠ¡è¯·æ±‚æ—¶ï¼ŒServiceCallerå°†ä¼šè¢«è°ƒç”¨ï¼Œè°ƒç”¨æ–¹å¼ä¸ServiceProcessorç±»ä¼¼ã€‚é€šè¿‡ServiceCallerå¯ä»¥å®ç°æœåŠ¡è¿½è¸ªã€æ—¥å¿—è®°å½•ç­‰åŠŸèƒ½ã€‚ä¸‹é¢çš„ä»£ç æ¼”ç¤ºäº†å¦‚ä½•é…ç½®ServiceCallerï¼š
 ``` c#
 ......
 var serviceCaller = new ServiceCallerBuilder()
-    .Append(new ZipkinCaller(new ProtoBufSerializer()))       //ÅäÖÃÓÃÓÚ·şÎñ×·×ÙµÄServiceCaller
+    .Append(new ZipkinCaller(new ProtoBufSerializer()))       //é…ç½®ç”¨äºæœåŠ¡è¿½è¸ªçš„ServiceCaller
     .UseDefault()
     .Build();
     
@@ -2130,7 +2198,7 @@ if (clientConfig.ServiceProxies != null)
     foreach (var config in clientConfig.ServiceProxies)
     {
         serviceProxyManager
-            .Regist(config, serviceCaller)      //×¢²áServiceCaller
+            .Regist(config, serviceCaller)      //æ³¨å†ŒServiceCaller
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -2143,31 +2211,31 @@ if (clientConfig.ServiceProxies != null)
 ......
 ```
 
-## Demo½âÎö
-±¾ÕÂ½«Í¨¹ıÍêÕûµÄÊ¾ÀıÀ´ÑİÊ¾XNodeÈçºÎÔÚWebÏîÄ¿ÖĞÊ¹ÓÃ¡£
+## Demoè§£æ
+æœ¬ç« å°†é€šè¿‡å®Œæ•´çš„ç¤ºä¾‹æ¥æ¼”ç¤ºXNodeå¦‚ä½•åœ¨Webé¡¹ç›®ä¸­ä½¿ç”¨ã€‚
 
-### Demo½éÉÜ
-±¾Ê¾Àı½«Ìá¹©²éÑ¯¿Í»§¡¢ÉÌÆ·¡¢¶©µ¥µÄWeb API£¬ÏîÄ¿²ÉÓÃ¾­µäµÄÈı²ã¼Ü¹¹Éè¼Æ£¬½á¹¹ÈçÏÂ£º
+### Demoä»‹ç»
+æœ¬ç¤ºä¾‹å°†æä¾›æŸ¥è¯¢å®¢æˆ·ã€å•†å“ã€è®¢å•çš„Web APIï¼Œé¡¹ç›®é‡‡ç”¨ç»å…¸çš„ä¸‰å±‚æ¶æ„è®¾è®¡ï¼Œç»“æ„å¦‚ä¸‹ï¼š
 <table>
-<tr><td style="width: 120px">ÏîÄ¿Ãû³Æ</td><td style="width: 220px">ÏîÄ¿ÀàĞÍ</td><td>ÒÀÀµÏî</td><td>ËµÃ÷</td></tr>
-<tr><td>Entity</td><td>.Net CoreÀà¿â</td><td></td><td>Ìá¹©ÊµÌåÀà</td></tr>
-<tr><td>Contract</td><td>.Net CoreÀà¿â</td><td>Entity</td><td>Ìá¹©·şÎñÓë²Ö´¢µÄ½Ó¿Ú</td></tr>
-<tr><td>Service</td><td>.Net CoreÀà¿â</td><td>Contract,Entity</td><td>Ìá¹©·şÎñÊµÏÖ</td></tr>
-<tr><td>Repository</td><td>.Net CoreÀà¿â</td><td>Contract,Entity</td><td>Ìá¹©²Ö´¢ÊµÏÖ</td></tr>
-<tr><td>Web</td><td>ASP.Net Core WebÓ¦ÓÃ³ÌĞò</td><td>Contract,Entity,Service,Repository</td><td>ÊµÏÖWeb API</td></tr>
-<tr><td>Launcher</td><td>.Net Core¿ØÖÆÌ¨Ó¦ÓÃ</td><td>Contract,Entity,Service,Repository</td><td>ÓÃÓÚ·şÎñÆô¶¯</td></tr>
+<tr><td style="width: 120px">é¡¹ç›®åç§°</td><td style="width: 220px">é¡¹ç›®ç±»å‹</td><td>ä¾èµ–é¡¹</td><td>è¯´æ˜</td></tr>
+<tr><td>Entity</td><td>.Net Coreç±»åº“</td><td></td><td>æä¾›å®ä½“ç±»</td></tr>
+<tr><td>Contract</td><td>.Net Coreç±»åº“</td><td>Entity</td><td>æä¾›æœåŠ¡ä¸ä»“å‚¨çš„æ¥å£</td></tr>
+<tr><td>Service</td><td>.Net Coreç±»åº“</td><td>Contract,Entity</td><td>æä¾›æœåŠ¡å®ç°</td></tr>
+<tr><td>Repository</td><td>.Net Coreç±»åº“</td><td>Contract,Entity</td><td>æä¾›ä»“å‚¨å®ç°</td></tr>
+<tr><td>Web</td><td>ASP.Net Core Webåº”ç”¨ç¨‹åº</td><td>Contract,Entity,Service,Repository</td><td>å®ç°Web API</td></tr>
+<tr><td>Launcher</td><td>.Net Coreæ§åˆ¶å°åº”ç”¨</td><td>Contract,Entity,Service,Repository</td><td>ç”¨äºæœåŠ¡å¯åŠ¨</td></tr>
 </table>
-Demo½«Í¨¹ıWebAPIÌá¹©¿Í»§¡¢ÉÌÆ·µÄ²éÑ¯·şÎñ£¬²¢ÇÒ½«ÊµÏÖWebAPI¡¢¿Í»§·şÎñ¡¢ÉÌÆ··şÎñ¡¢¶©µ¥·şÎñÄÜ¸÷×Ôµ¥¶À²¿ÊğÔÚ²»Í¬µÄ·şÎñÆ÷ÉÏ¡£·şÎñ¼äµÄÒÀÀµ¹ØÏµÈçÏÂ£º
+Demoå°†é€šè¿‡WebAPIæä¾›å®¢æˆ·ã€å•†å“çš„æŸ¥è¯¢æœåŠ¡ï¼Œå¹¶ä¸”å°†å®ç°WebAPIã€å®¢æˆ·æœåŠ¡ã€å•†å“æœåŠ¡ã€è®¢å•æœåŠ¡èƒ½å„è‡ªå•ç‹¬éƒ¨ç½²åœ¨ä¸åŒçš„æœåŠ¡å™¨ä¸Šã€‚æœåŠ¡é—´çš„ä¾èµ–å…³ç³»å¦‚ä¸‹ï¼š
 <table>
-<tr><td style="width: 120px">·şÎñÃû³Æ</td><td style="width: 200px">ÒÀÀµ·şÎñ</td><td>ËµÃ÷</td></tr>
-<tr><td>WebAPI</td><td>¿Í»§·şÎñ£¬ÉÌÆ··şÎñ</td><td>Ìá¹©¿Í»§ºÍÉÌÆ·µÄWeb·şÎñ</td></tr>
-<tr><td>¿Í»§·şÎñ</td><td>¶©µ¥·şÎñ</td><td>Ìá¹©¿Í»§²éÑ¯·şÎñ£¬µ±²éÑ¯µ¥¸ö¿Í»§ĞÅÏ¢Ê±Í¬Ê±·µ»Ø¸ÃÓÃ»§µÄ¶©µ¥ÁĞ±í </td></tr>
-<tr><td>ÉÌÆ··şÎñ</td><td></td><td>Ìá¹©ÉÌÆ·²éÑ¯·şÎñ</td></tr>
-<tr><td>¶©µ¥·şÎñ</td><td>ÉÌÆ··şÎñ</td><td>Ìá¹©¶©µ¥²éÑ¯·şÎñ£¬¶©µ¥ĞÅÏ¢ÖĞ°üÀ¨Ïà¹ØÉÌÆ·µÄÏêÏ¸ĞÅÏ¢</td></tr>
+<tr><td style="width: 120px">æœåŠ¡åç§°</td><td style="width: 200px">ä¾èµ–æœåŠ¡</td><td>è¯´æ˜</td></tr>
+<tr><td>WebAPI</td><td>å®¢æˆ·æœåŠ¡ï¼Œå•†å“æœåŠ¡</td><td>æä¾›å®¢æˆ·å’Œå•†å“çš„WebæœåŠ¡</td></tr>
+<tr><td>å®¢æˆ·æœåŠ¡</td><td>è®¢å•æœåŠ¡</td><td>æä¾›å®¢æˆ·æŸ¥è¯¢æœåŠ¡ï¼Œå½“æŸ¥è¯¢å•ä¸ªå®¢æˆ·ä¿¡æ¯æ—¶åŒæ—¶è¿”å›è¯¥ç”¨æˆ·çš„è®¢å•åˆ—è¡¨ </td></tr>
+<tr><td>å•†å“æœåŠ¡</td><td></td><td>æä¾›å•†å“æŸ¥è¯¢æœåŠ¡</td></tr>
+<tr><td>è®¢å•æœåŠ¡</td><td>å•†å“æœåŠ¡</td><td>æä¾›è®¢å•æŸ¥è¯¢æœåŠ¡ï¼Œè®¢å•ä¿¡æ¯ä¸­åŒ…æ‹¬ç›¸å…³å•†å“çš„è¯¦ç»†ä¿¡æ¯</td></tr>
 </table>
 
 ### Entity
-EntityÏîÄ¿Ìá¹©ÁËÊµÌåÀàµÄÊµÏÖ£¬²¢Ó¦ÓÃÁËXNodeĞòÁĞ»¯ËùĞèÒªµÄAttribute¡£±¾DemoÖĞÊµÏÖÁË3¸öÊµÌåÀà£¬Customer¡¢Goods¡¢Order£º
+Entityé¡¹ç›®æä¾›äº†å®ä½“ç±»çš„å®ç°ï¼Œå¹¶åº”ç”¨äº†XNodeåºåˆ—åŒ–æ‰€éœ€è¦çš„Attributeã€‚æœ¬Demoä¸­å®ç°äº†3ä¸ªå®ä½“ç±»ï¼ŒCustomerã€Goodsã€Orderï¼š
 ``` c#
 [DataContract]
 public class Customer
@@ -2228,8 +2296,8 @@ public class OrderDetail
 ```
 
 ### Contract
-ContractÏîÄ¿ÏÂ´´½¨ÁË2¸öÄ¿Â¼·Ö±ğ´æ·Å·şÎñºÍ²Ö´¢µÄ½Ó¿ÚÉùÃ÷£ºService¡¢Repository¡£
-ServiceÄ¿Â¼ÏÂ°üº¬ÁË3¸ö½Ó¿ÚÉùÃ÷£º
+Contracté¡¹ç›®ä¸‹åˆ›å»ºäº†2ä¸ªç›®å½•åˆ†åˆ«å­˜æ”¾æœåŠ¡å’Œä»“å‚¨çš„æ¥å£å£°æ˜ï¼šServiceã€Repositoryã€‚
+Serviceç›®å½•ä¸‹åŒ…å«äº†3ä¸ªæ¥å£å£°æ˜ï¼š
 ``` c#
 [Service("GoodService", 10001)]
 [ServiceProxy("GoodService", 10001)]
@@ -2268,9 +2336,9 @@ public interface ICustomerService
     Task<Customer> Get(int customerId);
 }
 ```
-ÕâĞ©½Ó¿Ú¶¼½«×÷ÎªXNode·şÎñµÄĞÎÊ½²¿Êğ£¬ËùÒÔÓ¦ÓÃÁËXNode·şÎñµÄAttribute¡£Í¬Ê±£¬ÕâĞ©½Ó¿ÚÉÏÒ²Ó¦ÓÃXNode´úÀíµÄAttributeÒÔ±ã×÷ÎªXNode´úÀí±»µ÷ÓÃ¡£ÔÚÒ»¸ö½Ó¿ÚÉÏÍ¬Ê±Ó¦ÓÃXNode·şÎñAttributeÓëXNode´úÀíAttribute¿ÉÒÔ±ÜÃâÖØ¸´ÉùÃ÷½Ó¿Ú£¬¶ÔÓÚÒ»°ã³¡¾°ÏÂÊÇÒ»ÖÖ±È½ÏÍÆ¼öµÄ·½Ê½¡£
+è¿™äº›æ¥å£éƒ½å°†ä½œä¸ºXNodeæœåŠ¡çš„å½¢å¼éƒ¨ç½²ï¼Œæ‰€ä»¥åº”ç”¨äº†XNodeæœåŠ¡çš„Attributeã€‚åŒæ—¶ï¼Œè¿™äº›æ¥å£ä¸Šä¹Ÿåº”ç”¨XNodeä»£ç†çš„Attributeä»¥ä¾¿ä½œä¸ºXNodeä»£ç†è¢«è°ƒç”¨ã€‚åœ¨ä¸€ä¸ªæ¥å£ä¸ŠåŒæ—¶åº”ç”¨XNodeæœåŠ¡Attributeä¸XNodeä»£ç†Attributeå¯ä»¥é¿å…é‡å¤å£°æ˜æ¥å£ï¼Œå¯¹äºä¸€èˆ¬åœºæ™¯ä¸‹æ˜¯ä¸€ç§æ¯”è¾ƒæ¨èçš„æ–¹å¼ã€‚
 
-RepositoryÄ¿Â¼ÏÂÒ²°üº¬ÁË3¸ö½Ó¿ÚÉùÃ÷£º
+Repositoryç›®å½•ä¸‹ä¹ŸåŒ…å«äº†3ä¸ªæ¥å£å£°æ˜ï¼š
 ``` c#
 public interface IGoodsRepository
 {
@@ -2293,10 +2361,10 @@ public interface ICustomerRepository
     Task<Customer> Get(int id);
 }
 ```
-ÕâĞ©¶¼ÊÇÆÕÍ¨µÄ½Ó¿ÚÉùÃ÷£¬ÊÇÕë¶ÔÈı²ã¼Ü¹¹ÖĞµÄ²Ö´¢²ã£¬ÓëXNode·şÎñÃ»ÓĞ¹ØÏµ¡£
+è¿™äº›éƒ½æ˜¯æ™®é€šçš„æ¥å£å£°æ˜ï¼Œæ˜¯é’ˆå¯¹ä¸‰å±‚æ¶æ„ä¸­çš„ä»“å‚¨å±‚ï¼Œä¸XNodeæœåŠ¡æ²¡æœ‰å…³ç³»ã€‚
 
 ### Repository
-RepositoryÏîÄ¿ÊÇ²Ö´¢²ãµÄÊµÏÖ£¬ÔÚ³£¼ûµÄÏîÄ¿ÖĞÖ÷ÒªÊÇÌá¹©¶ÔÊı¾İ¿â²Ù×÷µÄÊµÏÖ¡£±¾Ê¾ÀıÎªÁË¼òµ¥Æğ¼û£¬ÒÔÄÚ´æÄ£ÄâÊı¾İ¿â¡£¸ù¾İÇ°ÃæÉùÃ÷µÄRepository½Ó¿Ú£¬´Ë´¦Ò²ÊµÏÖÁË3¸ö¶ÔÓ¦µÄÀà£º
+Repositoryé¡¹ç›®æ˜¯ä»“å‚¨å±‚çš„å®ç°ï¼Œåœ¨å¸¸è§çš„é¡¹ç›®ä¸­ä¸»è¦æ˜¯æä¾›å¯¹æ•°æ®åº“æ“ä½œçš„å®ç°ã€‚æœ¬ç¤ºä¾‹ä¸ºäº†ç®€å•èµ·è§ï¼Œä»¥å†…å­˜æ¨¡æ‹Ÿæ•°æ®åº“ã€‚æ ¹æ®å‰é¢å£°æ˜çš„Repositoryæ¥å£ï¼Œæ­¤å¤„ä¹Ÿå®ç°äº†3ä¸ªå¯¹åº”çš„ç±»ï¼š
 ``` c#
 public class GoodsRepository : IGoodsRepository
 {
@@ -2453,7 +2521,7 @@ public class CustomerRepository : ICustomerRepository
 ```
 
 ### Service
-ServiceÏîÄ¿Ìá¹©XNode·şÎñµÄ¾ßÌåÒµÎñÊµÏÖ£¬ÒÔÏÂÊÇ¶ÔÓ¦3¸öXNode·şÎñ½Ó¿ÚµÄÊµÏÖÀà£º
+Serviceé¡¹ç›®æä¾›XNodeæœåŠ¡çš„å…·ä½“ä¸šåŠ¡å®ç°ï¼Œä»¥ä¸‹æ˜¯å¯¹åº”3ä¸ªXNodeæœåŠ¡æ¥å£çš„å®ç°ç±»ï¼š
 ``` c#
 public class GoodsService : IGoodsService
 {
@@ -2475,7 +2543,7 @@ public class GoodsService : IGoodsService
     }
 }
 ```
-¾¡¹ÜÕâÊÇÒ»¸öXNode·şÎñµÄÊµÏÖ£¬µ«´úÂëÓëÆÕÍ¨µÄServiceÃ»Ê²Ã´Çø±ğ£¬¿ª·¢ÈËÔ±ÒÀÈ»ÒÔ´«Í³µÄ·½Ê½½øĞĞ¿ª·¢¡£ÔÚÕâ¸öDemoÖĞ½«Ê¹ÓÃAutofac½øĞĞÒÀÀµ×¢Èë£¬ÒòÎªÉÌÆ··şÎñÒÀÀµÉÌÆ·²Ö´¢½Ó¿Ú£¬ËùÒÔÔÚ¹¹Ôìº¯ÊıÖĞ½øĞĞÁËÉùÃ÷¡£
+å°½ç®¡è¿™æ˜¯ä¸€ä¸ªXNodeæœåŠ¡çš„å®ç°ï¼Œä½†ä»£ç ä¸æ™®é€šçš„Serviceæ²¡ä»€ä¹ˆåŒºåˆ«ï¼Œå¼€å‘äººå‘˜ä¾ç„¶ä»¥ä¼ ç»Ÿçš„æ–¹å¼è¿›è¡Œå¼€å‘ã€‚åœ¨è¿™ä¸ªDemoä¸­å°†ä½¿ç”¨Autofacè¿›è¡Œä¾èµ–æ³¨å…¥ï¼Œå› ä¸ºå•†å“æœåŠ¡ä¾èµ–å•†å“ä»“å‚¨æ¥å£ï¼Œæ‰€ä»¥åœ¨æ„é€ å‡½æ•°ä¸­è¿›è¡Œäº†å£°æ˜ã€‚
 ``` c#
 public class OrderService : IOrderService
 {
@@ -2504,7 +2572,7 @@ public class OrderService : IOrderService
     }
 }
 ```
-ÒòÎª¶©µ¥Ã÷Ï¸ÖĞ°üº¬ÁËÉÌÆ·ĞÅÏ¢£¬¶©µ¥·şÎñ³ıÁËÒÀÀµ¶©µ¥²Ö´¢Íâ»¹ÒÀÀµÉÌÆ··şÎñ£¬ËùÒÔ¹¹Ôìº¯ÊıÖĞÔö¼ÓÁË¶ÔÉÌÆ··şÎñµÄÒÀÀµ¡£ÖµµÃÒ»ÌáµÄÊÇ£¬ÕâÀïÒÀÀµµÄIGoodsService½Ó¿ÚÔÚÔËĞĞÊ±¸ù¾İÅäÖÃµÄ²»Í¬£¬¿ÉÄÜÊÇµ÷ÓÃ±¾µØÊµÏÖ£¬Ò²¿ÉÄÜÊÇµ÷ÓÃÔ¶³Ì·şÎñ£¬¶øÕâÒ»ÇĞ¶ÔÓÚ¶©µ¥·şÎñÀ´ËµÊÇÍ¸Ã÷µÄ£¬Õâ¾ÍÊÇÖ®Ç°ÕÂ½ÚËùÌáµ½¹ıXNode´úÀíÀûÓÃAOP¼¼ÊõÊµÏÖ·şÎñµ÷ÓÃÍ¸Ã÷»¯¡£Í¨³££¬ÔÚ¿ª·¢½×¶Î¿ÉÒÔ½«XNode´úÀíÅäÖÃÎª½ûÓÃ£¬ÕâÑùËùÓĞ´úÂë¶¼»áÔÚ±¾µØÖ´ĞĞ£¬µ¥Ôª²âÊÔÓëµ¥²½µ÷ÊÔ¶¼ÓëÔ­À´µÄ·½Ê½ÏàÍ¬£¬½µµÍ¿ò¼ÜµÄÑ§Ï°³É±¾¡£¶ÔÓÚÏîÄ¿ÍÅ¶ÓÀ´Ëµ£¬¿ÉÒÔÓÉ¼Ü¹¹Ê¦»òÖ÷³ÌĞòÔ±Éè¼Æ½Ó¿Ú¡¢¶¨ÒåXNode·şÎñ£¬ÆÕÍ¨³ÌĞòÔ±ÉõÖÁÔÚ²»ÖªµÀXNode´æÔÚµÄÇé¿öÏÂÊµÏÖÒµÎñÂß¼­¡£
+å› ä¸ºè®¢å•æ˜ç»†ä¸­åŒ…å«äº†å•†å“ä¿¡æ¯ï¼Œè®¢å•æœåŠ¡é™¤äº†ä¾èµ–è®¢å•ä»“å‚¨å¤–è¿˜ä¾èµ–å•†å“æœåŠ¡ï¼Œæ‰€ä»¥æ„é€ å‡½æ•°ä¸­å¢åŠ äº†å¯¹å•†å“æœåŠ¡çš„ä¾èµ–ã€‚å€¼å¾—ä¸€æçš„æ˜¯ï¼Œè¿™é‡Œä¾èµ–çš„IGoodsServiceæ¥å£åœ¨è¿è¡Œæ—¶æ ¹æ®é…ç½®çš„ä¸åŒï¼Œå¯èƒ½æ˜¯è°ƒç”¨æœ¬åœ°å®ç°ï¼Œä¹Ÿå¯èƒ½æ˜¯è°ƒç”¨è¿œç¨‹æœåŠ¡ï¼Œè€Œè¿™ä¸€åˆ‡å¯¹äºè®¢å•æœåŠ¡æ¥è¯´æ˜¯é€æ˜çš„ï¼Œè¿™å°±æ˜¯ä¹‹å‰ç« èŠ‚æ‰€æåˆ°è¿‡XNodeä»£ç†åˆ©ç”¨AOPæŠ€æœ¯å®ç°æœåŠ¡è°ƒç”¨é€æ˜åŒ–ã€‚é€šå¸¸ï¼Œåœ¨å¼€å‘é˜¶æ®µå¯ä»¥å°†XNodeä»£ç†é…ç½®ä¸ºç¦ç”¨ï¼Œè¿™æ ·æ‰€æœ‰ä»£ç éƒ½ä¼šåœ¨æœ¬åœ°æ‰§è¡Œï¼Œå•å…ƒæµ‹è¯•ä¸å•æ­¥è°ƒè¯•éƒ½ä¸åŸæ¥çš„æ–¹å¼ç›¸åŒï¼Œé™ä½æ¡†æ¶çš„å­¦ä¹ æˆæœ¬ã€‚å¯¹äºé¡¹ç›®å›¢é˜Ÿæ¥è¯´ï¼Œå¯ä»¥ç”±æ¶æ„å¸ˆæˆ–ä¸»ç¨‹åºå‘˜è®¾è®¡æ¥å£ã€å®šä¹‰XNodeæœåŠ¡ï¼Œæ™®é€šç¨‹åºå‘˜ç”šè‡³åœ¨ä¸çŸ¥é“XNodeå­˜åœ¨çš„æƒ…å†µä¸‹å®ç°ä¸šåŠ¡é€»è¾‘ã€‚
 ``` c#
 public class CustomerService : ICustomerService
 {
@@ -2532,15 +2600,15 @@ public class CustomerService : ICustomerService
     }
 }
 ```
-ÔÚ·µ»Øµ¥¸ö¿Í»§µÄ·şÎñÖĞ»áÍ¬Ê±·µ»Ø¸Ã¿Í»§µÄËùÓĞ¶©µ¥ĞÅÏ¢£¬ËùÒÔ¿Í»§·şÎñ½«ÒÀÀµ¶©µ¥·şÎñ¡£
+åœ¨è¿”å›å•ä¸ªå®¢æˆ·çš„æœåŠ¡ä¸­ä¼šåŒæ—¶è¿”å›è¯¥å®¢æˆ·çš„æ‰€æœ‰è®¢å•ä¿¡æ¯ï¼Œæ‰€ä»¥å®¢æˆ·æœåŠ¡å°†ä¾èµ–è®¢å•æœåŠ¡ã€‚
 
-ÕâĞ©·şÎñµÄÊµÏÖ´úÂëÓë´«Í³µÄ·½Ê½²¢Ã»Ê²Ã´Çø±ğ£¬µ«ĞèÒª×¢ÒâµÄÊÇÓÉÓÚÊ¹ÓÃÁËXNode£¬ÕâĞ©·şÎñ¿ÉÄÜ»áÒÔ·Ö²¼Ê½µÄ·½Ê½½øĞĞ²¿Êğ£¬Òò´ËÓĞĞ©¹¦ÄÜÔÚ·şÎñÖĞ¿ÉÄÜ¾ÍÎŞ·¨Õı³£Ö´ĞĞÁË¡£ÀıÈç£¬Êı¾İ¿âÊÂÎñÔÚXNode·şÎñÖĞ¿ÉÄÜ¾ÍÎŞ·¨Õı³£Ê¹ÓÃÁË¡£×ÜÖ®£¬Ê¹ÓÃXNodeÖ®ºó¿ª·¢ÈËÔ±ĞèÒªÒâÊ¶µ½×Ô¼ºËù¿ª·¢µÄ³ÌĞòÎ´À´ÊÇÓĞ¿ÉÄÜÒÔ·Ö²¼Ê½µÄ·½Ê½²¿Êğ£¬ÔÚÑ¡ÔñÒ»Ğ©¼¼ÊõÊ±¾ÍÒª¿¼ÂÇÊÇ·ñÖ§³Ö·Ö²¼Ê½¡£
+è¿™äº›æœåŠ¡çš„å®ç°ä»£ç ä¸ä¼ ç»Ÿçš„æ–¹å¼å¹¶æ²¡ä»€ä¹ˆåŒºåˆ«ï¼Œä½†éœ€è¦æ³¨æ„çš„æ˜¯ç”±äºä½¿ç”¨äº†XNodeï¼Œè¿™äº›æœåŠ¡å¯èƒ½ä¼šä»¥åˆ†å¸ƒå¼çš„æ–¹å¼è¿›è¡Œéƒ¨ç½²ï¼Œå› æ­¤æœ‰äº›åŠŸèƒ½åœ¨æœåŠ¡ä¸­å¯èƒ½å°±æ— æ³•æ­£å¸¸æ‰§è¡Œäº†ã€‚ä¾‹å¦‚ï¼Œæ•°æ®åº“äº‹åŠ¡åœ¨XNodeæœåŠ¡ä¸­å¯èƒ½å°±æ— æ³•æ­£å¸¸ä½¿ç”¨äº†ã€‚æ€»ä¹‹ï¼Œä½¿ç”¨XNodeä¹‹åå¼€å‘äººå‘˜éœ€è¦æ„è¯†åˆ°è‡ªå·±æ‰€å¼€å‘çš„ç¨‹åºæœªæ¥æ˜¯æœ‰å¯èƒ½ä»¥åˆ†å¸ƒå¼çš„æ–¹å¼éƒ¨ç½²ï¼Œåœ¨é€‰æ‹©ä¸€äº›æŠ€æœ¯æ—¶å°±è¦è€ƒè™‘æ˜¯å¦æ”¯æŒåˆ†å¸ƒå¼ã€‚
 
 ### Web
-WebÏîÄ¿Ìá¹©ÁËWebAPIµÄÊµÏÖ£¬Ëü½«Ê¹ÓÃXNode´úÀíµ÷ÓÃ·şÎñ²¢½«½á¹ûÒÔJSON·½Ê½·µ»Ø¸øÇ°¶Ë¡£WebÏîÄ¿Ö÷Òª·ÖÎª3¸ö²¿·Ö--DTO¶¨Òå¡¢·şÎñ/´úÀí×¢²á¡¢ControllerÊµÏÖ¡£
+Webé¡¹ç›®æä¾›äº†WebAPIçš„å®ç°ï¼Œå®ƒå°†ä½¿ç”¨XNodeä»£ç†è°ƒç”¨æœåŠ¡å¹¶å°†ç»“æœä»¥JSONæ–¹å¼è¿”å›ç»™å‰ç«¯ã€‚Webé¡¹ç›®ä¸»è¦åˆ†ä¸º3ä¸ªéƒ¨åˆ†--DTOå®šä¹‰ã€æœåŠ¡/ä»£ç†æ³¨å†Œã€Controllerå®ç°ã€‚
 
-#### DTO¶¨Òå
-¶ÔÓÚWebAPIÀ´Ëµ£¬·µ»Ø¸øÇ°¶ËµÄÊı¾İ²»½¨ÒéÖ±½ÓÊ¹ÓÃÊµÌå£¬ÒòÎªÊµÌåÖĞ¿ÉÄÜ°üº¬ÁËÒ»Ğ©²»ĞèÒªµÄ»ò»úÃÜµÄÊı¾İ£¬ËùÒÔÍ¨³£ÊÇÍ¨¹ı×ª»»ÎªDTOÖ®ºóÔÙ·µ»Ø¡£ÏÂÃæÊÇDTOµÄ¶¨Òå£º
+#### DTOå®šä¹‰
+å¯¹äºWebAPIæ¥è¯´ï¼Œè¿”å›ç»™å‰ç«¯çš„æ•°æ®ä¸å»ºè®®ç›´æ¥ä½¿ç”¨å®ä½“ï¼Œå› ä¸ºå®ä½“ä¸­å¯èƒ½åŒ…å«äº†ä¸€äº›ä¸éœ€è¦çš„æˆ–æœºå¯†çš„æ•°æ®ï¼Œæ‰€ä»¥é€šå¸¸æ˜¯é€šè¿‡è½¬æ¢ä¸ºDTOä¹‹åå†è¿”å›ã€‚ä¸‹é¢æ˜¯DTOçš„å®šä¹‰ï¼š
 ``` c#
 public class GoodsDTO
 {
@@ -2717,8 +2785,8 @@ public class CustomerDTO
 }
 ```
 
-#### ·şÎñ/´úÀí×¢²á
-Ê×ÏÈ£¬´´½¨AutofacModuleÀà½«Service×¢²áµ½AutofacÈİÆ÷ÖĞÒÔ±ãÊ¹ÓÃAutofacµÄIoC¹¦ÄÜÒÔ¼°XNode´úÀí¹¦ÄÜ£º
+#### æœåŠ¡/ä»£ç†æ³¨å†Œ
+é¦–å…ˆï¼Œåˆ›å»ºAutofacModuleç±»å°†Serviceæ³¨å†Œåˆ°Autofacå®¹å™¨ä¸­ä»¥ä¾¿ä½¿ç”¨Autofacçš„IoCåŠŸèƒ½ä»¥åŠXNodeä»£ç†åŠŸèƒ½ï¼š
 ``` c#
 public class AutofacModule : Module
 {
@@ -2762,7 +2830,7 @@ public class AutofacModule : Module
     }
 }
 ```
-È»ºó£¬´´½¨ÅäÖÃÎÄ¼şxnode.json£¬ÅäÖÃÈçÏÂ£º
+ç„¶åï¼Œåˆ›å»ºé…ç½®æ–‡ä»¶xnode.jsonï¼Œé…ç½®å¦‚ä¸‹ï¼š
 ``` c#
 {
   "name": "XNode-Demo",
@@ -2823,9 +2891,9 @@ public class AutofacModule : Module
   }
 }
 ```
-¶ÔÓÚWebÏîÄ¿À´ËµÖ»ÊÇ·şÎñµÄÏû·Ñ·½£¬ËùÒÔÅäÖÃÎÄ¼şÖĞÖ»°üº¬¿Í»§¶ËÏà¹ØµÄÅäÖÃ¡£ÒòÎªWebAPIÖ»Ìá¹©¿Í»§ºÍÉÌÆ·Ïà¹ØµÄ·şÎñ£¬Òò´ËÒ²Ö»ÅäÖÃÁËÕâ2¸ö·şÎñµÄ´úÀí¡£ÅäÖÃÎÄ¼şÖĞÓĞ¸öminWorkThreadsÅäÖÃ£¬ÕâÊÇ¿ÉÑ¡µÄÓÃÓÚ×îĞ¡¹¤×÷Ïß³ÌÊıµÄÅäÖÃ£¬µ±·şÎñÆ÷Ñ¹Á¦½Ï´óÊ±¿ÉÒÔÏàÓ¦µÄÌá¸ß£¬ÕâÀïÖ»ÊÇÓÃÓÚÑİÊ¾ÅäÖÃÁË100¡£
+å¯¹äºWebé¡¹ç›®æ¥è¯´åªæ˜¯æœåŠ¡çš„æ¶ˆè´¹æ–¹ï¼Œæ‰€ä»¥é…ç½®æ–‡ä»¶ä¸­åªåŒ…å«å®¢æˆ·ç«¯ç›¸å…³çš„é…ç½®ã€‚å› ä¸ºWebAPIåªæä¾›å®¢æˆ·å’Œå•†å“ç›¸å…³çš„æœåŠ¡ï¼Œå› æ­¤ä¹Ÿåªé…ç½®äº†è¿™2ä¸ªæœåŠ¡çš„ä»£ç†ã€‚é…ç½®æ–‡ä»¶ä¸­æœ‰ä¸ªminWorkThreadsé…ç½®ï¼Œè¿™æ˜¯å¯é€‰çš„ç”¨äºæœ€å°å·¥ä½œçº¿ç¨‹æ•°çš„é…ç½®ï¼Œå½“æœåŠ¡å™¨å‹åŠ›è¾ƒå¤§æ—¶å¯ä»¥ç›¸åº”çš„æé«˜ï¼Œè¿™é‡Œåªæ˜¯ç”¨äºæ¼”ç¤ºé…ç½®äº†100ã€‚
 
-È»ºó£¬´´½¨XNodeBootstrapÀàÓÃÓÚÌí¼ÓXNode×¢²áºÍÔËĞĞµÄ´úÂë£º
+ç„¶åï¼Œåˆ›å»ºXNodeBootstrapç±»ç”¨äºæ·»åŠ XNodeæ³¨å†Œå’Œè¿è¡Œçš„ä»£ç ï¼š
 ``` c#
 public class XNodeBootstrap
 {
@@ -2902,9 +2970,9 @@ public class XNodeBootstrap
     }
 }
 ```
-ÕâĞ©´úÂëÏ¸½ÚÔÚÖ®Ç°µÄÕÂ½ÚÖĞ¶¼ÓĞÏêÏ¸ËµÃ÷£¬ÕâÀï¾Í²»ÔÙÖØ¸´ĞğÊöÁË¡£ÕâÀïÒ²ºÍÅäÖÃÎÄ¼şÒ»Ñù£¬Ö»ÓĞXNode¿Í»§¶ËÏà¹ØµÄ´úÂë¡£
+è¿™äº›ä»£ç ç»†èŠ‚åœ¨ä¹‹å‰çš„ç« èŠ‚ä¸­éƒ½æœ‰è¯¦ç»†è¯´æ˜ï¼Œè¿™é‡Œå°±ä¸å†é‡å¤å™è¿°äº†ã€‚è¿™é‡Œä¹Ÿå’Œé…ç½®æ–‡ä»¶ä¸€æ ·ï¼Œåªæœ‰XNodeå®¢æˆ·ç«¯ç›¸å…³çš„ä»£ç ã€‚
 
-×îºó£¬´ò¿ªStartup.csÎÄ¼ş£¬Ìí¼ÓAutofacºÍXNodeÏà¹Ø´úÂë£º
+æœ€åï¼Œæ‰“å¼€Startup.csæ–‡ä»¶ï¼Œæ·»åŠ Autofacå’ŒXNodeç›¸å…³ä»£ç ï¼š
 ``` c#
 ......
 
@@ -2915,7 +2983,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 {
     services.AddMvc();
 
-    // Ê¹ÓÃAutofac×÷ÎªIoCÈİÆ÷
+    // ä½¿ç”¨Autofacä½œä¸ºIoCå®¹å™¨
     var containerBuilder = new ContainerBuilder();
     containerBuilder.RegisterModule(new AutofacModule(ServiceProxyManager));
     containerBuilder.Populate(services);
@@ -2932,13 +3000,13 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
     app.UseMvc();
 
-    //Ö´ĞĞXNode³õÊ¼»¯
+    //æ‰§è¡ŒXNodeåˆå§‹åŒ–
     new XNodeBootstrap().Run(LoggerFactory, ServiceProxyManager);
 }
 ```
 
-#### ControllerÊµÏÖ
-Controller²¿·Ö±È½Ï¼òµ¥£¬Ìá¹©ÁË¿Í»§ºÍÉÌÆ·µÄ²éÑ¯·şÎñ£º
+#### Controllerå®ç°
+Controlleréƒ¨åˆ†æ¯”è¾ƒç®€å•ï¼Œæä¾›äº†å®¢æˆ·å’Œå•†å“çš„æŸ¥è¯¢æœåŠ¡ï¼š
 ``` c#
 [Route("api/[controller]/[action]")]
 public class DemoController : Controller
@@ -2985,7 +3053,7 @@ public class DemoController : Controller
 ```
 
 ### Launcher
-LauncherÏîÄ¿ÊÇÒ»¸ö¿ØÖÆÌ¨³ÌĞò£¬ÓÃÓÚÆô¶¯XNode·şÎñ¡£ÏîÄ¿ÖĞÒ²ÊÇÍ¨¹ıAutofacÊµÏÖÒÀÀµ×¢Èë£¬Òò´ËÒ²´´½¨AutofacModuleÀà£¬ÊµÏÖÓëWebÏîÄ¿ÖĞµÄÒ»ÖÂ¡£Í¬Ñù£¬´´½¨XNodeBootstrapÀàÊµÏÖXNode·şÎñ/´úÀíµÄ×¢²áºÍÔËĞĞ£¬ÓëWebÏîÄ¿ÖĞ²»Í¬µÄÊÇÔö¼ÓÁËXNode·şÎñ¶ËµÄÅäÖÃ:
+Launcheré¡¹ç›®æ˜¯ä¸€ä¸ªæ§åˆ¶å°ç¨‹åºï¼Œç”¨äºå¯åŠ¨XNodeæœåŠ¡ã€‚é¡¹ç›®ä¸­ä¹Ÿæ˜¯é€šè¿‡Autofacå®ç°ä¾èµ–æ³¨å…¥ï¼Œå› æ­¤ä¹Ÿåˆ›å»ºAutofacModuleç±»ï¼Œå®ç°ä¸Webé¡¹ç›®ä¸­çš„ä¸€è‡´ã€‚åŒæ ·ï¼Œåˆ›å»ºXNodeBootstrapç±»å®ç°XNodeæœåŠ¡/ä»£ç†çš„æ³¨å†Œå’Œè¿è¡Œï¼Œä¸Webé¡¹ç›®ä¸­ä¸åŒçš„æ˜¯å¢åŠ äº†XNodeæœåŠ¡ç«¯çš„é…ç½®:
 ``` c#
 public class XNodeBootstrap
 {
@@ -3082,7 +3150,7 @@ public class XNodeBootstrap
     }
 }
 ```
-´ò¿ªProgram.csÎÄ¼ş£¬Ôö¼ÓÖ´ĞĞAutofacÓëXNodeÅäÖÃµÄ´úÂë£º
+æ‰“å¼€Program.csæ–‡ä»¶ï¼Œå¢åŠ æ‰§è¡ŒAutofacä¸XNodeé…ç½®çš„ä»£ç ï¼š
 ``` c#
 static void Main(string[] args)
 {
@@ -3101,9 +3169,9 @@ static void Main(string[] args)
     Console.ReadLine();
 }
 ```
-¾¡¹ÜDemoÖĞÓĞÉÌÆ·¡¢¶©µ¥¡¢¿Í»§3¸ö·şÎñ£¬µ«LauncherÊÇÒ»¸öÍ¨ÓÃµÄÏîÄ¿¡£½«Launcher±àÒëºÃÒÔºó¿ÉÒÔ²¿ÊğÔÚ²»Í¬µÄ·şÎñÆ÷ÉÏ£¬Í¨¹ıÅäÖÃÎÄ¼ş¾ö¶¨¿ªÆôÄÄĞ©·şÎñ¡£ÕâÀï¶ÔÉÌÆ·¡¢¶©µ¥¡¢¿Í»§3¸ö·şÎñ·Ö±ğ½øĞĞ²¿Êğ£¬Ã¿¸ö·şÎñÊ¹ÓÃ²»Í¬µÄ¶Ë¿ÚÄ£Äâ²¿ÊğÔÚ²»Í¬µÄ·şÎñÆ÷ÉÏ¡£
+å°½ç®¡Demoä¸­æœ‰å•†å“ã€è®¢å•ã€å®¢æˆ·3ä¸ªæœåŠ¡ï¼Œä½†Launcheræ˜¯ä¸€ä¸ªé€šç”¨çš„é¡¹ç›®ã€‚å°†Launcherç¼–è¯‘å¥½ä»¥åå¯ä»¥éƒ¨ç½²åœ¨ä¸åŒçš„æœåŠ¡å™¨ä¸Šï¼Œé€šè¿‡é…ç½®æ–‡ä»¶å†³å®šå¼€å¯å“ªäº›æœåŠ¡ã€‚è¿™é‡Œå¯¹å•†å“ã€è®¢å•ã€å®¢æˆ·3ä¸ªæœåŠ¡åˆ†åˆ«è¿›è¡Œéƒ¨ç½²ï¼Œæ¯ä¸ªæœåŠ¡ä½¿ç”¨ä¸åŒçš„ç«¯å£æ¨¡æ‹Ÿéƒ¨ç½²åœ¨ä¸åŒçš„æœåŠ¡å™¨ä¸Šã€‚
 
-Ê×ÏÈ£¬²¿ÊğGoodsService¡£ÉÌÆ··şÎñ²»ÒÀÀµÆäËü·şÎñ£¬Òò´ËÖ»ĞèÒªÅäÖÃXNode·şÎñ¶Ë¼´¿É£º
+é¦–å…ˆï¼Œéƒ¨ç½²GoodsServiceã€‚å•†å“æœåŠ¡ä¸ä¾èµ–å…¶å®ƒæœåŠ¡ï¼Œå› æ­¤åªéœ€è¦é…ç½®XNodeæœåŠ¡ç«¯å³å¯ï¼š
 ``` c#
 {
   "name": "GoodsService",
@@ -3137,9 +3205,9 @@ static void Main(string[] args)
   }
 }
 ```
-GoodsServiceÊ¹ÓÃÁË9002¶Ë¿Ú²¢¿ªÆô·şÎñIdÎª10001µÄ·şÎñ¡£
+GoodsServiceä½¿ç”¨äº†9002ç«¯å£å¹¶å¼€å¯æœåŠ¡Idä¸º10001çš„æœåŠ¡ã€‚
 
-È»ºó£¬²¿ÊğOrderService¡£¶©µ¥·şÎñ½«ÒÀÀµÉÌÆ··şÎñ£¬Òò´ËXNode·şÎñ¶ËºÍ¿Í»§¶Ë¶¼ĞèÒª½øĞĞÅäÖÃ£º
+ç„¶åï¼Œéƒ¨ç½²OrderServiceã€‚è®¢å•æœåŠ¡å°†ä¾èµ–å•†å“æœåŠ¡ï¼Œå› æ­¤XNodeæœåŠ¡ç«¯å’Œå®¢æˆ·ç«¯éƒ½éœ€è¦è¿›è¡Œé…ç½®ï¼š
 ``` c#
 {
   "name": "OrderService",
@@ -3200,9 +3268,9 @@ GoodsServiceÊ¹ÓÃÁË9002¶Ë¿Ú²¢¿ªÆô·şÎñIdÎª10001µÄ·şÎñ¡£
   }
 }
 ```
-OrderServiceÊ¹ÓÃÁË9003¶Ë¿Ú²¢¿ªÆô·şÎñIdÎª10002µÄ·şÎñ¡£Í¬Ê±£¬¶ÔÉÌÆ·´úÀí½øĞĞÅäÖÃ¡£
+OrderServiceä½¿ç”¨äº†9003ç«¯å£å¹¶å¼€å¯æœåŠ¡Idä¸º10002çš„æœåŠ¡ã€‚åŒæ—¶ï¼Œå¯¹å•†å“ä»£ç†è¿›è¡Œé…ç½®ã€‚
 
-×îºó£¬²¿ÊğCustomerService¡£¿Í»§·şÎñ½«ÒÀÀµ¶©µ¥·şÎñ£º
+æœ€åï¼Œéƒ¨ç½²CustomerServiceã€‚å®¢æˆ·æœåŠ¡å°†ä¾èµ–è®¢å•æœåŠ¡ï¼š
 ``` c#
 {
   "name": "CustomerService",
@@ -3263,14 +3331,14 @@ OrderServiceÊ¹ÓÃÁË9003¶Ë¿Ú²¢¿ªÆô·şÎñIdÎª10002µÄ·şÎñ¡£Í¬Ê±£¬¶ÔÉÌÆ·´úÀí½øĞĞÅäÖÃ¡£
   }
 }
 ```
-OrderServiceÊ¹ÓÃÁË9001¶Ë¿Ú²¢¿ªÆô·şÎñIdÎª10003µÄ·şÎñ¡£Í¬Ê±£¬¶Ô¶©µ¥´úÀí½øĞĞÅäÖÃ¡£
+OrderServiceä½¿ç”¨äº†9001ç«¯å£å¹¶å¼€å¯æœåŠ¡Idä¸º10003çš„æœåŠ¡ã€‚åŒæ—¶ï¼Œå¯¹è®¢å•ä»£ç†è¿›è¡Œé…ç½®ã€‚
 
-### ÔËĞĞ
-°´Ç°ÃæËùÊö½øĞĞ±àÒëºÍ²¿ÊğÖ®ºóÓĞ1¸öWeb³ÌĞòºÍ3¸ö¿ØÖÆÌ¨³ÌĞò£¬Ê×ÏÈ¸ù¾İ·şÎñ¼äµÄÒÀÀµ¹ØÏµÒÀ´ÎÆô¶¯GoodsService¡¢OrderService¡¢CustomerService¡£È»ºóÆô¶¯Web³ÌĞò²¢Í¨¹ıPostman·ÃÎÊÊµÏÖµÄ¼¸¸öWebAPI£¬ÈôÖ´ĞĞ³É¹¦Postman»áµÃµ½ÏàÓ¦µÄJSONÊı¾İ£¬¶ø3¸ö¿ØÖÆÌ¨³ÌĞòÖĞÒ²»áÏÔÊ¾·şÎñµÄµ÷ÓÃÇé¿ö¡£
+### è¿è¡Œ
+æŒ‰å‰é¢æ‰€è¿°è¿›è¡Œç¼–è¯‘å’Œéƒ¨ç½²ä¹‹åæœ‰1ä¸ªWebç¨‹åºå’Œ3ä¸ªæ§åˆ¶å°ç¨‹åºï¼Œé¦–å…ˆæ ¹æ®æœåŠ¡é—´çš„ä¾èµ–å…³ç³»ä¾æ¬¡å¯åŠ¨GoodsServiceã€OrderServiceã€CustomerServiceã€‚ç„¶åå¯åŠ¨Webç¨‹åºå¹¶é€šè¿‡Postmanè®¿é—®å®ç°çš„å‡ ä¸ªWebAPIï¼Œè‹¥æ‰§è¡ŒæˆåŠŸPostmanä¼šå¾—åˆ°ç›¸åº”çš„JSONæ•°æ®ï¼Œè€Œ3ä¸ªæ§åˆ¶å°ç¨‹åºä¸­ä¹Ÿä¼šæ˜¾ç¤ºæœåŠ¡çš„è°ƒç”¨æƒ…å†µã€‚
 
-### ÍêÕûÊ¾Àı´úÂë
+### å®Œæ•´ç¤ºä¾‹ä»£ç 
 XNode-Demo
 
-## ¼¼Êõ½»Á÷
+## æŠ€æœ¯äº¤æµ
 Author: Junjie Sun
 Mail: junjie_coding@163.com
