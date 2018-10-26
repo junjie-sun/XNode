@@ -38,8 +38,8 @@ namespace XNode.Client.Configuration
         public int ReconnectCount { get; set; } = -1;
 
         /// <summary>
-        /// 每次尝试重新连接的时间间隔，单位：毫秒，默认为30000毫秒
+        /// 每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒
         /// </summary>
-        public int ReconnectInterval { get; set; } = 30000;
+        public int ReconnectInterval { get; set; } = 3000;
     }
 }

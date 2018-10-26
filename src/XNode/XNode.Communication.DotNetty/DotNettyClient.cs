@@ -83,8 +83,8 @@ namespace XNode.Communication.DotNetty
         /// <param name="localHost">本地地址</param>
         /// <param name="localPort">本地端口</param>
         /// <param name="reconnectCount">当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1</param>
-        /// <param name="reconnectInterval">每次尝试重新连接的时间间隔，单位：毫秒，默认为30000毫秒</param>
-        public DotNettyClient(string host, int port, string localHost = null, int? localPort = null, int reconnectCount = -1, int reconnectInterval = 30000)
+        /// <param name="reconnectInterval">每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒</param>
+        public DotNettyClient(string host, int port, string localHost = null, int? localPort = null, int reconnectCount = -1, int reconnectInterval = 3000)
         {
             loggerFactory = LoggerManager.ClientLoggerFactory;
             logger = loggerFactory.CreateLogger<DotNettyClient>();
