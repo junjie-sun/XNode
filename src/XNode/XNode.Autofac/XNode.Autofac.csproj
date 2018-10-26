@@ -5,8 +5,8 @@
     <Authors>Sun junjie</Authors>
     <Company>Sun junjie</Company>
     <Description>Autofac extension for XNode.</Description>
-    <Version>0.1.0</Version>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <Version>0.2.0</Version>
+    <AssemblyVersion>0.2.0.0</AssemblyVersion>
     <PackageTags>distributed,rpc,xnode</PackageTags>
     <PackageProjectUrl>https://github.com/junjie-sun/XNode</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
