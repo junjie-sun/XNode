@@ -18,9 +18,9 @@ namespace XNode.Communication.DotNetty.Handlers
     {
         private ILogger logger;
 
-        private Func<Task<LoginRequestData>> getLoginRequestDataHandler;
+        private Func<string, Task<LoginRequestData>> getLoginRequestDataHandler;
 
-        private Func<byte[], IDictionary<string, byte[]>, Task<byte>> loginResponseHandler;
+        private Func<string, byte[], IDictionary<string, byte[]>, Task<byte>> loginResponseHandler;
 
         /// <summary>
         /// 构造函数
@@ -28,7 +28,7 @@ namespace XNode.Communication.DotNetty.Handlers
         /// <param name="loggerFactory">日志工厂</param>
         /// <param name="getLoginRequestDataHandler">获取登录请求数据Handler</param>
         /// <param name="loginResponseHandler">登录响应Handler</param>
-        public ClientLoginAuthHandler(ILoggerFactory loggerFactory, Func<Task<LoginRequestData>> getLoginRequestDataHandler, Func<byte[], IDictionary<string, byte[]>, Task<byte>> loginResponseHandler)
+        public ClientLoginAuthHandler(ILoggerFactory loggerFactory, Func<string, Task<LoginRequestData>> getLoginRequestDataHandler, Func<string, byte[], IDictionary<string, byte[]>, Task<byte>> loginResponseHandler)
         {
             logger = loggerFactory.CreateLogger<ClientLoginAuthHandler>();
             this.getLoginRequestDataHandler = getLoginRequestDataHandler;
@@ -39,7 +39,9 @@ namespace XNode.Communication.DotNetty.Handlers
         {
             if (getLoginRequestDataHandler != null)
             {
-                getLoginRequestDataHandler().ContinueWith((t) =>
+                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
+                var port = context.GetRemotePort();
+                getLoginRequestDataHandler($"{ip}:{port}").ContinueWith((t) =>
                 {
                     context.WriteAndFlushAsync(BuildLoginReq(t.Result));
                 });
@@ -61,7 +63,9 @@ namespace XNode.Communication.DotNetty.Handlers
                 {
                     Task.Run(() =>
                     {
-                        loginResponseHandler(msg.Body, msg.Header.Attachments).ContinueWith(t =>
+                        var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
+                        var port = context.GetRemotePort();
+                        loginResponseHandler($"{ip}:{port}", msg.Body, msg.Header.Attachments).ContinueWith(t =>
                         {
                             var loginResult = t.Result;
                             if (loginResult == 0)

@@ -1,19 +1,13 @@
 ﻿// Copyright (c) junjie sun. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using DotNetty.Handlers.Timeout;
-using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
-using DotNetty.Transport.Channels.Sockets;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using XNode.Communication.DotNetty.Handlers;
 using XNode.Communication.ProtocolStack;
 using XNode.Logging;
 
@@ -30,9 +24,7 @@ namespace XNode.Communication.DotNetty
 
         private RequestManager requestManager;
 
-        private Bootstrap bootstrap;
-
-        private IEventLoopGroup group;
+        private string channelName;
 
         private IChannel channel;
 
@@ -97,35 +89,17 @@ namespace XNode.Communication.DotNetty
             this.reconnectInterval = reconnectInterval;
         }
 
+        static DotNettyClient()
+        {
+            BootstrapManager.Init();
+        }
+
         /// <summary>
         /// 向服务端发起连接
         /// </summary>
         /// <returns></returns>
         public async Task ConnectAsync()
         {
-            if (bootstrap == null)
-            {
-                bootstrap = new Bootstrap();
-                group = new MultithreadEventLoopGroup();
-
-                var getLoginRequestDataHandler = CreateGetLoginRequestDataHandler();
-                var loginResponseHandler = CreateLoginResponseHandler();
-
-                bootstrap.Group(group)
-                    .Channel<TcpSocketChannel>()
-                    .Option(ChannelOption.TcpNodelay, true)
-                    .Handler(new ActionChannelInitializer<ISocketChannel>(channel =>
-                    {
-                        channel.Pipeline.AddLast("IdleStateHandler", new IdleStateHandler(0, 0, 10));        //自带心跳包方案，每隔指定时间检查是否有读和写操作，如果没有则触发userEventTriggered事件
-                        channel.Pipeline.AddLast("MessageDecoder", new MessageDecoder(loggerFactory, 1024 * 1024, 4, 4, -8, 0));
-                        channel.Pipeline.AddLast("MessageEncoder", new MessageEncoder(loggerFactory));
-                        channel.Pipeline.AddLast("LoginAuthHandler", new ClientLoginAuthHandler(loggerFactory, getLoginRequestDataHandler, loginResponseHandler));
-                        channel.Pipeline.AddLast("ServiceResultHandler", new ClientServiceHandler(loggerFactory, requestManager));
-                        channel.Pipeline.AddLast("IdleStateHearBeatReqHandler", new IdleStateHearBeatReqHandler(loggerFactory));
-                        channel.Pipeline.AddLast("ExceptionHandler", new ClientExceptionHandler(loggerFactory, this.ReconnectAsync));
-                    }));
-            }
-
             await DoConnectAsync();
 
             allowReconnect = true;
@@ -179,18 +153,10 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task CloseAsync()
         {
-            try
-            {
-                status = ClientStatus.Closed;
-                allowReconnect = false;
-                await channel.CloseAsync();
-                logger.LogDebug($"Client closed. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-            }
-            finally
-            {
-                await group.ShutdownGracefullyAsync();
-                logger.LogDebug($"Group shutdowned. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-            }
+            status = ClientStatus.Closed;
+            allowReconnect = false;
+            await BootstrapManager.CloseAsync(channelName);
+            logger.LogDebug($"Client closed. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
         }
 
         /// <summary>
@@ -204,7 +170,7 @@ namespace XNode.Communication.DotNetty
             if (connectTcs != null)
             {
                 logger.LogError($"Client connect has begun. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-                throw new InvalidOperationException("Client connect has begun.");
+                throw new InvalidOperationException($"Client connect has begun. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
             }
 
             connectTcs = new TaskCompletionSource<object>();
@@ -212,15 +178,21 @@ namespace XNode.Communication.DotNetty
             try
             {
                 status = ClientStatus.Connecting;
+                var dotNettyClientInfo = new DotNettyClientInfo()
+                {
+                    Host = host,
+                    Port = port,
+                    LocalHost = localHost,
+                    LocalPort = localPort,
+                    RequestManager = requestManager,
+                    ExceptionHandler = ReconnectAsync,
+                    GetLoginRequestDataHandler = GetLoginRequestData,
+                    LoginResponseHandler = LoginResponse
+                };
+                channelName = dotNettyClientInfo.ChannelName;
                 //发起异步连接操作
-                if (!string.IsNullOrEmpty(localHost) && localPort != null)
-                {
-                    channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(host), port), new IPEndPoint(IPAddress.Parse(localHost), localPort.Value));
-                }
-                else
-                {
-                    channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(host), port));
-                }
+                channel = await BootstrapManager.ConnectAsync(dotNettyClientInfo);
+                
                 await connectTcs.Task;
                 status = ClientStatus.Connected;
                 logger.LogDebug($"Client connect finished. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
@@ -248,7 +220,7 @@ namespace XNode.Communication.DotNetty
                 }
 
                 status = ClientStatus.Closed;
-                await channel.CloseAsync();
+                await BootstrapManager.CloseAsync(channelName);
 
                 logger.LogDebug($"Client reconnect: close connect. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
 
@@ -291,46 +263,40 @@ namespace XNode.Communication.DotNetty
             return message;
         }
 
-        private Func<Task<LoginRequestData>> CreateGetLoginRequestDataHandler()
-        {
-            if (OnSubmitLoginRequest == null)
-            {
-                return null;
-            }
-
-            return new Func<Task<LoginRequestData>>(() =>
-            {
-                return OnSubmitLoginRequest();
-            });
-        }
-
-        private Func<byte[], IDictionary<string, byte[]>, Task<byte>> CreateLoginResponseHandler()
+        private async Task<byte> LoginResponse(byte[] message, IDictionary<string, byte[]> attachments)
         {
             if (OnRecieveLoginResponse == null)
             {
-                return null;
+                return message[0];
             }
 
-            return new Func<byte[], IDictionary<string, byte[]>, Task<byte>>(async (message, attachments) =>
+            byte result = await OnRecieveLoginResponse(message, attachments);
+
+            if (connectTcs != null)
             {
-                byte result = await OnRecieveLoginResponse(message, attachments);
-
-                if (connectTcs != null)
+                var tcs = connectTcs;
+                connectTcs = null;
+                if (result == 0)
                 {
-                    var tcs = connectTcs;
-                    connectTcs = null;
-                    if (result == 0)
-                    {
-                        tcs.SetResult(null);
-                    }
-                    else
-                    {
-                        tcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
-                    }
+                    tcs.SetResult(null);
                 }
+                else
+                {
+                    tcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
+                }
+            }
 
-                return result;
-            });
+            return result;
+        }
+
+        private Task<LoginRequestData> GetLoginRequestData()
+        {
+            if (OnSubmitLoginRequest == null)
+            {
+                return Task.FromResult(new LoginRequestData());
+            }
+
+            return OnSubmitLoginRequest();
         }
     }
 }

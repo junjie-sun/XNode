@@ -450,7 +450,8 @@ namespace XNode.Client.Console
                 .WithSampleRate(1.0)
                 .Start();
 
-            var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);     //new MsgPackSerializer(LoggerManager.ClientLoggerFactory)
+            //var serializer = new MsgPackSerializer(LoggerManager.ClientLoggerFactory);
+            var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);
 
             var serviceCaller = new ServiceCallerBuilder()
                 .Append(new ZipkinCaller(serializer))

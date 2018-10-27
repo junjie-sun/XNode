@@ -19,14 +19,14 @@ namespace XNode.Communication.DotNetty.Handlers
     {
         private ILogger logger;
 
-        private Func<Task> socketExceptionHandler;
+        private Func<string, Task> socketExceptionHandler;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="loggerFactory">日志工厂</param>
         /// <param name="socketExceptionHandler">网络异常Handler</param>
-        public ClientExceptionHandler(ILoggerFactory loggerFactory, Func<Task> socketExceptionHandler)
+        public ClientExceptionHandler(ILoggerFactory loggerFactory, Func<string, Task> socketExceptionHandler)
         {
             logger = loggerFactory.CreateLogger<ClientExceptionHandler>();
             this.socketExceptionHandler = socketExceptionHandler;
@@ -37,7 +37,9 @@ namespace XNode.Communication.DotNetty.Handlers
             if (exception is SocketException)
             {
                 logger.LogError(exception, $"Socket exception. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}, ExceptionMessage={exception.Message}");
-                await socketExceptionHandler?.Invoke();
+                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
+                var port = context.GetRemotePort();
+                await socketExceptionHandler?.Invoke($"{ip}:{port}");
             }
             else
             {

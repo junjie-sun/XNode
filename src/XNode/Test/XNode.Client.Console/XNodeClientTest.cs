@@ -22,7 +22,7 @@ namespace XNode.Client.Console
         {
             System.Console.ReadLine();
 
-            var proxyName = "XNodeDemoService";
+            //var proxyName = "XNodeDemoService";
             LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Debug);
             var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);     //new MsgPackSerializer(LoggerManager.ClientLoggerFactory)
             var nodeClient = new DefaultNodeClient(new NodeClientParameters()

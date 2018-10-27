@@ -17,28 +17,40 @@ namespace XNode.Communication.DotNetty.Handlers
     {
         private ILogger logger;
 
-        private RequestManager requestManager;
+        private Func<string, RequestManager> serviceResponseHandler;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="loggerFactory">日志工厂</param>
-        /// <param name="requestManager">请求管理器</param>
-        public ClientServiceHandler(ILoggerFactory loggerFactory, RequestManager requestManager)
+        /// <param name="serviceResponseHandler">服务响应处理器</param>
+        public ClientServiceHandler(ILoggerFactory loggerFactory, Func<string, RequestManager> serviceResponseHandler)
         {
             logger = loggerFactory.CreateLogger<ClientServiceHandler>();
-            this.requestManager = requestManager;
+            this.serviceResponseHandler = serviceResponseHandler;
         }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var msg = (Message)message;
 
+            RequestManager requestManager = null;
+
+            if (serviceResponseHandler != null)
+            {
+                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
+                var port = context.GetRemotePort();
+                requestManager = serviceResponseHandler($"{ip}:{port}");
+            }
+
             //如果是服务响应消息，处理，其它消息透传
             if (msg.Header != null && msg.Header.Type == MessageType.SERVICE_RESP)
             {
                 logger.LogDebug($"Get request result. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
-                requestManager.CompleteRequest(msg.Header.RequestId, msg);
+                if (requestManager != null)
+                {
+                    requestManager.CompleteRequest(msg.Header.RequestId, msg);
+                }
             }
             else
             {

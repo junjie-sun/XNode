@@ -60,7 +60,7 @@ namespace XNode.Server.Console.XNodeServer
                 //.ConfigServerInfo(host, port)
                 .ApplyConfig(serverConfig)
                 //.ConfigServiceProvider(serviceProvider)
-                //.ConfigSerializer(new MsgPackSerializer())
+                //.ConfigSerializer(new MsgPackSerializer(LoggerManager.ServerLoggerFactory))
                 .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
                 .ConfigLoginValidator(loginValidator)
                 .AddServiceProcessor(new ZipkinProcessor())
