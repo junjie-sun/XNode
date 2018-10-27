@@ -14,10 +14,10 @@
             {
               "host": "192.168.2.105",
               "port": "9001",
-              "localHost": "192.168.2.105",
-              "localPort": "9011",
+              /*"localHost": "192.168.2.105",
+              "localPort": "9011",*/
               "reconnectCount": 3,
-              "reconnectInterval": 30000
+              "reconnectInterval": 3000
             }
           ],
           "services": [

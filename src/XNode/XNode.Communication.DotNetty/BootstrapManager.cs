@@ -60,19 +60,32 @@ namespace XNode.Communication.DotNetty
                 throw new InvalidOperationException("Channel is exist.");
             }
 
-            IChannel channel;
-
-            if (!string.IsNullOrEmpty(info.LocalHost) && info.LocalPort != null)
+            try
             {
-                channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port), new IPEndPoint(IPAddress.Parse(info.LocalHost), info.LocalPort.Value));
-            }
-            else
-            {
-                channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port));
-            }
+                IChannel channel;
 
-            info.Channel = channel;
-            return channel;
+                if (!string.IsNullOrEmpty(info.LocalHost) && info.LocalPort != null)
+                {
+                    channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port), new IPEndPoint(IPAddress.Parse(info.LocalHost), info.LocalPort.Value));
+                }
+                else
+                {
+                    channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port));
+                }
+
+                info.Channel = channel;
+                return channel;
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                }
+                logger.LogError(ex, $"Channel connect failed. Host={info.Host}, Port={info.Port}, LocalHost={info.LocalHost}, LocalPort={info.LocalPort}");
+                clientInfoList.TryRemove(info.ChannelName, out info);
+                throw ex;
+            }
         }
 
         public static Task CloseAsync(string channelName)

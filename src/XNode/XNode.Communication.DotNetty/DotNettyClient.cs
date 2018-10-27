@@ -40,6 +40,8 @@ namespace XNode.Communication.DotNetty
 
         private TaskCompletionSource<object> connectTcs;
 
+        private CancellationTokenSource connectCts;
+
         private ClientStatus status;
 
         private bool allowReconnect = false;
@@ -173,8 +175,6 @@ namespace XNode.Communication.DotNetty
                 throw new InvalidOperationException($"Client connect has begun. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
             }
 
-            connectTcs = new TaskCompletionSource<object>();
-
             try
             {
                 status = ClientStatus.Connecting;
@@ -192,17 +192,42 @@ namespace XNode.Communication.DotNetty
                 channelName = dotNettyClientInfo.ChannelName;
                 //发起异步连接操作
                 channel = await BootstrapManager.ConnectAsync(dotNettyClientInfo);
-                
-                await connectTcs.Task;
+            }
+            catch (Exception ex)
+            {
+                status = ClientStatus.Closed;
+                logger.LogError(ex, $"Client connect has error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                throw new NetworkException(host, port, ex.Message);
+            }
+
+            try
+            {
+                connectTcs = new TaskCompletionSource<object>();
+                connectCts = new CancellationTokenSource(3000);     //登录验证响应超时
+                var token = connectCts.Token;
+                token.Register(() =>
+                {
+                    try
+                    {
+                        connectTcs.SetException(new TimeoutException("Login response timeout."));
+                    }
+                    catch { }
+                });
+
+                await connectTcs.Task;      //等待登录验证响应
                 status = ClientStatus.Connected;
                 logger.LogDebug($"Client connect finished. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
             }
-            catch (AggregateException ex)
+            catch (Exception ex)
             {
-                status = ClientStatus.Closed;
+                await CloseAsync();
+                logger.LogError(ex, $"Client login has error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                throw new NetworkException(host, port, ex.Message);
+            }
+            finally
+            {
+                connectCts = null;
                 connectTcs = null;
-                logger.LogError(ex, $"Client connect has error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.InnerException.Message}, ExceptionStackTrace={ex.InnerException.StackTrace}");
-                throw new NetworkException(host, port, ex.InnerException.Message);
             }
         }
 
@@ -265,24 +290,43 @@ namespace XNode.Communication.DotNetty
 
         private async Task<byte> LoginResponse(byte[] message, IDictionary<string, byte[]> attachments)
         {
-            if (OnRecieveLoginResponse == null)
+            if (connectCts == null || connectTcs == null)
             {
-                return message[0];
+                return 1;
             }
 
-            byte result = await OnRecieveLoginResponse(message, attachments);
+            connectCts.Dispose();
 
-            if (connectTcs != null)
+            if (connectCts == null || connectCts.IsCancellationRequested)
             {
-                var tcs = connectTcs;
-                connectTcs = null;
-                if (result == 0)
+                return 1;
+            }
+
+            byte result;
+
+            if (OnRecieveLoginResponse == null)
+            {
+                result = message[0];
+            }
+            else
+            {
+                try
                 {
-                    tcs.SetResult(null);
+                    result = await OnRecieveLoginResponse(message, attachments);
+                    if (result == 0)
+                    {
+                        connectTcs.SetResult(null);
+                    }
+                    else
+                    {
+                        connectTcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    tcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
+                    logger.LogError(ex, $"DotNettyClient.OnRecieveLoginResponse error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                    result = 1;
+                    connectTcs.SetException(ex);
                 }
             }
 

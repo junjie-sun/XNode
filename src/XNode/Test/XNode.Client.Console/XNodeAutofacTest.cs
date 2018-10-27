@@ -37,6 +37,8 @@ namespace XNode.Client.Console
 
             var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);     //Init(host, port, localHost, localPort);
 
+            System.Console.ReadLine();
+
             var beginTime = DateTime.Now;
 
             for (var i = 0; i < 1; i++)
@@ -68,7 +70,7 @@ namespace XNode.Client.Console
                     return;
                 }
                 System.Console.WriteLine("Closed");
-            });
+            }).ContinueWith(task => BootstrapManager.Disable());
         }
 
         #region  GetServiceName
