@@ -1,0 +1,39 @@
+﻿{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "SimpleService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "192.168.37.131",
+              "port": "9001"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 20001,
+              "typeName": "XNode.Client.Console.Services.ISimpleService,XNode.Client.Console",
+              "enabled": true,
+              "actions": [
+                {
+                  "actionId": 1,
+                  "timeout": 10000,
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "server": {
+    }
+  }
+}

@@ -1,0 +1,38 @@
+﻿{
+  "xnode": {
+    "client": {
+    },
+    "server": {
+      "serverInfo": {
+        "host": "192.168.37.131",
+        "port": "9001"
+      },
+      "services": [
+        {
+          "serviceId": 20001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true,
+              "authorizes": [
+                { "account": "Test01" }
+              ]
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": []
+            }
+          ]
+        }
+      }
+    }
+  }
+}
