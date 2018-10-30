@@ -47,10 +47,12 @@ XNode.Communication.DotNetty
 XNode.Serializer.MsgPack
 0.2.0
 更换序列化组件为MessagePack 1.7.3.4
+记录序列化/反序列化失败时日志
 
 XNode.Serializer.ProtoBuf
 0.2.0
 更新protobuf-net版本至2.4.0
+记录序列化/反序列化失败时日志
 
 XNode.Zipkin
 0.2.0
