@@ -24,7 +24,7 @@ XNode.Zipkin
 
 --------------------------------------------------------------------------------
 
-2018-10-28
+2018-10-30
 XNode Tag：0.2.0
 
 XNode
@@ -46,7 +46,7 @@ XNode.Communication.DotNetty
 
 XNode.Serializer.MsgPack
 0.2.0
-更新MsgPack.Cli版本至1.0.0
+更换序列化组件为MessagePack 1.7.3.4
 
 XNode.Serializer.ProtoBuf
 0.2.0

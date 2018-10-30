@@ -1,8 +1,8 @@
 ﻿// Copyright (c) junjie sun. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using MessagePack;
 using Microsoft.Extensions.Logging;
-using MsgPack.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,16 +47,11 @@ namespace XNode.Serializer.MsgPack
             if (data == null || data.Length == 0)
             {
                 logger.LogDebug($"Deserialize data is null.");
-                return Task.Factory.StartNew<object>(() =>
-                {
-                    return null;
-                });
+                return Task.FromResult<object>(null);
             }
 
-            var serializer = MessagePackSerializer.Get(type);
-
             logger.LogDebug($"Do deserialize.");
-            return serializer.UnpackSingleObjectAsync(data, CancellationToken.None);
+            return Task.FromResult(MessagePackSerializer.NonGeneric.Deserialize(type, data));
         }
 
         public Task<byte[]> SerializeAsync(object obj)
@@ -64,16 +59,11 @@ namespace XNode.Serializer.MsgPack
             if (obj == null)
             {
                 logger.LogDebug($"Serialize data is null.");
-                return Task.Factory.StartNew<byte[]>(() =>
-                {
-                    return null;
-                });
+                return Task.FromResult<byte[]>(null);
             }
 
-            var serializer = MessagePackSerializer.Get(obj.GetType());
-
             logger.LogDebug($"Do serialize.");
-            return serializer.PackSingleObjectAsync(obj, CancellationToken.None);
+            return Task.FromResult(MessagePackSerializer.NonGeneric.Serialize(obj.GetType(), obj));
         }
     }
 }

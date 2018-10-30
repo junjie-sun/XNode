@@ -29,8 +29,8 @@ namespace XNode.Server.Console
             }
 
             //CommunicationServerTest.Test(host, port);
-            //XNodeServerTest.Test(host, port);
-            SimpleServerTest.Test();
+            XNodeServerTest.Test(host, port);
+            //SimpleServerTest.Test();
 
             System.Console.ReadLine();
         }
