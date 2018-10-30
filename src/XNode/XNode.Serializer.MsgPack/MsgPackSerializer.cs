@@ -51,7 +51,15 @@ namespace XNode.Serializer.MsgPack
             }
 
             logger.LogDebug($"Do deserialize.");
-            return Task.FromResult(MessagePackSerializer.NonGeneric.Deserialize(type, data));
+            try
+            {
+                return Task.FromResult(MessagePackSerializer.NonGeneric.Deserialize(type, data));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Deserialize failed.");
+                throw ex;
+            }
         }
 
         public Task<byte[]> SerializeAsync(object obj)
@@ -63,7 +71,15 @@ namespace XNode.Serializer.MsgPack
             }
 
             logger.LogDebug($"Do serialize.");
-            return Task.FromResult(MessagePackSerializer.NonGeneric.Serialize(obj.GetType(), obj));
+            try
+            {
+                return Task.FromResult(MessagePackSerializer.NonGeneric.Serialize(obj.GetType(), obj));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Serialize failed.");
+                throw ex;
+            }
         }
     }
 }

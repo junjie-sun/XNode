@@ -40,7 +40,7 @@ namespace XNode.Serializer.ProtoBuf
         {
             if (type == null)
             {
-                throw new InvalidOperationException("无法进行反序列化操作，type不能为null");
+                throw new InvalidOperationException("Deserialize failed, type is null.");
             }
 
             if (data == null || data.Length == 0)
@@ -53,7 +53,15 @@ namespace XNode.Serializer.ProtoBuf
             object result;
             using (var stream = new MemoryStream(data))
             {
-                result = ProtoBufNet.Serializer.Deserialize(type, stream);
+                try
+                {
+                    result = ProtoBufNet.Serializer.Deserialize(type, stream);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Deserialize failed.");
+                    throw ex;
+                }
             }
 
             return Task.FromResult(result);
@@ -71,7 +79,15 @@ namespace XNode.Serializer.ProtoBuf
             byte[] result;
             using (var stream = new MemoryStream())
             {
-                ProtoBufNet.Serializer.Serialize(stream, obj);
+                try
+                {
+                    ProtoBufNet.Serializer.Serialize(stream, obj);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Serialize failed.");
+                    throw ex;
+                }
                 result = stream.ToArray();
             }
 
