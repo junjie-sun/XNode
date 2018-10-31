@@ -1,6 +1,35 @@
 ﻿{
   "xnode": {
+    "global": {
+      "minWorkThreads": 10
+    },
     "client": {
+      /*
+      "serviceProxies": [
+        {
+          "proxyName": "SimpleService2",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "connections": [
+            {
+              "host": "192.168.37.131",
+              "port": "9002"
+            }
+          ],
+          "services": [
+            {
+              "serviceId": 20002,
+              "typeName": "XNode.Server.Console.XNodeServer.ISimpleService2,XNode.Server.Console",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+      */
     },
     "server": {
       "serverInfo": {
@@ -14,7 +43,6 @@
           "actions": [
             {
               "actionId": 1,
-              "enabled": true,
               "authorizes": [
                 { "account": "Test01" }
               ]

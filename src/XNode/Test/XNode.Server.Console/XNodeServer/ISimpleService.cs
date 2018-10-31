@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using XNode.Client;
 
 namespace XNode.Server.Console.XNodeServer
 {
-    [Service("SimpleService", 20001, true)]
+    [Service("SimpleService", 20001)]
     public interface ISimpleService
     {
         [Action("Test", 1)]
+        Task<string> Test(SimpleInfo info);
+
+        [Action("Test2", 2)]
+        Task<string> Test2(SimpleInfo info);
+    }
+
+    [Service("SimpleService2", 20002)]
+    [ServiceProxy("SimpleService2", 20002)]
+    public interface ISimpleService2
+    {
+        [Action("Test", 1)]
+        [ActionProxy("Test", 1)]
         Task<string> Test(SimpleInfo info);
     }
 

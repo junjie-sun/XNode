@@ -11,5 +11,10 @@ namespace XNode.Client.Console.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<string> Test2(SimpleInfo info)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

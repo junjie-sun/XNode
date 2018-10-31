@@ -1,5 +1,8 @@
 ﻿{
   "xnode": {
+    "global": {
+      "minWorkThreads": 10
+    },
     "client": {
       "serviceProxies": [
         {
@@ -20,14 +23,7 @@
             {
               "serviceId": 20001,
               "typeName": "XNode.Client.Console.Services.ISimpleService,XNode.Client.Console",
-              "enabled": true,
-              "actions": [
-                {
-                  "actionId": 1,
-                  "timeout": 10000,
-                  "enabled": true
-                }
-              ]
+              "enabled": true
             }
           ]
         }

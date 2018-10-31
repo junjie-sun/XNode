@@ -31,13 +31,7 @@ namespace XNode.Client.Console
 
             System.Console.ReadLine();
 
-            var beginTime = DateTime.Now;
-
             DoTest();
-
-            var endTime = DateTime.Now;
-            System.Console.WriteLine($"Start time: {beginTime.ToString("yyyy-MM-dd HH:mm:ss")}");
-            System.Console.WriteLine($"End time: {endTime.ToString("yyyy-MM-dd HH:mm:ss")} Used time: {endTime - beginTime}");
 
             System.Console.ReadLine();
 
@@ -60,11 +54,12 @@ namespace XNode.Client.Console
                 .AddJsonFile(path)
                 .Build();
 
+            var globalConfig = configRoot.GetGlobalConfig();
+            GlobalSettings.Apply(globalConfig);
+
             var clientConfig = configRoot.GetClientConfig();
 
             LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Error);
-
-            var serviceProxyTypeList = new List<Type>() { typeof(ICustomerService), typeof(OrderService) };
 
             //var serializer = new MsgPackSerializer(LoggerManager.ClientLoggerFactory);
             var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);
@@ -116,7 +111,7 @@ namespace XNode.Client.Console
                 {
                     var random = new Random((int)DateTime.Now.Ticks);
                     var name = "Michael";
-                    for (var i = 0; i < 10000; i++)
+                    for (var i = 0; i < 100; i++)
                     {
                         var id = random.Next();
                         var result = simpleService.Test(new SimpleInfo()
@@ -128,28 +123,50 @@ namespace XNode.Client.Console
                         {
                             throw new Exception("Error");
                         }
+
+                        var id2 = random.Next();
+                        var result2 = simpleService.Test2(new SimpleInfo()
+                        {
+                            Id = id2,
+                            Name = name
+                        }).Result;
+                        if (result2 != (id2 + "-" + name + "-SimpleService-SimpleService2"))
+                        {
+                            throw new Exception("Error");
+                        }
                     }
                 };
 
-                Task[] tasks = new Task[5];
+                int taskCount = 10;
 
-                tasks[0] = Task.Run(action);
-                tasks[1] = Task.Run(action);
-                tasks[2] = Task.Run(action);
-                tasks[3] = Task.Run(action);
-                tasks[4] = Task.Run(action);
-
-                Task.WhenAll(tasks).ContinueWith(task =>
+                do
                 {
-                    if (task.Exception == null)
+                    var beginTime = DateTime.Now;
+
+                    Task[] tasks = new Task[taskCount];
+
+                    for (var i = 0; i < taskCount; i++)
                     {
-                        System.Console.WriteLine("Success");
+                        tasks[i] = Task.Run(action);
                     }
-                    else
+
+                    Task.WhenAll(tasks).ContinueWith(task =>
                     {
-                        System.Console.WriteLine("Failed");
-                    }
-                }).Wait();
+                        if (task.Exception == null)
+                        {
+                            System.Console.WriteLine("Success");
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Failed");
+                        }
+                    }).Wait();
+
+                    var endTime = DateTime.Now;
+                    System.Console.WriteLine($"Start time: {beginTime.ToString("yyyy-MM-dd HH:mm:ss")}");
+                    System.Console.WriteLine($"End time: {endTime.ToString("yyyy-MM-dd HH:mm:ss")} Used time: {endTime - beginTime}");
+                } while (System.Console.ReadLine() == "y");
+
             }
             catch (RequestTimeoutExcption ex)
             {

@@ -37,8 +37,8 @@ namespace XNode.Client.Console
             //XNodeWithoutClientTest.Test(host, port, localHost, localPort);
             //XNodeClientTest.Test(host, port, localHost, localPort);
             //XNodeServiceProxyManagerTest.Test(host, port, localHost, localPort);
-            XNodeAutofacTest.Test(host, port, localHost, localPort);
-            //SimpleClientTest.Test();
+            //XNodeAutofacTest.Test(host, port, localHost, localPort);
+            SimpleClientTest.Test();
 
             System.Console.ReadLine();
         }
