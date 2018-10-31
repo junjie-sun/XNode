@@ -122,6 +122,9 @@ namespace Client
 
             //关闭服务连接
             serviceProxyManager.CloseAsync();
+
+            //关闭DotNetty事件循环
+            BootstrapManager.Disable();
         }
 
         private static IContainer GetAutofacContainer(IServiceProxyManager serviceProxyManager)

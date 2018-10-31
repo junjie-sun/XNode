@@ -6,7 +6,7 @@
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "10.246.84.200",
               "port": "9001",
               "localHost": "10.246.84.201"
             }
