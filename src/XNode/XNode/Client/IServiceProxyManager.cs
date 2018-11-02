@@ -14,13 +14,6 @@ namespace XNode.Client
     public interface IServiceProxyManager
     {
         /// <summary>
-        /// 判断指定类型是否为服务代理
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        bool IsServiceProxy(Type type);
-
-        /// <summary>
         /// 获取指定服务代理
         /// </summary>
         /// <param name="proxyName">代理名称</param>
@@ -37,32 +30,8 @@ namespace XNode.Client
         /// <summary>
         /// 注册服务代理
         /// </summary>
-        /// <param name="proxyName">代理名称</param>
-        /// <param name="serviceTypeList">服务类型列表</param>
-        /// <param name="serviceCaller">服务调用器对象，默认为DefaultServiceCaller</param>
-        /// <param name="nodeClientContainer">NodeClient容器，默认为DefaultNodeClientContainer</param>
-        /// <param name="serviceProxyFactory">服务代理工厂，默认为ServiceProxy</param>
-        /// <returns></returns>
-        IServiceProxy Regist(
-            string proxyName,
-            IList<Type> serviceTypeList,
-            IServiceCaller serviceCaller = null,
-            INodeClientContainer nodeClientContainer = null,
-            Func<string, IServiceCaller, INodeClientContainer, IServiceProxy> serviceProxyFactory = null);
-
-        /// <summary>
-        /// 注册服务代理
-        /// </summary>
-        /// <param name="config">服务代理配置</param>
-        /// <param name="serviceCaller">服务调用器对象，默认为DefaultServiceCaller</param>
-        /// <param name="nodeClientContainer">NodeClient容器，默认为DefaultNodeClientContainer</param>
-        /// <param name="serviceProxyFactory">服务代理工厂，默认为ServiceProxy</param>
-        /// <returns></returns>
-        IServiceProxy Regist(
-            ServiceProxyConfig config,
-            IServiceCaller serviceCaller = null,
-            INodeClientContainer nodeClientContainer = null,
-            Func<string, IServiceCaller, INodeClientContainer, IServiceProxy> serviceProxyFactory = null);
+        /// <param name="serviceProxy">服务代理</param>
+        void Regist(IServiceProxy serviceProxy);
 
         /// <summary>
         /// 为指定的代理执行连接操作，如果proxyName为null则为所有已注册的代理执行连接操作

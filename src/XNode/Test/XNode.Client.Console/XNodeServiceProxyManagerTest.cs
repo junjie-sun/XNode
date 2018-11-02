@@ -51,11 +51,13 @@ namespace XNode.Client.Console
             var serviceList = new List<Type>() { typeof(ICustomerService), typeof(IOrderService) };
 
             var serviceProxyManager = new ServiceProxyManager();
-            serviceProxy = serviceProxyManager.Regist(
-                proxyName,
-                serviceList,
-                null,
-                nodeClientContainer);
+
+            serviceProxy = new ServiceProxy(proxyName, null, null, nodeClientContainer)
+                .AddService<ICustomerService>()
+                .AddService<OrderService>();
+
+            serviceProxyManager.Regist(serviceProxy);
+
             serviceProxyManager.ConnectAsync().Wait();
 
             CallGetServiceName().Wait();

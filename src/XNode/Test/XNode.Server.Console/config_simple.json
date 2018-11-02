@@ -21,11 +21,9 @@
             }
           ],
           "services": [
-            {
-              "serviceId": 20002,
-              "typeName": "XNode.Server.Console.XNodeServer.ISimpleService2,XNode.Server.Console",
-              "enabled": true
-            }
+          ],
+          "proxyTypes": [
+            "XNode.Server.Console.XNodeServer.ISimpleService2,XNode.Server.Console"
           ]
         }
       ]

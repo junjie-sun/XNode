@@ -23,11 +23,6 @@ namespace XNode.Client.Configuration
         public string Name { get; set; }
 
         /// <summary>
-        /// 服务对应的代理类或接口全名
-        /// </summary>
-        public string TypeName { get; set; }
-
-        /// <summary>
         /// 当前服务下的所有Action是否启用
         /// 配置中设置的Enabled优先级大于Attribute中的设置
         /// </summary>

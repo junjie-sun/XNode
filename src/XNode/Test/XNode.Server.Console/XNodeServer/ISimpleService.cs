@@ -18,7 +18,7 @@ namespace XNode.Server.Console.XNodeServer
     }
 
     [Service("SimpleService2", 20002)]
-    [ServiceProxy("SimpleService2", 20002)]
+    [ServiceProxy("SimpleService2", 20002, true)]
     public interface ISimpleService2
     {
         [Action("Test", 1)]

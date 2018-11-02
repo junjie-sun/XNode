@@ -26,5 +26,10 @@ namespace XNode.Client.Configuration
         /// 服务配置
         /// </summary>
         public List<ServiceInfo> Services { get; set; }
+
+        /// <summary>
+        /// 代理类型
+        /// </summary>
+        public List<string> ProxyTypes { get; set; }
     }
 }

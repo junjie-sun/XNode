@@ -73,9 +73,11 @@ namespace XNode.Mix.Console
             {
                 foreach (var config in clientConfig.ServiceProxies)
                 {
-                    var loggerFactory = LoggerManager.ClientLoggerFactory;
-                    serviceProxyManager
-                        .Regist(config, serviceCaller)
+                    var serviceProxy = new ServiceProxy(
+                        config.ProxyName,
+                        config?.Services,
+                        serviceCaller)
+                        .AddServices(config.ProxyTypes)
                         .AddClients(
                             new NodeClientBuilder()
                                 .ConfigConnections(config.Connections)
@@ -84,6 +86,8 @@ namespace XNode.Mix.Console
                                 .UseDotNetty()
                                 .Build()
                         );
+
+                    serviceProxyManager.Regist(serviceProxy);
                 }
             }
 

@@ -26,7 +26,6 @@
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "XNode.Mix.Console.Services.ICustomerService,XNode.Mix.Console",
               "enabled": true,
               "actions": [
                 {
@@ -35,6 +34,9 @@
                 }
               ]
             }
+          ],
+          "proxyTypes": [
+            "XNode.Mix.Console.Services.ICustomerService,XNode.Mix.Console"
           ]
         },
         {
@@ -57,9 +59,11 @@
           "services": [
             {
               "serviceId": 10002,
-              "typeName": "XNode.Mix.Console.Services.IOrderService,XNode.Mix.Console",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "XNode.Mix.Console.Services.IOrderService,XNode.Mix.Console"
           ]
         }
       ]

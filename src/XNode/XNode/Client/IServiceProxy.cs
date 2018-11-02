@@ -24,7 +24,7 @@ namespace XNode.Client
         /// <summary>
         /// 获取当前代理关联的所有ServiceType
         /// </summary>
-        IEnumerable<Type> ServiceTypes { get; }
+        IList<Type> ServiceTypes { get; }
 
         /// <summary>
         /// 获取服务代理信息
@@ -33,23 +33,23 @@ namespace XNode.Client
         ServiceProxyInfo GetServiceProxyInfo(MethodInfo actionType);
 
         /// <summary>
-        /// 添加Action
+        /// 添加Service
         /// </summary>
-        /// <param name="serviceProxyInfo">服务代理信息</param>
-        void AddAction(ServiceProxyInfo serviceProxyInfo);
+        /// <param name="serviceProxyType">Service类型</param>
+        IServiceProxy AddService(Type serviceProxyType);
 
         /// <summary>
         /// 添加Client
         /// </summary>
         /// <param name="nodeClient">nodeClient实例</param>
-        void AddClient(INodeClient nodeClient);
+        IServiceProxy AddClient(INodeClient nodeClient);
 
         /// <summary>
         /// 移除Client
         /// </summary>
         /// <param name="host">Client地址</param>
         /// <param name="port">Client端口</param>
-        void RemoveClient(string host, int port);
+        IServiceProxy RemoveClient(string host, int port);
 
         /// <summary>
         /// 调用远程服务

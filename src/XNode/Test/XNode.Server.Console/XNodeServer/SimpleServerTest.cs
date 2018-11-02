@@ -63,17 +63,20 @@ namespace XNode.Server.Console.XNodeServer
 
             foreach (var config in clientConfig.ServiceProxies)
             {
-                var loggerFactory = LoggerManager.ClientLoggerFactory;
-                serviceProxyManager
-                    .Regist(config, serviceCaller)
-                    .AddClients(
-                        new NodeClientBuilder()
-                            .ConfigConnections(config.Connections)
-                            .ConfigSerializer(serializer)
-                            .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))
-                            .UseDotNetty()
-                            .Build()
-                    );
+                var serviceProxy = new ServiceProxy(
+                config.ProxyName,
+                config?.Services,
+                serviceCaller)
+                .AddServices(config.ProxyTypes)
+                .AddClients(
+                    new NodeClientBuilder()
+                        .ConfigConnections(config.Connections)
+                        .ConfigSerializer(serializer)
+                        .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))
+                        .UseDotNetty()
+                        .Build()
+                );
+                serviceProxyManager.Regist(serviceProxy);
             }
 
             serviceProxyManager.ConnectAsync().Wait();

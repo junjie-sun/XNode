@@ -35,7 +35,8 @@ namespace XNode.Client.Console
         {
             System.Console.ReadLine();
 
-            var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);     //Init(host, port, localHost, localPort);
+            //var serviceProxyManager = Init(host, port, localHost, localPort);
+            var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);
 
             System.Console.ReadLine();
 
@@ -411,9 +412,13 @@ namespace XNode.Client.Console
                 nodeClientContainer.Add(new DefaultNodeClient(c));
             }
 
-            var serviceList = new List<Type>() { typeof(ICustomerService), typeof(OrderService) };
+            var serviceProxy = new ServiceProxy(proxyName, null, null, nodeClientContainer)
+                .AddService<ICustomerService>()
+                .AddService<OrderService>();
+
             var serviceProxyManager = new ServiceProxyManager();
-            serviceProxyManager.Regist(proxyName, serviceList, null, nodeClientContainer);
+            serviceProxyManager.Regist(serviceProxy);
+
             serviceProxyManager.ConnectAsync().Wait();
 
             var builder = new ContainerBuilder();
@@ -463,19 +468,22 @@ namespace XNode.Client.Console
 
             var serviceProxyManager = new ServiceProxyManager();
 
-            foreach (var config in clientConfig.ServiceProxies)
+            foreach (var serviceProxyConfig in clientConfig.ServiceProxies)
             {
-                var loggerFactory = LoggerManager.ClientLoggerFactory;
-                serviceProxyManager
-                    .Regist(config, serviceCaller)
-                    .AddClients(
-                        new NodeClientBuilder()
-                            .ConfigConnections(config.Connections)
-                            .ConfigSerializer(serializer)
-                            .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))
-                            .UseDotNetty()
-                            .Build()
-                    );
+                var serviceProxy = new ServiceProxy(
+                serviceProxyConfig.ProxyName,
+                serviceProxyConfig?.Services,
+                serviceCaller)
+                .AddServices(serviceProxyConfig.ProxyTypes)
+                .AddClients(
+                    new NodeClientBuilder()
+                        .ConfigConnections(serviceProxyConfig.Connections)
+                        .ConfigSerializer(serializer)
+                        .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+                        .UseDotNetty()
+                        .Build()
+                );
+                serviceProxyManager.Regist(serviceProxy);
             }
 
             serviceProxyManager.ConnectAsync().Wait();

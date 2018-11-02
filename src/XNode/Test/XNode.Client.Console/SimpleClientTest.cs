@@ -70,19 +70,22 @@ namespace XNode.Client.Console
 
             var serviceProxyManager = new ServiceProxyManager();
 
-            foreach (var config in clientConfig.ServiceProxies)
+            foreach (var serviceProxyConfig in clientConfig.ServiceProxies)
             {
-                var loggerFactory = LoggerManager.ClientLoggerFactory;
-                serviceProxyManager
-                    .Regist(config, serviceCaller)
-                    .AddClients(
-                        new NodeClientBuilder()
-                            .ConfigConnections(config.Connections)
-                            .ConfigSerializer(serializer)
-                            .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(config.ProxyName), serializer))
-                            .UseDotNetty()
-                            .Build()
-                    );
+                var serviceProxy = new ServiceProxy(
+                serviceProxyConfig.ProxyName,
+                serviceProxyConfig?.Services,
+                serviceCaller)
+                .AddServices(serviceProxyConfig.ProxyTypes)
+                .AddClients(
+                    new NodeClientBuilder()
+                        .ConfigConnections(serviceProxyConfig.Connections)
+                        .ConfigSerializer(serializer)
+                        .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+                        .UseDotNetty()
+                        .Build()
+                );
+                serviceProxyManager.Regist(serviceProxy);
             }
 
             serviceProxyManager.ConnectAsync().Wait();

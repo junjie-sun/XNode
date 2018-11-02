@@ -7,7 +7,7 @@ using XNode.Server;
 
 namespace XNode.Client.Console.Services
 {
-    [ServiceProxy("SimpleService", 20001)]
+    [ServiceProxy("SimpleService", 20001, true)]
     public interface ISimpleService
     {
         [ActionProxy("Test", 1)]

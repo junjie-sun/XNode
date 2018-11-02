@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace XNode.Client
@@ -120,12 +120,60 @@ namespace XNode.Client
         /// </summary>
         /// <param name="serviceProxy"></param>
         /// <param name="nodeClientList">NodeClient列表</param>
-        public static void AddClients(this IServiceProxy serviceProxy, IList<INodeClient> nodeClientList)
+        public static IServiceProxy AddClients(this IServiceProxy serviceProxy, IList<INodeClient> nodeClientList)
         {
             foreach (var nodeClient in nodeClientList)
             {
                 serviceProxy.AddClient(nodeClient);
             }
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 添加Service
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serviceProxy"></param>
+        /// <returns></returns>
+        public static IServiceProxy AddService<T>(this IServiceProxy serviceProxy) where T : class
+        {
+            serviceProxy.AddService(typeof(T));
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 根据类型名列表添加Service
+        /// </summary>
+        /// <param name="serviceProxy"></param>
+        /// <param name="typeNameList"></param>
+        /// <returns></returns>
+        public static IServiceProxy AddServices(this IServiceProxy serviceProxy, IList<string> typeNameList)
+        {
+            foreach (var typeName in typeNameList)
+            {
+                var type = Type.GetType(typeName);
+                if (!type.IsServiceProxy())
+                {
+                    throw new InvalidOperationException($"{type.FullName} is not service proxy.");
+                }
+                serviceProxy.AddService(type);
+            }
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 判断指定类型是否为服务代理
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsServiceProxy(this Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+            if (typeInfo.GetCustomAttribute<ServiceProxyAttribute>() == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

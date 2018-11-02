@@ -23,7 +23,6 @@
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "XNode.Client.Console.Services.ICustomerService,XNode.Client.Console",
               "enabled": true,
               "actions": [
                 {
@@ -35,9 +34,12 @@
             },
             {
               "serviceId": 10002,
-              "typeName": "XNode.Client.Console.Services.OrderService,XNode.Client.Console",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "XNode.Client.Console.Services.ICustomerService,XNode.Client.Console",
+            "XNode.Client.Console.Services.OrderService,XNode.Client.Console"
           ]
         }
       ]
