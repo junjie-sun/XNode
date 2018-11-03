@@ -17,6 +17,7 @@ namespace XNode.Server.Console
         {
             
             var server = new DotNettyServer(host, port);
+            server.OnRecieveLoginRequest += Server_OnRecieveLoginRequest;
             server.OnRecieveServiceRequest += Server_OnRecieveRequest;
             server.StartAsync().ContinueWith(task =>
             {
@@ -41,7 +42,17 @@ namespace XNode.Server.Console
             });
         }
 
-        private static System.Threading.Tasks.Task<ResponseData> Server_OnRecieveRequest(byte[] message, IDictionary<string, byte[]> attachments, LoginState loginState)
+        private static Task<LoginResponseData> Server_OnRecieveLoginRequest(LoginAuthInfo loginAuthInfo)
+        {
+            return Task.FromResult(new LoginResponseData()
+            {
+                AuthIdentity = "guest",
+                AuthStatusCode = 0,
+                AuthResult = true
+            });
+        }
+
+        private static Task<ResponseData> Server_OnRecieveRequest(byte[] message, IDictionary<string, byte[]> attachments, LoginState loginState)
         {
             var msgStr = Encoding.UTF8.GetString(message);
             System.Console.WriteLine($"Recieve message: {msgStr}");

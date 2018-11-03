@@ -19,6 +19,8 @@ namespace XNode.Client.Console
 {
     public static class XNodeWithoutClientTest
     {
+        private static IProtocolStackFactory protocolStackFactory = new DefaultProtocolStackFactory();
+
         public static void Test(string host, int port, string localHost, int localPort)
         {
             System.Console.ReadLine();
@@ -194,7 +196,11 @@ namespace XNode.Client.Console
 
         private static void AddCustomerResponseHandler(ISerializer serializer, byte[] data)
         {
-            var response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            IServiceResponse response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            if (response == null)
+            {
+                response = protocolStackFactory.CreateServiceResponse();
+            }
             if (response.HasException)
             {
                 System.Console.WriteLine($"Server has an error, Exception={response.ExceptionId}, ExceptionMessage={response.ExceptionMessage}");
@@ -310,9 +316,12 @@ namespace XNode.Client.Console
             else
             {
                 var result = (List<Customer>)serializer.DeserializeAsync(typeof(List<Customer>), response.ReturnValue).Result;
-                foreach (var customer in result)
+                if (result != null)
                 {
-                    System.Console.WriteLine($"Result=Id: {customer.Id}, Name: {customer.Name}, Birthday: {customer.Birthday.ToString("yyyy-MM-dd")}");
+                    foreach (var customer in result)
+                    {
+                        System.Console.WriteLine($"Result=Id: {customer.Id}, Name: {customer.Name}, Birthday: {customer.Birthday.ToString("yyyy-MM-dd")}");
+                    }
                 }
             }
         }
@@ -360,7 +369,11 @@ namespace XNode.Client.Console
 
         private static void RemoveCustomerResponseHandler(ISerializer serializer, byte[] data)
         {
-            var response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            IServiceResponse response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            if (response == null)
+            {
+                response = protocolStackFactory.CreateServiceResponse();
+            }
             if (response.HasException)
             {
                 System.Console.WriteLine($"Server has an error, Exception={response.ExceptionId}, ExceptionMessage={response.ExceptionMessage}");
@@ -413,7 +426,11 @@ namespace XNode.Client.Console
 
         private static void RemoveAllCustomerResponseHandler(ISerializer serializer, byte[] data)
         {
-            var response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            IServiceResponse response = (ServiceResponse)serializer.DeserializeAsync(typeof(ServiceResponse), data).Result;
+            if (response == null)
+            {
+                response = protocolStackFactory.CreateServiceResponse();
+            }
             if (response.HasException)
             {
                 System.Console.WriteLine($"Server has an error, Exception={response.ExceptionId}, ExceptionMessage={response.ExceptionMessage}");

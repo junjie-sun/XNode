@@ -292,14 +292,14 @@ namespace XNode.Communication.DotNetty
         {
             if (connectCts == null || connectTcs == null)
             {
-                return 1;
+                return (byte)AuthStatusCodes.WaitLoginResponseTimeout;
             }
 
             connectCts.Dispose();
 
             if (connectCts == null || connectCts.IsCancellationRequested)
             {
-                return 1;
+                return (byte)AuthStatusCodes.WaitLoginResponseTimeout;
             }
 
             byte result;
@@ -313,21 +313,23 @@ namespace XNode.Communication.DotNetty
                 try
                 {
                     result = await OnRecieveLoginResponse(message, attachments);
-                    if (result == 0)
-                    {
-                        connectTcs.SetResult(null);
-                    }
-                    else
-                    {
-                        connectTcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
-                    }
                 }
                 catch (Exception ex)
                 {
                     logger.LogError(ex, $"DotNettyClient.OnRecieveLoginResponse error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
-                    result = 1;
+                    result = (byte)AuthStatusCodes.ParseLoginResponseDataError;
                     connectTcs.SetException(ex);
+                    return result;
                 }
+            }
+
+            if (result == 0)
+            {
+                connectTcs.SetResult(null);
+            }
+            else
+            {
+                connectTcs.SetException(new LoginAuthException(result, $"Login failed. LoginResult={result}"));
             }
 
             return result;

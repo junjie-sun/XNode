@@ -56,6 +56,16 @@ namespace XNode.Communication
         /// <summary>
         /// 未登录
         /// </summary>
-        NoLogin = 3
+        NoLogin = 3,
+
+        /// <summary>
+        /// 等待登录响应超时
+        /// </summary>
+        WaitLoginResponseTimeout = 4,
+
+        /// <summary>
+        /// 解析登录响应数据时发生错误
+        /// </summary>
+        ParseLoginResponseDataError = 5
     }
 }

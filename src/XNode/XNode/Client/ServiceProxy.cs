@@ -126,7 +126,8 @@ namespace XNode.Client
 
             if (serviceProxyInfo == null)
             {
-                throw new InvalidOperationException($"Action not found. ProxyName={serviceProxyInfo.ProxyName}, ServiceId={serviceProxyInfo.ServiceId}，ActionId={serviceProxyInfo.ActionId}");
+                var actionTypeName = actionType != null ? actionType.Name : string.Empty;
+                throw new InvalidOperationException($"Action not found. ActionTypeName={actionTypeName}");
             }
 
             logger.LogInformation($"Call remote service beginning. ProxyName={serviceProxyInfo.ProxyName}, ServiceId={serviceProxyInfo.ServiceId}, ActionId={serviceProxyInfo.ActionId}");

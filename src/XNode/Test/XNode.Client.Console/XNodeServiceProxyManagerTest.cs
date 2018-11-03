@@ -27,7 +27,7 @@ namespace XNode.Client.Console
             System.Console.ReadLine();
 
             var proxyName = "XNodeDemoService";
-            LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Debug);
+            LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Information);
             var serializer = new ProtoBufSerializer(LoggerManager.ClientLoggerFactory);
             var nodeClientParametersList = new List<NodeClientParameters>()
             {
@@ -54,7 +54,8 @@ namespace XNode.Client.Console
 
             serviceProxy = new ServiceProxy(proxyName, null, null, nodeClientContainer)
                 .AddService<ICustomerService>()
-                .AddService<OrderService>();
+                .AddService<OrderService>()
+                .EnableAll();
 
             serviceProxyManager.Regist(serviceProxy);
 
@@ -192,9 +193,12 @@ namespace XNode.Client.Console
             try
             {
                 var customers = await serviceProxy.CallRemoteServiceAsync(GetCustomerServiceActionType("QueryCustomer"), null) as List<Customer>;
-                foreach (var customer in customers)
+                if (customers != null)
                 {
-                    System.Console.WriteLine($"Result=Id: {customer.Id}, Name: {customer.Name}, Birthday: {customer.Birthday.ToString("yyyy-MM-dd")}");
+                    foreach (var customer in customers)
+                    {
+                        System.Console.WriteLine($"Result=Id: {customer.Id}, Name: {customer.Name}, Birthday: {customer.Birthday.ToString("yyyy-MM-dd")}");
+                    }
                 }
             }
             catch (RequestTimeoutExcption ex)
@@ -345,15 +349,18 @@ namespace XNode.Client.Console
             try
             {
                 var orders = await serviceProxy.CallRemoteServiceAsync(GetOrderServiceActionType("QueryOrder"), new object[] { 1, "Michael" }) as List<Order>;
-                foreach (var order in orders)
+                if (orders != null)
                 {
-                    System.Console.WriteLine($"Order: Id: {order.Id}, CustomerId: {order.CustomerId}, CustomerName: {order.CustomerName}");
-                    System.Console.WriteLine("Order Detail:");
-                    foreach (var detail in order.Detail)
+                    foreach (var order in orders)
                     {
-                        System.Console.WriteLine($"OrderId={detail.OrderId}, GoodsId={detail.GoodsId}, GoodsName={detail.GoodsName}");
+                        System.Console.WriteLine($"Order: Id: {order.Id}, CustomerId: {order.CustomerId}, CustomerName: {order.CustomerName}");
+                        System.Console.WriteLine("Order Detail:");
+                        foreach (var detail in order.Detail)
+                        {
+                            System.Console.WriteLine($"OrderId={detail.OrderId}, GoodsId={detail.GoodsId}, GoodsName={detail.GoodsName}");
+                        }
+                        System.Console.WriteLine();
                     }
-                    System.Console.WriteLine();
                 }
             }
             catch (RequestTimeoutExcption ex)
@@ -382,7 +389,7 @@ namespace XNode.Client.Console
 
         private static MethodInfo GetOrderServiceActionType(string methodName)
         {
-            var serviceType = typeof(IOrderService);
+            var serviceType = typeof(OrderService);
             return serviceType.GetMethod(methodName);
         }
 
