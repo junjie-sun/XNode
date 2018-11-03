@@ -16,32 +16,32 @@ namespace XNode.Server.Route
         /// <summary>
         /// 服务Id
         /// </summary>
-        public int ServiceId { get; set; }
+        public int ServiceId { get; internal protected set; }
 
         /// <summary>
         /// ActionId
         /// </summary>
-        public int ActionId { get; set; }
+        public int ActionId { get; internal protected set; }
 
         /// <summary>
         /// 服务名称
         /// </summary>
-        public string ServiceName { get; set; }
+        public string ServiceName { get; internal protected set; }
 
         /// <summary>
         /// Action名称
         /// </summary>
-        public string ActionName { get; set; }
+        public string ActionName { get; internal protected set; }
 
         /// <summary>
         /// 服务对象类型
         /// </summary>
-        public Type ServiceType { get; set; }
+        public Type ServiceType { get; internal protected set; }
 
         /// <summary>
         /// Action对象类型
         /// </summary>
-        public MethodInfo ActionType { get; set; }
+        public MethodInfo ActionType { get; internal protected set; }
 
         /// <summary>
         /// Action是否启用

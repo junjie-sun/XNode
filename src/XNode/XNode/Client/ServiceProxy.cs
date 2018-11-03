@@ -34,11 +34,22 @@ namespace XNode.Client
         /// <summary>
         /// 获取当前代理关联的所有ServiceType
         /// </summary>
-        public virtual IList<Type> ServiceTypes
+        public virtual IEnumerable<Type> ServiceTypes
         {
             get
             {
-                return serviceProxyInfoList.Keys.Select(s => s.DeclaringType).Distinct().ToList();
+                return serviceProxyInfoList.Keys.Select(s => s.DeclaringType).Distinct();
+            }
+        }
+
+        /// <summary>
+        /// 获取当前代理关联的所有服务代理信息
+        /// </summary>
+        public IEnumerable<ServiceProxyInfo> ServiceProxyInfos
+        {
+            get
+            {
+                return serviceProxyInfoList.Values;
             }
         }
 

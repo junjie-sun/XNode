@@ -78,6 +78,9 @@ namespace XNode.Server.Console.XNodeServer
                 {
                     System.Console.WriteLine(item.ServiceName);
                 }
+
+                //nodeServer.Disable(10002);
+                //nodeServer.Enable(10002);
             };
 
             nodeServer.OnStopped += (arg) =>

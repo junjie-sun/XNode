@@ -28,8 +28,6 @@ namespace XNode.Server
 
         private IServiceProvider serviceProvider;
 
-        private IRouteManager routeManager;
-
         private IRouteDescriptor routeDescriptor;
 
         private ISerializer serializer;
@@ -63,6 +61,11 @@ namespace XNode.Server
         public event NodeServerStopDelegate OnStopped;
 
         /// <summary>
+        /// 获取路由管理器
+        /// </summary>
+        public IRouteManager RouteManager { get; }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="config">NodeServer配置</param>
@@ -73,7 +76,7 @@ namespace XNode.Server
             server = config.Communication;
             protocolStackFactory = config.ProtocolStackFactory;
             serviceProvider = config.ServiceProvider;
-            routeManager = config.RouteFactory.CreateRouteManager();
+            RouteManager = config.RouteFactory.CreateRouteManager();
             routeDescriptor = config.RouteFactory.CreateRouteDescriptor();
             if (config.ServiceConfigs != null)
             {
@@ -124,7 +127,7 @@ namespace XNode.Server
                 RouteDescription route = null;
                 try
                 {
-                    route = routeManager.GetRoute(serviceRequest.ServiceId, serviceRequest.ActionId);
+                    route = RouteManager.GetRoute(serviceRequest.ServiceId, serviceRequest.ActionId);
                 }
                 catch (RouteNotFoundException ex)
                 {
@@ -154,7 +157,7 @@ namespace XNode.Server
 
             logger.LogInformation("Server is binding.");
 
-            OnStarting?.Invoke(new NodeServerStartEventArg(config.Host, config.Port, routeManager.GetAllRoutes()));
+            OnStarting?.Invoke(new NodeServerStartEventArg(config.Host, config.Port, RouteManager.GetAllRoutes()));
 
             return server.StartAsync().ContinueWith(task =>
             {
@@ -164,7 +167,7 @@ namespace XNode.Server
                     return;
                 }
                 logger.LogInformation($"Server listen port {config.Port}");
-                OnStarted?.Invoke(new NodeServerStartEventArg(config.Host, config.Port, routeManager.GetAllRoutes()));
+                OnStarted?.Invoke(new NodeServerStartEventArg(config.Host, config.Port, RouteManager.GetAllRoutes()));
             });
         }
 
@@ -179,7 +182,7 @@ namespace XNode.Server
                 return Task.CompletedTask;
             }
 
-            OnStopping?.Invoke(new NodeServerStopEventArg(config.Host, config.Port, routeManager.GetAllRoutes()));
+            OnStopping?.Invoke(new NodeServerStopEventArg(config.Host, config.Port, RouteManager.GetAllRoutes()));
 
             return server.CloseAsync().ContinueWith(task =>
             {
@@ -189,7 +192,7 @@ namespace XNode.Server
                     return;
                 }
                 logger.LogInformation("Server closed");
-                OnStopped?.Invoke(new NodeServerStopEventArg(config.Host, config.Port, routeManager.GetAllRoutes()));
+                OnStopped?.Invoke(new NodeServerStopEventArg(config.Host, config.Port, RouteManager.GetAllRoutes()));
             });
         }
 
@@ -207,7 +210,7 @@ namespace XNode.Server
                 var routeList = routeDescriptor.CreateRouteDescription(type);
                 foreach (var route in routeList)
                 {
-                    routeManager.AddRoute(route);
+                    RouteManager.AddRoute(route);
                 }
             }
         }

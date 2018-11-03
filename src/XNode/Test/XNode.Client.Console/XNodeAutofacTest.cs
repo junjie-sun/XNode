@@ -414,7 +414,8 @@ namespace XNode.Client.Console
 
             var serviceProxy = new ServiceProxy(proxyName, null, null, nodeClientContainer)
                 .AddService<ICustomerService>()
-                .AddService<OrderService>();
+                .AddService<OrderService>()
+                .EnableAll();
 
             var serviceProxyManager = new ServiceProxyManager();
             serviceProxyManager.Regist(serviceProxy);

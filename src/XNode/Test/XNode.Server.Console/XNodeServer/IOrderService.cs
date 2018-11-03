@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace XNode.Server.Console.XNodeServer
 {
-    [Service("OrderService", 10002, true)]
+    [Service("OrderService", 10002)]
     public interface IOrderService
     {
         [Action("AddOrder", 1)]

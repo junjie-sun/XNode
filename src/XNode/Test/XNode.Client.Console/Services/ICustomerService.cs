@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace XNode.Client.Console.Services
 {
-    [ServiceProxy("CustomerService", 10001, true)]
+    [ServiceProxy("CustomerService", 10001)]
     public interface ICustomerService
     {
         [ActionProxy("GetServiceName", 1)]

@@ -64,7 +64,7 @@ namespace XNode.Server.Route
         /// 获取所有路由
         /// </summary>
         /// <returns></returns>
-        public IList<RouteDescription> GetAllRoutes()
+        public IEnumerable<RouteDescription> GetAllRoutes()
         {
             return routeCache;
         }

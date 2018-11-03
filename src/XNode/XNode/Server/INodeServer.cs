@@ -39,6 +39,11 @@ namespace XNode.Server
         event NodeServerStopDelegate OnStopped;
 
         /// <summary>
+        /// 获取路由管理器
+        /// </summary>
+        IRouteManager RouteManager { get; }
+
+        /// <summary>
         /// 启动XNode服务器
         /// </summary>
         Task StartAsync();
@@ -60,7 +65,7 @@ namespace XNode.Server
         /// <param name="host">服务地址</param>
         /// <param name="port">服务端口</param>
         /// <param name="routes">服务路由</param>
-        public NodeServerStartEventArg(string host, int port, IList<RouteDescription> routes)
+        public NodeServerStartEventArg(string host, int port, IEnumerable<RouteDescription> routes)
         {
             Host = host;
             Port = port;
@@ -80,7 +85,7 @@ namespace XNode.Server
         /// <summary>
         /// 获取服务路由
         /// </summary>
-        public IList<RouteDescription> Routes { get; }
+        public IEnumerable<RouteDescription> Routes { get; }
     }
 
     /// <summary>
@@ -94,7 +99,7 @@ namespace XNode.Server
         /// <param name="host">服务地址</param>
         /// <param name="port">服务端口</param>
         /// <param name="routes">服务路由</param>
-        public NodeServerStopEventArg(string host, int port, IList<RouteDescription> routes)
+        public NodeServerStopEventArg(string host, int port, IEnumerable<RouteDescription> routes)
         {
             Host = host;
             Port = port;
@@ -114,6 +119,6 @@ namespace XNode.Server
         /// <summary>
         /// 获取服务路由
         /// </summary>
-        public IList<RouteDescription> Routes { get; }
+        public IEnumerable<RouteDescription> Routes { get; }
     }
 }

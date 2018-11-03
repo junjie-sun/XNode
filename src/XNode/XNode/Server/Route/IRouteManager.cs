@@ -31,6 +31,6 @@ namespace XNode.Server.Route
         /// 获取所有路由
         /// </summary>
         /// <returns></returns>
-        IList<RouteDescription> GetAllRoutes();
+        IEnumerable<RouteDescription> GetAllRoutes();
     }
 }

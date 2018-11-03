@@ -21,7 +21,7 @@ namespace XNode.Zipkin
         /// <returns></returns>
         public override async Task<ServiceProcessResult> ProcessAsync(ServiceContext context)
         {
-            if (!context.Attachments.ContainsKey(Constants.CrossProcessBagKey))
+            if (context.Attachments == null || !context.Attachments.ContainsKey(Constants.CrossProcessBagKey))
             {
                 return await CallNext(context);
             }

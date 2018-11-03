@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace XNode.Server.Console.XNodeServer
 {
-    [Service("CustomerService", 10001, true)]
+    [Service("CustomerService", 10001)]
     public class CustomerService : ServiceBase, ICustomerService
     {
         private static ConcurrentBag<Customer> customers = new ConcurrentBag<Customer>();

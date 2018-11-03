@@ -24,7 +24,12 @@ namespace XNode.Client
         /// <summary>
         /// 获取当前代理关联的所有ServiceType
         /// </summary>
-        IList<Type> ServiceTypes { get; }
+        IEnumerable<Type> ServiceTypes { get; }
+
+        /// <summary>
+        /// 获取当前代理关联的所有服务代理信息
+        /// </summary>
+        IEnumerable<ServiceProxyInfo> ServiceProxyInfos { get; }
 
         /// <summary>
         /// 获取服务代理信息

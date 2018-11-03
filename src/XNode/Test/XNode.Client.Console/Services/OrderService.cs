@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace XNode.Client.Console.Services
 {
-    [ServiceProxy("OrderService", 10002, true)]
+    [ServiceProxy("OrderService", 10002)]
     public class OrderService : IOrderService
     {
         [ActionProxy("AddOrder", 1)]

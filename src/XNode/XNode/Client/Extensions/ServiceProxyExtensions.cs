@@ -162,6 +162,94 @@ namespace XNode.Client
         }
 
         /// <summary>
+        /// 将代理中的所有服务设置为启用
+        /// 注意：在调用此方法后添加的服务将不会被此方法的设置所影响
+        /// </summary>
+        /// <param name="serviceProxy"></param>
+        /// <returns></returns>
+        public static IServiceProxy EnableAll(this IServiceProxy serviceProxy)
+        {
+            foreach (var info in serviceProxy.ServiceProxyInfos)
+            {
+                info.Enabled = true;
+            }
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 将代理中的所有服务设置为禁用
+        /// 注意：在调用此方法后添加的服务将不会被此方法的设置所影响
+        /// </summary>
+        /// <param name="serviceProxy"></param>
+        /// <returns></returns>
+        public static IServiceProxy DisableAll(this IServiceProxy serviceProxy)
+        {
+            foreach (var info in serviceProxy.ServiceProxyInfos)
+            {
+                info.Enabled = false;
+            }
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 将代理中的指定服务设置为启用
+        /// 注意：在调用此方法后添加的服务将不会被此方法的设置所影响
+        /// </summary>
+        /// <param name="serviceProxy"></param>
+        /// <param name="serviceId"></param>
+        /// <param name="actionId"></param>
+        /// <returns></returns>
+        public static IServiceProxy Enable(this IServiceProxy serviceProxy, int serviceId, int? actionId = null)
+        {
+            if (actionId != null)
+            {
+                var info = serviceProxy.ServiceProxyInfos.Where(p => p.ServiceId == serviceId && p.ActionId == actionId.Value).SingleOrDefault();
+                if (info != null)
+                {
+                    info.Enabled = true;
+                }
+            }
+            else
+            {
+                var infoList = serviceProxy.ServiceProxyInfos.Where(p => p.ServiceId == serviceId);
+                foreach (var info in infoList)
+                {
+                    info.Enabled = true;
+                }
+            }
+            return serviceProxy;
+        }
+
+        /// <summary>
+        /// 将代理中的指定服务设置为禁用
+        /// 注意：在调用此方法后添加的服务将不会被此方法的设置所影响
+        /// </summary>
+        /// <param name="serviceProxy"></param>
+        /// <param name="serviceId"></param>
+        /// <param name="actionId"></param>
+        /// <returns></returns>
+        public static IServiceProxy Disable(this IServiceProxy serviceProxy, int serviceId, int? actionId = null)
+        {
+            if (actionId != null)
+            {
+                var info = serviceProxy.ServiceProxyInfos.Where(p => p.ServiceId == serviceId && p.ActionId == actionId.Value).SingleOrDefault();
+                if (info != null)
+                {
+                    info.Enabled = false;
+                }
+            }
+            else
+            {
+                var infoList = serviceProxy.ServiceProxyInfos.Where(p => p.ServiceId == serviceId);
+                foreach (var info in infoList)
+                {
+                    info.Enabled = false;
+                }
+            }
+            return serviceProxy;
+        }
+
+        /// <summary>
         /// 判断指定类型是否为服务代理
         /// </summary>
         /// <param name="type"></param>

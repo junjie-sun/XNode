@@ -15,10 +15,10 @@ namespace XNode.Client.Console
             System.Console.InputEncoding = Encoding.UTF8;
             System.Console.OutputEncoding = Encoding.UTF8;
 
-            string host = "10.246.84.159";
+            string host = "192.168.37.131";
             //string host = "192.168.2.105";
             int port = 9001;
-            string localHost = "10.246.84.159";
+            string localHost = "192.168.37.131";
             //string localHost = "192.168.2.105";
             int localPort = 9011;
             if (args != null && args.Length > 0)

@@ -4,7 +4,7 @@
     },
     "server": {
       "serverInfo": {
-        "host": "192.168.2.105",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [

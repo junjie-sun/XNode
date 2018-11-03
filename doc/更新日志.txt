@@ -58,3 +58,32 @@ XNode.Zipkin
 0.2.0
 
 --------------------------------------------------------------------------------
+
+2018-11-3
+XNode Tag：0.3.0
+
+XNode
+0.3.0
+重构Client，将部分ServerManager的实现移至ServiceProxy中，改善开发体验
+Server增加若干扩展方法
+
+XNode.Autofac
+0.3.0
+
+XNode.Common
+0.3.0
+
+XNode.Communication.DotNetty
+0.3.0
+
+XNode.Serializer.MsgPack
+0.3.0
+
+XNode.Serializer.ProtoBuf
+0.3.0
+
+XNode.Zipkin
+0.3.0
+Bug修复
+
+--------------------------------------------------------------------------------
