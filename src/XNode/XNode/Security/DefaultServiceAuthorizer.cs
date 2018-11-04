@@ -22,7 +22,8 @@ namespace XNode.Security
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="config">授权配置</param>
+        /// <param name="configs">授权配置</param>
+        /// <param name="loggerFactory">日志工厂</param>
         public DefaultServiceAuthorizer(IList<DefaultServiceAuthorizeConfig> configs, ILoggerFactory loggerFactory = null)
         {
             if (loggerFactory != null)
@@ -138,6 +139,10 @@ namespace XNode.Security
             }
         }
 
+        /// <summary>
+        /// 记录Debug日志
+        /// </summary>
+        /// <param name="log"></param>
         protected void LogDebug(string log)
         {
             if (logger != null)
@@ -146,6 +151,10 @@ namespace XNode.Security
             }
         }
 
+        /// <summary>
+        /// 记录Info日志
+        /// </summary>
+        /// <param name="log"></param>
         protected void LogInformation(string log)
         {
             if (logger != null)

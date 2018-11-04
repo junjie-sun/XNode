@@ -32,6 +32,11 @@ namespace XNode.Communication.DotNetty.Handlers
             this.socketExceptionHandler = socketExceptionHandler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="exception"></param>
         public async override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
             if (exception is SocketException)
@@ -50,12 +55,20 @@ namespace XNode.Communication.DotNetty.Handlers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             logger.LogInformation($"Channel inactived. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
             base.ChannelInactive(context);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
             logger.LogInformation($"Channel unregistered. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");

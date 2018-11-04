@@ -41,6 +41,10 @@ namespace XNode.Security
             LoadConfig(config);
         }
 
+        /// <summary>
+        /// 加载日志信息
+        /// </summary>
+        /// <param name="config"></param>
         public void LoadConfig(DefaultLoginValidatorConfig config)
         {
             validatorConfig = config;

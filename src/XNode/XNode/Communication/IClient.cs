@@ -17,6 +17,9 @@ namespace XNode.Communication
     /// <returns>登录验证状态码（非0表示验证失败，1-30为XNode保留状态码）</returns>
     public delegate Task<byte> RecieveLoginResponseDelegate(byte[] message, IDictionary<string, byte[]> attachments);
 
+    /// <summary>
+    /// 客服端通信接口
+    /// </summary>
     public interface IClient
     {
         /// <summary>

@@ -17,6 +17,9 @@ namespace XNode.Server
     {
         private ILogger logger = LoggerManager.ServerLoggerFactory.CreateLogger<DefaultServiceProvider>();
 
+        /// <summary>
+        /// 服务实例映射列表
+        /// </summary>
         protected IDictionary<Type, object> serviceMap = new Dictionary<Type, object>();
 
         #region 接口实现
@@ -33,6 +36,10 @@ namespace XNode.Server
             return serviceMap.ContainsKey(serviceType) ? serviceMap[serviceType] : null;
         }
 
+        /// <summary>
+        /// 获取所有服务类型
+        /// </summary>
+        /// <returns></returns>
         protected override IList<Type> GetServiceTypes()
         {
             logger.LogDebug($"Get node service types from DefaultServiceProvider.");

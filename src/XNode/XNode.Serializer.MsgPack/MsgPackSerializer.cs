@@ -20,6 +20,9 @@ namespace XNode.Serializer.MsgPack
     {
         private ILogger logger;
 
+        /// <summary>
+        /// 序列化器名称
+        /// </summary>
         public string Name
         {
             get
@@ -37,6 +40,12 @@ namespace XNode.Serializer.MsgPack
             logger = loggerFactory.CreateLogger<MsgPackSerializer>();
         }
 
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public Task<object> DeserializeAsync(Type type, byte[] data)
         {
             if (type == null)
@@ -62,6 +71,11 @@ namespace XNode.Serializer.MsgPack
             }
         }
 
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public Task<byte[]> SerializeAsync(object obj)
         {
             if (obj == null)

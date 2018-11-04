@@ -2,13 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Authors>Sun junjie</Authors>
     <Company>Sun junjie</Company>
     <Description>DotNetty for XNode.</Description>
     <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/junjie-sun/XNode</PackageProjectUrl>
     <PackageTags>distributed,rpc,xnode</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Communication.DotNetty\XNode.Communication.DotNetty.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Communication.DotNetty\XNode.Communication.DotNetty.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

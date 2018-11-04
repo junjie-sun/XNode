@@ -46,6 +46,9 @@ namespace XNode.Client.ServiceCallers
         }
     }
 
+    /// <summary>
+    /// RetryServiceCaller构造器扩展方法
+    /// </summary>
     public static class RetryServiceCallerBuilderExtensions
     {
         /// <summary>

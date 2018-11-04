@@ -26,6 +26,10 @@ namespace XNode.Autofac
             this.serviceProxyManager = serviceProxyManager;
         }
 
+        /// <summary>
+        /// 方法拦截
+        /// </summary>
+        /// <param name="invocation"></param>
         public void Intercept(IInvocation invocation)
         {
             //var serviceProxyType = invocation.TargetType;

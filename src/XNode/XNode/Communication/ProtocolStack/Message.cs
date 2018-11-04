@@ -22,6 +22,10 @@ namespace XNode.Communication.ProtocolStack
         /// </summary>
         public byte[] Body { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"Message [{Header}]";

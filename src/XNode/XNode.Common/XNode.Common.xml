@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XNode.Common</name>
+    </assembly>
+    <members>
+        <member name="T:XNode.Server.ActionAttribute">
+            <summary>
+            标记该特性的方法能够注册为XNode服务的Action
+            每个XNode服务Action需配置一个XNode服务内唯一的ActionId
+            </summary>
+        </member>
+        <member name="M:XNode.Server.ActionAttribute.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="actionId">ActionId</param>
+            <param name="enabled">是否启用Action</param>
+        </member>
+        <member name="M:XNode.Server.ActionAttribute.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="name">Action名称</param>
+            <param name="actionId">ActionId</param>
+            <param name="enabled">是否启用Action</param>
+        </member>
+        <member name="P:XNode.Server.ActionAttribute.Name">
+            <summary>
+            Action名称
+            </summary>
+        </member>
+        <member name="P:XNode.Server.ActionAttribute.ActionId">
+            <summary>
+            ActionId
+            </summary>
+        </member>
+        <member name="P:XNode.Server.ActionAttribute.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:XNode.Server.ServiceAttribute">
+            <summary>
+            标记该特性的类或接口能够注册为XNode服务
+            每个XNode服务类需配置一个全局唯一的ServiceId
+            </summary>
+        </member>
+        <member name="M:XNode.Server.ServiceAttribute.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="serviceId">服务Id</param>
+            <param name="enabled">是否启用服务代理，如果为false则该服务下所有Action将停用</param>
+        </member>
+        <member name="M:XNode.Server.ServiceAttribute.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="name">服务名称</param>
+            <param name="serviceId">服务Id</param>
+            <param name="enabled">是否启用服务代理，如果为false则该服务下所有Action将停用</param>
+        </member>
+        <member name="P:XNode.Server.ServiceAttribute.Name">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:XNode.Server.ServiceAttribute.ServiceId">
+            <summary>
+            服务Id
+            </summary>
+        </member>
+        <member name="P:XNode.Server.ServiceAttribute.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:XNode.Client.ActionProxyAttribute">
+            <summary>
+            Action代理
+            </summary>
+        </member>
+        <member name="M:XNode.Client.ActionProxyAttribute.#ctor(System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="actionId">ActionId</param>
+            <param name="enabled">是否启用Action</param>
+            <param name="timeout">服务调用超时时长（毫秒）</param>
+        </member>
+        <member name="M:XNode.Client.ActionProxyAttribute.#ctor(System.String,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="name">Action名称</param>
+            <param name="actionId">ActionId</param>
+            <param name="enabled">是否启用Action</param>
+            <param name="timeout">服务调用超时时长（毫秒）</param>
+        </member>
+        <member name="P:XNode.Client.ActionProxyAttribute.Name">
+            <summary>
+            Action名称
+            </summary>
+        </member>
+        <member name="P:XNode.Client.ActionProxyAttribute.ActionId">
+            <summary>
+            ActionId
+            </summary>
+        </member>
+        <member name="P:XNode.Client.ActionProxyAttribute.Timeout">
+            <summary>
+            服务调用超时时长（毫秒）
+            </summary>
+        </member>
+        <member name="P:XNode.Client.ActionProxyAttribute.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:XNode.Client.ServiceProxyAttribute">
+            <summary>
+            服务代理
+            </summary>
+        </member>
+        <member name="M:XNode.Client.ServiceProxyAttribute.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="serviceId">服务Id</param>
+            <param name="enabled">是否启用服务代理，如果为false则该服务下所有Action将停用</param>
+        </member>
+        <member name="M:XNode.Client.ServiceProxyAttribute.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="name">服务名称</param>
+            <param name="serviceId">服务Id</param>
+            <param name="enabled">是否启用服务代理，如果为false则该服务下所有Action将停用</param>
+        </member>
+        <member name="P:XNode.Client.ServiceProxyAttribute.Name">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:XNode.Client.ServiceProxyAttribute.ServiceId">
+            <summary>
+            服务Id
+            </summary>
+        </member>
+        <member name="P:XNode.Client.ServiceProxyAttribute.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:XNode.ProtocolStack.DefaultProtocolStackFactory">
+            <summary>
+            默认协议栈工厂
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.DefaultProtocolStackFactory.ServiceRequestType">
+            <summary>
+            服务请求对象类型
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.DefaultProtocolStackFactory.ServiceResponseType">
+            <summary>
+            服务响应对象类型
+            </summary>
+        </member>
+        <member name="M:XNode.ProtocolStack.DefaultProtocolStackFactory.CreateServiceRequest">
+            <summary>
+            创建服务请求对象实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ProtocolStack.DefaultProtocolStackFactory.CreateServiceResponse">
+            <summary>
+            创建服务响应对象实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.ProtocolStack.IProtocolStackFactory">
+            <summary>
+            协议栈工厂接口
+            </summary>
+        </member>
+        <member name="M:XNode.ProtocolStack.IProtocolStackFactory.CreateServiceRequest">
+            <summary>
+            创建服务请求对象实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ProtocolStack.IProtocolStackFactory.CreateServiceResponse">
+            <summary>
+            创建服务响应对象实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:XNode.ProtocolStack.IProtocolStackFactory.ServiceRequestType">
+            <summary>
+            服务请求对象类型
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IProtocolStackFactory.ServiceResponseType">
+            <summary>
+            服务响应对象类型
+            </summary>
+        </member>
+        <member name="T:XNode.ProtocolStack.IServiceRequest">
+            <summary>
+            服务请求接口
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceRequest.ServiceId">
+            <summary>
+            服务Id
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceRequest.ActionId">
+            <summary>
+            ActionId
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceRequest.ParamList">
+            <summary>
+            Action参数列表
+            </summary>
+        </member>
+        <member name="T:XNode.ProtocolStack.IServiceResponse">
+            <summary>
+            服务响应接口
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceResponse.ReturnValue">
+            <summary>
+            服务返回值
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceResponse.HasException">
+            <summary>
+            服务是否有异常
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceResponse.ExceptionId">
+            <summary>
+            服务异常Id
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.IServiceResponse.ExceptionMessage">
+            <summary>
+            服务异常信息
+            </summary>
+        </member>
+        <member name="T:XNode.ProtocolStack.ServiceRequest">
+            <summary>
+            服务请求
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceRequest.ServiceId">
+            <summary>
+            服务Id
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceRequest.ActionId">
+            <summary>
+            ActionId
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceRequest.ParamList">
+            <summary>
+            Action参数列表
+            </summary>
+        </member>
+        <member name="T:XNode.ProtocolStack.ServiceResponse">
+            <summary>
+            服务响应
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceResponse.ReturnValue">
+            <summary>
+            服务返回值
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceResponse.HasException">
+            <summary>
+            服务是否有异常
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceResponse.ExceptionId">
+            <summary>
+            服务异常Id
+            </summary>
+        </member>
+        <member name="P:XNode.ProtocolStack.ServiceResponse.ExceptionMessage">
+            <summary>
+            服务异常信息
+            </summary>
+        </member>
+    </members>
+</doc>

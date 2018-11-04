@@ -23,7 +23,7 @@ namespace XNode.Client
         /// <summary>
         /// 根据服务类型获取指定服务代理
         /// </summary>
-        /// <param name="proxyName">服务类型</param>
+        /// <param name="serviceType">服务类型</param>
         /// <returns></returns>
         IServiceProxy GetServiceProxy(Type serviceType);
 

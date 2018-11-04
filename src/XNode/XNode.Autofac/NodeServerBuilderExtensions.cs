@@ -8,6 +8,9 @@ using XNode.Server;
 
 namespace XNode.Autofac
 {
+    /// <summary>
+    /// NodeServer构造器扩展方法
+    /// </summary>
     public static class NodeServerBuilderExtensions
     {
         /// <summary>

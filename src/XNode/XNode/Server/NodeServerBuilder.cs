@@ -48,7 +48,7 @@ namespace XNode.Server
         /// <summary>
         /// 应用服务端配置
         /// </summary>
-        /// <param name="config">服务端配置</param>
+        /// <param name="serverConfig">服务端配置</param>
         /// <returns></returns>
         public INodeServerBuilder ApplyConfig(ServerConfig serverConfig)
         {

@@ -30,6 +30,11 @@ namespace XNode.Communication.DotNetty.Handlers
             this.serviceResponseHandler = serviceResponseHandler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var msg = (Message)message;

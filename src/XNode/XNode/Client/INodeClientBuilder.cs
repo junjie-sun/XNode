@@ -11,7 +11,7 @@ using XNode.Serializer;
 namespace XNode.Client
 {
     /// <summary>
-    /// XNode客户端构造接口
+    /// XNode客户端构造器接口
     /// </summary>
     public interface INodeClientBuilder
     {

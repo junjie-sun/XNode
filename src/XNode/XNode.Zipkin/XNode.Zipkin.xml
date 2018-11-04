@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XNode.Zipkin</name>
+    </assembly>
+    <members>
+        <member name="T:XNode.Zipkin.Constants">
+            <summary>
+            Zipkin扩展中需要的常量
+            </summary>
+        </member>
+        <member name="F:XNode.Zipkin.Constants.CrossProcessBagKey">
+            <summary>
+            CrossProcessBagKey
+            </summary>
+        </member>
+        <member name="T:XNode.Zipkin.ZipkinCaller">
+            <summary>
+            ZipkinCaller
+            </summary>
+        </member>
+        <member name="M:XNode.Zipkin.ZipkinCaller.#ctor(XNode.Serializer.ISerializer)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="serializer"></param>
+        </member>
+        <member name="M:XNode.Zipkin.ZipkinCaller.CallAsync(XNode.Client.INodeClientContainer,XNode.Client.ServiceCallInfo)">
+            <summary>
+            服务追踪
+            </summary>
+            <param name="nodeClientContainer"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Zipkin.ZipkinProcessor">
+            <summary>
+            ZipkinProcessor
+            </summary>
+        </member>
+        <member name="M:XNode.Zipkin.ZipkinProcessor.ProcessAsync(XNode.Server.ServiceContext)">
+            <summary>
+            服务追踪
+            </summary>
+            <param name="context">服务上下文，每次服务调用共享一个实例</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

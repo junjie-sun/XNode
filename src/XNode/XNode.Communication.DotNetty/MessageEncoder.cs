@@ -29,6 +29,12 @@ namespace XNode.Communication.DotNetty
             logger = loggerFactory.CreateLogger<MessageEncoder>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
+        /// <param name="output"></param>
         protected override void Encode(IChannelHandlerContext context, Message message, IByteBuffer output)
         {
             if (message == null || message.Header == null)

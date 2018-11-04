@@ -10,6 +10,9 @@ using XNode.Communication.ProtocolStack;
 
 namespace XNode.Communication.DotNetty.Handlers
 {
+    /// <summary>
+    /// 心跳包响应Handler
+    /// </summary>
     public class IdleStateHearBeatRespHandler : ChannelHandlerAdapter
     {
         private ILogger logger;
@@ -23,6 +26,11 @@ namespace XNode.Communication.DotNetty.Handlers
             logger = loggerFactory.CreateLogger<IdleStateHearBeatRespHandler>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var xnodeMessage = (Message)message;

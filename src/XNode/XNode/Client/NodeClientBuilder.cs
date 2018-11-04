@@ -11,6 +11,9 @@ using XNode.Serializer;
 
 namespace XNode.Client
 {
+    /// <summary>
+    /// 默认XNode客户端构造器
+    /// </summary>
     public class NodeClientBuilder : INodeClientBuilder
     {
         private bool isBuild = false;

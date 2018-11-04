@@ -15,6 +15,9 @@ namespace XNode.Client
     {
         private object nodeClientListLockObj = new object();
 
+        /// <summary>
+        /// 容器中包含的NodeClient列表
+        /// </summary>
         protected IList<INodeClient> NodeClientList { get; set; }
 
         /// <summary>

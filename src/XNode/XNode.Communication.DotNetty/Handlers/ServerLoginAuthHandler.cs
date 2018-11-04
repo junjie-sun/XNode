@@ -31,6 +31,10 @@ namespace XNode.Communication.DotNetty.Handlers
             this.loginRecieveHandler = loginRecieveHandler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ChannelActive(IChannelHandlerContext context)
         {
             ChannelState.SetLoginState(context, false);
@@ -40,6 +44,10 @@ namespace XNode.Communication.DotNetty.Handlers
             base.ChannelActive(context);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             ChannelState.RemoveLoginState(context);
@@ -49,6 +57,11 @@ namespace XNode.Communication.DotNetty.Handlers
             base.ChannelInactive(context);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var msg = (Message)message;
@@ -128,6 +141,11 @@ namespace XNode.Communication.DotNetty.Handlers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="exception"></param>
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
             context.FireExceptionCaught(exception);

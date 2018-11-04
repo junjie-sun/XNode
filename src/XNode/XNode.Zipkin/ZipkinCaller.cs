@@ -12,15 +12,28 @@ using Zipkin;
 
 namespace XNode.Zipkin
 {
+    /// <summary>
+    /// ZipkinCaller
+    /// </summary>
     public class ZipkinCaller : ServiceCallerBase
     {
         private ISerializer serializer;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serializer"></param>
         public ZipkinCaller(ISerializer serializer)
         {
             this.serializer = serializer;
         }
 
+        /// <summary>
+        /// 服务追踪
+        /// </summary>
+        /// <param name="nodeClientContainer"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public async override Task<ServiceCallResult> CallAsync(INodeClientContainer nodeClientContainer, ServiceCallInfo info)
         {
             string name;

@@ -9,6 +9,9 @@ using System.Text;
 
 namespace XNode.Security
 {
+    /// <summary>
+    /// 加解密工具类
+    /// </summary>
     public static class CryptographyUtils
     {
         #region MD5
@@ -61,6 +64,11 @@ namespace XNode.Security
 
         #region SHA256
 
+        /// <summary>
+        /// SHA256 加密
+        /// </summary>
+        /// <param name="original"></param>
+        /// <returns></returns>
         public static string SHA256Encrypt(string original)
         {
             byte[] hash = null;

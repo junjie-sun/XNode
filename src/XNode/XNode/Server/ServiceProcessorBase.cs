@@ -11,6 +11,9 @@ using XNode.Serializer;
 
 namespace XNode.Server
 {
+    /// <summary>
+    /// 服务处理器基类
+    /// </summary>
     public abstract class ServiceProcessorBase : IServiceProcessor
     {
         /// <summary>

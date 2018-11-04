@@ -11,6 +11,9 @@ using XNode.Communication.ProtocolStack;
 
 namespace XNode.Communication.DotNetty.Handlers
 {
+    /// <summary>
+    /// 服务处理Handler
+    /// </summary>
     public class ServerServiceHandler : ChannelHandlerAdapter
     {
         private ILogger logger;
@@ -28,6 +31,11 @@ namespace XNode.Communication.DotNetty.Handlers
             this.serviceRecieveHandler = serviceRecieveHandler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
 

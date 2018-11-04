@@ -32,12 +32,21 @@ namespace XNode.Autofac
 
         #region 接口实现
 
+        /// <summary>
+        /// 返回指定类型的XNode服务实例
+        /// </summary>
+        /// <param name="serviceType"></param>
+        /// <returns></returns>
         public override object GetNodeServiceInstance(Type serviceType)
         {
             logger.LogDebug($"Get node service instance from Autofac. ServiceType={serviceType}");
             return container.Resolve(serviceType);
         }
 
+        /// <summary>
+        /// 返回所有需要注册为XNode服务的实例类型
+        /// </summary>
+        /// <returns></returns>
         protected override IList<Type> GetServiceTypes()
         {
             logger.LogDebug($"Get node service types from Autofac.");

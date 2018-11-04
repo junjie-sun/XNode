@@ -32,6 +32,9 @@ namespace XNode.Client.ServiceCallers
         }
     }
 
+    /// <summary>
+    /// 默认ServiceCaller构造器扩展方法
+    /// </summary>
     public static class DefaultServiceCallerBuilderExtension
     {
         /// <summary>

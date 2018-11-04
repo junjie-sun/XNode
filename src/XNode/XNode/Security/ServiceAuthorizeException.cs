@@ -12,6 +12,9 @@ namespace XNode.Security
     /// </summary>
     public class ServiceAuthorizeException : Exception
     {
+        /// <summary>
+        /// 服务授权异常类型
+        /// </summary>
         public ServiceAuthorizeExceptionType ServiceAuthorizeExceptionType { get; }
 
         /// <summary>

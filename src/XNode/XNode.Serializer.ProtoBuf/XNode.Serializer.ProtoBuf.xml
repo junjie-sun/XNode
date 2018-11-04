@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XNode.Serializer.ProtoBuf</name>
+    </assembly>
+    <members>
+        <member name="T:XNode.Serializer.ProtoBuf.ProtoBufSerializer">
+            <summary>
+            基于ProtoBuf的序列化器
+            </summary>
+        </member>
+        <member name="P:XNode.Serializer.ProtoBuf.ProtoBufSerializer.Name">
+            <summary>
+            序列化器名称
+            </summary>
+        </member>
+        <member name="M:XNode.Serializer.ProtoBuf.ProtoBufSerializer.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Serializer.ProtoBuf.ProtoBufSerializer.DeserializeAsync(System.Type,System.Byte[])">
+            <summary>
+            反序列化
+            </summary>
+            <param name="type"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Serializer.ProtoBuf.ProtoBufSerializer.SerializeAsync(System.Object)">
+            <summary>
+            序列化
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

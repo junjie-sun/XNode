@@ -35,6 +35,10 @@ namespace XNode.Communication.DotNetty.Handlers
             this.loginResponseHandler = loginResponseHandler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void ChannelActive(IChannelHandlerContext context)
         {
             if (getLoginRequestDataHandler != null)
@@ -52,6 +56,11 @@ namespace XNode.Communication.DotNetty.Handlers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var msg = (Message)message;

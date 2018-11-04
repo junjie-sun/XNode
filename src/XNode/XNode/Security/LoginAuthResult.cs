@@ -7,6 +7,9 @@ using System.Text;
 
 namespace XNode.Security
 {
+    /// <summary>
+    /// 登录验证结果
+    /// </summary>
     public class LoginAuthResult
     {
         /// <summary>

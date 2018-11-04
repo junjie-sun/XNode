@@ -19,6 +19,9 @@ namespace XNode.Serializer.ProtoBuf
     {
         private ILogger logger;
 
+        /// <summary>
+        /// 序列化器名称
+        /// </summary>
         public string Name
         {
             get
@@ -36,6 +39,12 @@ namespace XNode.Serializer.ProtoBuf
             logger = loggerFactory.CreateLogger<ProtoBufSerializer>();
         }
 
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public Task<object> DeserializeAsync(Type type, byte[] data)
         {
             if (type == null)
@@ -67,6 +76,11 @@ namespace XNode.Serializer.ProtoBuf
             return Task.FromResult(result);
         }
 
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public Task<byte[]> SerializeAsync(object obj)
         {
             if (obj == null)

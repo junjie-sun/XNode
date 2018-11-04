@@ -7,8 +7,16 @@ using XNode.Security;
 
 namespace XNode.Client.Configuration
 {
+    /// <summary>
+    /// Client配置扩展方法类
+    /// </summary>
     public static class ConfigurationExtensions
     {
+        /// <summary>
+        /// 获取Client配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static ClientConfig GetClientConfig(this IConfigurationRoot config)
         {
             var clientConfig = new ClientConfig();
@@ -17,6 +25,12 @@ namespace XNode.Client.Configuration
             return clientConfig;
         }
 
+        /// <summary>
+        /// 获取默认LoginHandler配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="proxyName"></param>
+        /// <returns></returns>
         public static DefaultLoginHandlerConfig GetDefaultLoginHandlerConfig(this IConfigurationRoot config, string proxyName)
         {
             var loginConfig = new DefaultLoginHandlerConfig();

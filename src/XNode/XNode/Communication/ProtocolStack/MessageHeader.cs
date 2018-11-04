@@ -59,6 +59,10 @@ namespace XNode.Communication.ProtocolStack
         /// </summary>
         public IDictionary<string, byte[]> Attachments { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"MessageHeader [CrcCode={CrcCode}, Length={Length}, RequestId={RequestId}, Type={Type}, Priority={Priority}, Attachment={Attachments}]";

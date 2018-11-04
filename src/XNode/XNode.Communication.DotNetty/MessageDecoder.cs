@@ -34,6 +34,12 @@ namespace XNode.Communication.DotNetty
             logger = loggerFactory.CreateLogger<MessageDecoder>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
         {
             var frame = base.Decode(context, input);

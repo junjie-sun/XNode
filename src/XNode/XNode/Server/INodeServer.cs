@@ -9,8 +9,16 @@ using XNode.Server.Route;
 
 namespace XNode.Server
 {
+    /// <summary>
+    /// NodeServer启动时触发的委托
+    /// </summary>
+    /// <param name="arg"></param>
     public delegate void NodeServerStartDelegate(NodeServerStartEventArg arg);
 
+    /// <summary>
+    /// NodeServer停止时触发的委托
+    /// </summary>
+    /// <param name="arg"></param>
     public delegate void NodeServerStopDelegate(NodeServerStopEventArg arg);
 
     /// <summary>

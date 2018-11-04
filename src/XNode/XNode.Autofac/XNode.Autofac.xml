@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XNode.Autofac</name>
+    </assembly>
+    <members>
+        <member name="T:XNode.Autofac.AutofacServiceProvider">
+            <summary>
+            Autofac服务提供器
+            </summary>
+        </member>
+        <member name="M:XNode.Autofac.AutofacServiceProvider.#ctor(Autofac.IContainer)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="container">Autofac容器</param>
+        </member>
+        <member name="M:XNode.Autofac.AutofacServiceProvider.GetNodeServiceInstance(System.Type)">
+            <summary>
+            返回指定类型的XNode服务实例
+            </summary>
+            <param name="serviceType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Autofac.AutofacServiceProvider.GetServiceTypes">
+            <summary>
+            返回所有需要注册为XNode服务的实例类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Autofac.NodeServerBuilderExtensions">
+            <summary>
+            NodeServer构造器扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Autofac.NodeServerBuilderExtensions.UseAutofac(XNode.Server.INodeServerBuilder,Autofac.IContainer)">
+            <summary>
+            加载Autofac
+            </summary>
+            <param name="builder"></param>
+            <param name="container">Autofac容器</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Autofac.ServiceProxyInterceptor">
+            <summary>
+            服务代理拦截器，如果代理启用则调用远程服务，如果代理禁用则调用本地实现
+            </summary>
+        </member>
+        <member name="M:XNode.Autofac.ServiceProxyInterceptor.#ctor(XNode.Client.IServiceProxyManager)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="serviceProxyManager">服务代理管理器</param>
+        </member>
+        <member name="M:XNode.Autofac.ServiceProxyInterceptor.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            方法拦截
+            </summary>
+            <param name="invocation"></param>
+        </member>
+    </members>
+</doc>

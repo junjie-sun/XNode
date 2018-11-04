@@ -14,6 +14,9 @@ using XNode.Logging;
 
 namespace XNode.Communication.DotNetty
 {
+    /// <summary>
+    /// ClientBootstrap管理器
+    /// </summary>
     public static class BootstrapManager
     {
         private static ILogger logger;
@@ -24,6 +27,9 @@ namespace XNode.Communication.DotNetty
 
         private static ConcurrentDictionary<string, DotNettyClientInfo> clientInfoList = new ConcurrentDictionary<string, DotNettyClientInfo>();
 
+        /// <summary>
+        /// 初始化ClientBootstrap
+        /// </summary>
         public static void Init()
         {
             logger = LoggerManager.ClientLoggerFactory.CreateLogger("BootstrapManager");
@@ -50,6 +56,11 @@ namespace XNode.Communication.DotNetty
                 }));
         }
 
+        /// <summary>
+        /// 连接服务端
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public async static Task<IChannel> ConnectAsync(DotNettyClientInfo info)
         {
             var clientInfoAddResult = clientInfoList.TryAdd(info.ChannelName, info);
@@ -88,6 +99,11 @@ namespace XNode.Communication.DotNetty
             }
         }
 
+        /// <summary>
+        /// 关闭与服务端的连接
+        /// </summary>
+        /// <param name="channelName"></param>
+        /// <returns></returns>
         public static Task CloseAsync(string channelName)
         {
             if (clientInfoList.TryRemove(channelName, out DotNettyClientInfo info))
@@ -100,6 +116,10 @@ namespace XNode.Communication.DotNetty
             }
         }
 
+        /// <summary>
+        /// 释放Client事件循环线程
+        /// </summary>
+        /// <returns></returns>
         public async static Task Disable()
         {
             List<Task> tasks = new List<Task>();
@@ -158,26 +178,59 @@ namespace XNode.Communication.DotNetty
         }
     }
 
+    /// <summary>
+    /// DotNettyClient必要信息
+    /// </summary>
     public class DotNettyClientInfo
     {
+        /// <summary>
+        /// 远程Host
+        /// </summary>
         public string Host { get; set; }
 
+        /// <summary>
+        /// 远程端口
+        /// </summary>
         public int Port { get; set; }
 
+        /// <summary>
+        /// 本地Host
+        /// </summary>
         public string LocalHost { get; set; }
 
+        /// <summary>
+        /// 本地端口
+        /// </summary>
         public int? LocalPort { get; set; }
 
+        /// <summary>
+        /// Request管理器
+        /// </summary>
         public RequestManager RequestManager { get; set; }
 
+        /// <summary>
+        /// 异常Handler
+        /// </summary>
         public Func<Task> ExceptionHandler { get; set; }
 
+        /// <summary>
+        /// 登录响应Handler，对服务端返回的登录验证信息进行解析并返回登录验证结果
+        /// </summary>
         public Func<byte[], IDictionary<string, byte[]>, Task<byte>> LoginResponseHandler { get; set; }
 
+        /// <summary>
+        /// 获取登录请求数据Handler，从此Handler中可以获取用于发送为服务端进行登录请求的数据
+        /// </summary>
         public Func<Task<LoginRequestData>> GetLoginRequestDataHandler { get; set; }
 
+        /// <summary>
+        /// Client底层通信组件
+        /// </summary>
         public IChannel Channel { get; set; }
 
+        /// <summary>
+        /// Channel名称，格式：Host:Port
+        /// </summary>
         public string ChannelName
         {
             get

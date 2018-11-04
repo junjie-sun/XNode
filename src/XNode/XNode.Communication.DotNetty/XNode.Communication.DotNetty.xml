@@ -1,0 +1,560 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XNode.Communication.DotNetty</name>
+    </assembly>
+    <members>
+        <member name="T:XNode.Communication.DotNetty.BootstrapManager">
+            <summary>
+            ClientBootstrap管理器
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.BootstrapManager.Init">
+            <summary>
+            初始化ClientBootstrap
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.BootstrapManager.ConnectAsync(XNode.Communication.DotNetty.DotNettyClientInfo)">
+            <summary>
+            连接服务端
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.BootstrapManager.CloseAsync(System.String)">
+            <summary>
+            关闭与服务端的连接
+            </summary>
+            <param name="channelName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.BootstrapManager.Disable">
+            <summary>
+            释放Client事件循环线程
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.DotNettyClientInfo">
+            <summary>
+            DotNettyClient必要信息
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.Host">
+            <summary>
+            远程Host
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.Port">
+            <summary>
+            远程端口
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.LocalHost">
+            <summary>
+            本地Host
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.LocalPort">
+            <summary>
+            本地端口
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.RequestManager">
+            <summary>
+            Request管理器
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.ExceptionHandler">
+            <summary>
+            异常Handler
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.LoginResponseHandler">
+            <summary>
+            登录响应Handler，对服务端返回的登录验证信息进行解析并返回登录验证结果
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.GetLoginRequestDataHandler">
+            <summary>
+            获取登录请求数据Handler，从此Handler中可以获取用于发送为服务端进行登录请求的数据
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.Channel">
+            <summary>
+            Client底层通信组件
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.ChannelName">
+            <summary>
+            Channel名称，格式：Host:Port
+            </summary>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.ChannelState">
+            <summary>
+            每个连接独立的状态数据
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelState.GetLoginState(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取登录状态
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelState.SetLoginState(DotNetty.Transport.Channels.IChannelHandlerContext,System.Boolean)">
+            <summary>
+            设置登录状态
+            </summary>
+            <param name="context"></param>
+            <param name="isLoginSuccess"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelState.RemoveLoginState(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            移除登录状态
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.DotNettyClient">
+            <summary>
+            客户端底层实现
+            </summary>
+        </member>
+        <member name="E:XNode.Communication.DotNetty.DotNettyClient.OnSubmitLoginRequest">
+            <summary>
+            提交登录请求事件
+            </summary>
+        </member>
+        <member name="E:XNode.Communication.DotNetty.DotNettyClient.OnRecieveLoginResponse">
+            <summary>
+            接收登录响应事件
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClient.Status">
+            <summary>
+            客户端状态
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.#ctor(System.String,System.Int32,System.String,System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="host">服务端地址</param>
+            <param name="port">服务端端口</param>
+            <param name="localHost">本地地址</param>
+            <param name="localPort">本地端口</param>
+            <param name="reconnectCount">当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1</param>
+            <param name="reconnectInterval">每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.ConnectAsync">
+            <summary>
+            向服务端发起连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.SendOneWayAsync(System.Byte[],System.Int32,System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
+            <summary>
+            单向发送消息到服务器
+            </summary>
+            <param name="msg">消息数据</param>
+            <param name="timeout">超时时长（毫秒）</param>
+            <param name="attachments">消息附加数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.SendAsync(System.Byte[],System.Int32,System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
+            <summary>
+            发送消息到服务器
+            </summary>
+            <param name="msg">消息数据</param>
+            <param name="timeout">超时时长（毫秒）</param>
+            <param name="attachments">消息附加数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.CloseAsync">
+            <summary>
+            关闭与服务端的连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.DoConnectAsync">
+            <summary>
+            执行与服务端连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.ReconnectAsync">
+            <summary>
+            重新连接到服务端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.DotNettyServer">
+            <summary>
+            服务端底层实现
+            </summary>
+        </member>
+        <member name="E:XNode.Communication.DotNetty.DotNettyServer.OnRecieveLoginRequest">
+            <summary>
+            接收登录请求事件
+            </summary>
+        </member>
+        <member name="E:XNode.Communication.DotNetty.DotNettyServer.OnRecieveServiceRequest">
+            <summary>
+            接收服务请求事件
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyServer.#ctor(System.String,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="host">服务端地址</param>
+            <param name="port">服务端端口</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyServer.StartAsync">
+            <summary>
+            绑定与启动
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyServer.CloseAsync">
+            <summary>
+            关闭服务器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.ChannelHandlerContextExtensions">
+            <summary>
+            ChannelHandler扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetRemoteAddress(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取远程地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetRemoteNetString(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取远程IP与端口（IP:Port）
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetRemoteIP(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取远程IP
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetRemotePort(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取远程端口
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetLocalAddress(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取本地地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetLocalNetString(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取本地IP和端口（IP:Port）
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetLocalIP(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取本地IP
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetLocalPort(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取本地端口
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.NodeServerBuilderExtensions">
+            <summary>
+            NodeServer构造器扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.NodeServerBuilderExtensions.UseDotNetty(XNode.Server.INodeServerBuilder,XNode.Server.Configuration.ServerInfo)">
+            <summary>
+            加载DotNetty服务端
+            </summary>
+            <param name="builder"></param>
+            <param name="serverInfo">服务器信息</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.NodeClientBuilderExtensions">
+            <summary>
+            NodeClient构造器扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.NodeClientBuilderExtensions.UseDotNetty(XNode.Client.INodeClientBuilder)">
+            <summary>
+            加载DotNetty客户端
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler">
+            <summary>
+            客户端异常Handler
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,System.Threading.Tasks.Task})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="socketExceptionHandler">网络异常Handler</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler.ExceptionCaught(DotNetty.Transport.Channels.IChannelHandlerContext,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler.ChannelInactive(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler.ChannelUnregistered(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ClientLoginAuthHandler">
+            <summary>
+            用于握手认证，在通道激活时发起握手请求
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientLoginAuthHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,System.Threading.Tasks.Task{XNode.Communication.LoginRequestData}},System.Func{System.String,System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]},System.Threading.Tasks.Task{System.Byte}})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="getLoginRequestDataHandler">获取登录请求数据Handler</param>
+            <param name="loginResponseHandler">登录响应Handler</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientLoginAuthHandler.ChannelActive(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientLoginAuthHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ClientServiceHandler">
+            <summary>
+            用于处理服务响应消息
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientServiceHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.String,XNode.Communication.RequestManager})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="serviceResponseHandler">服务响应处理器</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ClientServiceHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatReqHandler">
+            <summary>
+            心跳包请求handler
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatReqHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatReqHandler.UserEventTriggered(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="evt"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatReqHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatRespHandler">
+            <summary>
+            心跳包响应Handler
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatRespHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.IdleStateHearBeatRespHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ServerExceptionHandler">
+            <summary>
+            服务端异常Handler
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerExceptionHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerExceptionHandler.ExceptionCaught(DotNetty.Transport.Channels.IChannelHandlerContext,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerExceptionHandler.ChannelInactive(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerExceptionHandler.ChannelUnregistered(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler">
+            <summary>
+            握手接入和安全认证
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{XNode.Communication.LoginAuthInfo,System.Threading.Tasks.Task{XNode.Communication.LoginResponseData}})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="loginRecieveHandler">登录请求接收Handler</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.ChannelActive(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.ChannelInactive(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.ExceptionCaught(DotNetty.Transport.Channels.IChannelHandlerContext,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.Handlers.ServerServiceHandler">
+            <summary>
+            服务处理Handler
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerServiceHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{System.Byte[],System.Collections.Generic.IDictionary{System.String,System.Byte[]},XNode.Communication.LoginState,System.Threading.Tasks.Task{XNode.Communication.ResponseData}})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="serviceRecieveHandler">服务请求接收Handler</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerServiceHandler.ChannelRead(DotNetty.Transport.Channels.IChannelHandlerContext,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.MessageDecoder">
+            <summary>
+            消息解码器
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.MessageDecoder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="maxFrameLength">最大允许消息长度</param>
+            <param name="lengthFieldOffset">消息中的长度字段起始位置（从0开始计算，本例第4位为长度字段）</param>
+            <param name="lengthFieldLength">消息中的长度字段的长度，本例长度字段为4个字节</param>
+            <param name="lengthAdjustment">长度字段中的值表示长度字段之后需要读取的字节长度值，例如lengthAdjustment=12表示长度字段之后需要读取12个字节，本例长度字段的值为消息头与消息体的总长度（包括CrcCode与Length字段），因此读取长度应该调整为-8（长度字段之后需要读取的字节数=总长度[长度字段值]-4[CrcCode字段]-4[Length字段]）</param>
+            <param name="initialBytesToStrip">启始读取字节，本例所有字段都需要读取，因此为0</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.MessageDecoder.Decode(DotNetty.Transport.Channels.IChannelHandlerContext,DotNetty.Buffers.IByteBuffer,System.Collections.Generic.List{System.Object})">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="input"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.MessageEncoder">
+            <summary>
+            消息编码器
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.MessageEncoder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.MessageEncoder.Encode(DotNetty.Transport.Channels.IChannelHandlerContext,XNode.Communication.ProtocolStack.Message,DotNetty.Buffers.IByteBuffer)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="message"></param>
+            <param name="output"></param>
+        </member>
+    </members>
+</doc>

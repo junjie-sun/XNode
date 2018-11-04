@@ -27,6 +27,11 @@ namespace XNode.Communication.DotNetty.Handlers
             logger = loggerFactory.CreateLogger<IdleStateHearBeatReqHandler>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="evt"></param>
         public override void UserEventTriggered(IChannelHandlerContext context, object evt)
         {
             var idleStateEvt = evt as IdleStateEvent;
@@ -45,6 +50,11 @@ namespace XNode.Communication.DotNetty.Handlers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="message"></param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var xnodeMessage = (Message)message;

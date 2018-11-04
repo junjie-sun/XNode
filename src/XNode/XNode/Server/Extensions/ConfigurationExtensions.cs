@@ -9,8 +9,16 @@ using XNode.Security;
 
 namespace XNode.Server.Configuration
 {
+    /// <summary>
+    /// Server配置扩展方法
+    /// </summary>
     public static class ConfigurationExtensions
     {
+        /// <summary>
+        /// 获取Server服务配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static ServerConfig GetServerConfig(this IConfigurationRoot config)
         {
             var serverConfig = new ServerConfig();
@@ -19,6 +27,11 @@ namespace XNode.Server.Configuration
             return serverConfig;
         }
 
+        /// <summary>
+        /// 获取默认登录验证器配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static DefaultLoginValidatorConfig GetDefaultLoginValidatorConfig(this IConfigurationRoot config)
         {
             var loginValidatorConfig = new DefaultLoginValidatorConfig();
@@ -27,6 +40,11 @@ namespace XNode.Server.Configuration
             return loginValidatorConfig;
         }
 
+        /// <summary>
+        /// 获取默认服务授权配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static IList<DefaultServiceAuthorizeConfig> GetDefaultServiceAuthorizeConfig(this IConfigurationRoot config)
         {
             var list = new List<DefaultServiceAuthorizeConfig>();

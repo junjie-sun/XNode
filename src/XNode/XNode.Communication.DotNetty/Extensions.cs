@@ -13,48 +13,91 @@ using XNode.Server.Configuration;
 
 namespace XNode.Communication.DotNetty
 {
+    /// <summary>
+    /// ChannelHandler扩展方法
+    /// </summary>
     public static class ChannelHandlerContextExtensions
     {
+        /// <summary>
+        /// 获取远程地址
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static IPEndPoint GetRemoteAddress(this IChannelHandlerContext context)
         {
             return (IPEndPoint)context.Channel.RemoteAddress;
         }
 
+        /// <summary>
+        /// 获取远程IP与端口（IP:Port）
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static string GetRemoteNetString(this IChannelHandlerContext context)
         {
             var address = context.GetRemoteAddress();
             return $"{address.Address.MapToIPv4().ToString()}:{address.Port}";
         }
 
+        /// <summary>
+        /// 获取远程IP
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static string GetRemoteIP(this IChannelHandlerContext context)
         {
             var address = context.GetRemoteAddress();
             return address.Address.MapToIPv4().ToString();
         }
 
+        /// <summary>
+        /// 获取远程端口
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static int GetRemotePort(this IChannelHandlerContext context)
         {
             var address = context.GetRemoteAddress();
             return address.Port;
         }
 
+        /// <summary>
+        /// 获取本地地址
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static IPEndPoint GetLocalAddress(this IChannelHandlerContext context)
         {
             return (IPEndPoint)context.Channel.LocalAddress;
         }
 
+        /// <summary>
+        /// 获取本地IP和端口（IP:Port）
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static string GetLocalNetString(this IChannelHandlerContext context)
         {
             var address = context.GetLocalAddress();
             return $"{address.Address.MapToIPv4().ToString()}:{address.Port}";
         }
 
+        /// <summary>
+        /// 获取本地IP
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static string GetLocalIP(this IChannelHandlerContext context)
         {
             var address = context.GetLocalAddress();
             return address.Address.MapToIPv4().ToString();
         }
 
+        /// <summary>
+        /// 获取本地端口
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static int GetLocalPort(this IChannelHandlerContext context)
         {
             var address = context.GetLocalAddress();
@@ -62,6 +105,9 @@ namespace XNode.Communication.DotNetty
         }
     }
 
+    /// <summary>
+    /// NodeServer构造器扩展方法
+    /// </summary>
     public static class NodeServerBuilderExtensions
     {
         /// <summary>
@@ -76,6 +122,9 @@ namespace XNode.Communication.DotNetty
         }
     }
 
+    /// <summary>
+    /// NodeClient构造器扩展方法
+    /// </summary>
     public static class NodeClientBuilderExtensions
     {
         /// <summary>

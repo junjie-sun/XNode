@@ -21,7 +21,7 @@ namespace XNode.Client
         /// <summary>
         /// 根据服务代理配置决定调用远程服务或本地服务
         /// </summary>
-        /// <param name="manager"></param>
+        /// <param name="serviceProxy"></param>
         /// <param name="actionProxyType">Action代理类型</param>
         /// <param name="paramList">服务调用参数列表</param>
         /// <param name="localServiceInvoker">本地服务调用委托，当服务代理配置为本地服务时会被调用，参数：MethodInfo=Action代理类型，object[]=服务调用参数列表</param>

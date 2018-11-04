@@ -24,6 +24,10 @@ namespace XNode.Communication
 
         private ConcurrentDictionary<long, RequestInfo> requestList = new ConcurrentDictionary<long, RequestInfo>();
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="loggerFactory">日志工厂</param>
         public RequestManager(ILoggerFactory loggerFactory)
         {
             logger = loggerFactory.CreateLogger<RequestManager>();
@@ -123,10 +127,19 @@ namespace XNode.Communication
         /// </summary>
         public long Id { get; set; }
 
+        /// <summary>
+        /// TaskCompletionSource
+        /// </summary>
         public TaskCompletionSource<Message> TaskCompletionSource { get; set; }
 
+        /// <summary>
+        /// CancellationTokenSource
+        /// </summary>
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
+        /// <summary>
+        /// Task
+        /// </summary>
         public Task<Message> Task { get { return TaskCompletionSource.Task; } }
     }
 

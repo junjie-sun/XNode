@@ -5,10 +5,18 @@
     <Authors>Sun junjie</Authors>
     <Company>Sun junjie</Company>
     <Description>MsgPack serializer for XNode.</Description>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <PackageTags>distributed,rpc,xnode</PackageTags>
     <PackageProjectUrl>https://github.com/junjie-sun/XNode</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.MsgPack\XNode.Serializer.MsgPack.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.MsgPack\XNode.Serializer.MsgPack.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

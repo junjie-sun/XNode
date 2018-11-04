@@ -17,6 +17,9 @@ namespace XNode.Communication
     /// <returns></returns>
     public delegate Task<ResponseData> RecieveServiceRequestDelegate(byte[] message, IDictionary<string, byte[]> attachments, LoginState loginState);
 
+    /// <summary>
+    /// 服务端通信接口
+    /// </summary>
     public interface IServer
     {
         /// <summary>

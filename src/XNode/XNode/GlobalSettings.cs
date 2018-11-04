@@ -90,6 +90,11 @@ namespace XNode
     /// </summary>
     public static class ConfigurationExtensions
     {
+        /// <summary>
+        /// 获取全局配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static GlobalConfig GetGlobalConfig(this IConfigurationRoot config)
         {
             var globalConfig = new GlobalConfig();

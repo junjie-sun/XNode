@@ -12,6 +12,9 @@ using Zipkin;
 
 namespace XNode.Zipkin
 {
+    /// <summary>
+    /// ZipkinProcessor
+    /// </summary>
     public class ZipkinProcessor : ServiceProcessorBase
     {
         /// <summary>

@@ -29,6 +29,9 @@ namespace XNode.Client
 
         private IDictionary<MethodInfo, ServiceProxyInfo> serviceProxyInfoList = new Dictionary<MethodInfo, ServiceProxyInfo>();
 
+        /// <summary>
+        /// 代理名称
+        /// </summary>
         public virtual string ProxyName { get; }
 
         /// <summary>
@@ -72,6 +75,10 @@ namespace XNode.Client
             this.nodeClientContainer = nodeClientContainer ?? new DefaultNodeClientContainer();
         }
 
+        /// <summary>
+        /// 添加Service
+        /// </summary>
+        /// <param name="serviceProxyType">Service类型</param>
         public virtual IServiceProxy AddService(Type serviceProxyType)
         {
             var serviceProxyInfoList = CreateServiceProxyInfos(ProxyName, serviceProxyType);
