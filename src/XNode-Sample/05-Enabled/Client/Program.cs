@@ -53,22 +53,26 @@ namespace Client
                 //注册服务代理
                 //foreach (var config in clientConfig.ServiceProxies)
                 //{
-                //    serviceProxyManager
-                //        .Regist("SampleService", new List<Type>() { typeof(ISampleService) })
+                //    var serviceProxy = new ServiceProxy(
+                //        "SampleService")
+                //        .AddService<ISampleService>()
                 //        .AddClients(
                 //            new NodeClientBuilder()
                 //                .ConfigConnections(config.Connections)
                 //                .ConfigSerializer(serializer)
                 //                .UseDotNetty()
                 //                .Build()
-                //        );
+                //        ).EnableAll();
+                //    serviceProxyManager.Regist(serviceProxy);
                 //}
 
                 //注册服务代理（配置文件方式）
                 foreach (var config in clientConfig.ServiceProxies)
                 {
-                    serviceProxyManager
-                        .Regist(config)
+                    var serviceProxy = new ServiceProxy(
+                        config.ProxyName,
+                        config?.Services)
+                        .AddServices(config.ProxyTypes)
                         .AddClients(
                             new NodeClientBuilder()
                                 .ConfigConnections(config.Connections)
@@ -76,6 +80,7 @@ namespace Client
                                 .UseDotNetty()
                                 .Build()
                         );
+                    serviceProxyManager.Regist(serviceProxy);
                 }
             }
 

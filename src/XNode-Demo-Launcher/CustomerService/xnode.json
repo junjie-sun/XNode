@@ -6,7 +6,7 @@
     },
     "server": {
       "serverInfo": {
-        "host": "10.246.84.200",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -39,17 +39,19 @@
           },
           "connections": [
             {
-              "host": "10.246.84.200",
+              "host": "192.168.37.131",
               "port": "9003",
-              "localHost": "10.246.84.200"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10002,
-              "typeName": "Contract.Service.IOrderService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.Service.IOrderService,Contract"
           ]
         }
       ]

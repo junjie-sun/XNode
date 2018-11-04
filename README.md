@@ -133,7 +133,7 @@ public class SampleService : ISampleService
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       }
     }
@@ -221,17 +221,19 @@ public interface ISampleService
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
@@ -273,8 +275,10 @@ class Program
             //注册服务代理
             foreach (var config in clientConfig.ServiceProxies)
             {
-                serviceProxyManager
-                    .Regist(config)
+                var serviceProxy = new ServiceProxy(
+                    config.ProxyName,
+                    config?.Services)
+                    .AddServices(config.ProxyTypes)
                     .AddClients(
                         new NodeClientBuilder()
                             .ConfigConnections(config.Connections)
@@ -282,6 +286,7 @@ class Program
                             .UseDotNetty()
                             .Build()
                     );
+                serviceProxyManager.Regist(serviceProxy);
             }
         }
 
@@ -718,8 +723,10 @@ if (clientConfig.ServiceProxies != null)
     //注册服务代理
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config)
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services)
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -727,6 +734,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 ```
@@ -921,8 +929,9 @@ if (clientConfig.ServiceProxies != null)
     //注册服务代理
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist("SampleService", new List<Type>() { typeof(ISampleService) })
+        var serviceProxy = new ServiceProxy(
+            "SampleService")
+            .AddService<ISampleService>()
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -930,13 +939,16 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 
     //注册服务代理（配置文件方式）
     //foreach (var config in clientConfig.ServiceProxies)
     //{
-    //    serviceProxyManager
-    //        .Regist(config)
+    //    var serviceProxy = new ServiceProxy(
+    //        config.ProxyName,
+    //        config?.Services)
+    //        .AddServices(config.ProxyTypes)
     //        .AddClients(
     //            new NodeClientBuilder()
     //                .ConfigConnections(config.Connections)
@@ -944,6 +956,7 @@ if (clientConfig.ServiceProxies != null)
     //                .UseDotNetty()
     //                .Build()
     //        );
+    //    serviceProxyManager.Regist(serviceProxy);
     //}
 }
 ```
@@ -1010,9 +1023,11 @@ public interface ISampleService
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
@@ -1029,22 +1044,26 @@ if (clientConfig.ServiceProxies != null)
     //注册服务代理
     //foreach (var config in clientConfig.ServiceProxies)
     //{
-    //    serviceProxyManager
-    //        .Regist("SampleService", new List<Type>() { typeof(ISampleService) })
+    //    var serviceProxy = new ServiceProxy(
+    //        "SampleService")
+    //        .AddService<ISampleService>()
     //        .AddClients(
     //            new NodeClientBuilder()
     //                .ConfigConnections(config.Connections)
     //                .ConfigSerializer(serializer)
     //                .UseDotNetty()
     //                .Build()
-    //        );
+    //        ).EnableAll();
+    //    serviceProxyManager.Regist(serviceProxy);
     //}
 
     //注册服务代理（配置文件方式）
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config)
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services)
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -1052,6 +1071,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 ```
@@ -1074,7 +1094,6 @@ if (clientConfig.ServiceProxies != null)
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true,
               "actions": [
                 {
@@ -1083,6 +1102,9 @@ if (clientConfig.ServiceProxies != null)
                 }
               ]
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
@@ -1183,7 +1205,6 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true,
               "actions": [
                 {
@@ -1192,6 +1213,9 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
                 }
               ]
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
@@ -1275,7 +1299,6 @@ var nodeServer = new NodeServerBuilder()
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true,
               "actions": [
                 {
@@ -1284,6 +1307,9 @@ var nodeServer = new NodeServerBuilder()
                 }
               ]
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
@@ -1299,8 +1325,10 @@ if (clientConfig.ServiceProxies != null)
     //注册服务代理
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config)
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services)
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -1309,6 +1337,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 ......
@@ -1756,9 +1785,11 @@ XNode.Zipkin
           "services": [
             {
               "serviceId": 20001,
-              "typeName": "Contract.IOrderService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.IOrderService,Contract"
           ]
         }
       ]
@@ -1827,8 +1858,11 @@ if (clientConfig.ServiceProxies != null)
 {
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config, serviceCaller)
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services,
+            serviceCaller)
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -1836,6 +1870,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 ```
@@ -1928,9 +1963,11 @@ XNode.Zipkin
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Contract.ICustomerService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.ICustomerService,Contract"
           ]
         }
       ]
@@ -2000,8 +2037,11 @@ if (clientConfig.ServiceProxies != null)
 {
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config, serviceCaller)
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services,
+            serviceCaller)
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -2009,6 +2049,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 
@@ -2197,8 +2238,11 @@ if (clientConfig.ServiceProxies != null)
 {
     foreach (var config in clientConfig.ServiceProxies)
     {
-        serviceProxyManager
-            .Regist(config, serviceCaller)      //注册ServiceCaller
+        var serviceProxy = new ServiceProxy(
+            config.ProxyName,
+            config?.Services,
+            serviceCaller)            //注册ServiceCaller
+            .AddServices(config.ProxyTypes)
             .AddClients(
                 new NodeClientBuilder()
                     .ConfigConnections(config.Connections)
@@ -2206,6 +2250,7 @@ if (clientConfig.ServiceProxies != null)
                     .UseDotNetty()
                     .Build()
             );
+        serviceProxyManager.Regist(serviceProxy);
     }
 }
 ......
@@ -2850,17 +2895,19 @@ public class AutofacModule : Module
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10003,
-              "typeName": "Contract.Service.ICustomerService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.Service.ICustomerService,Contract"
           ]
         },
         {
@@ -2873,17 +2920,19 @@ public class AutofacModule : Module
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9002",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Contract.Service.IGoodsService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.Service.IGoodsService,Contract"
           ]
         }
       ]
@@ -2932,8 +2981,11 @@ public class XNodeBootstrap
 
         foreach (var config in clientConfig.ServiceProxies)
         {
-            serviceProxyManager
-                .Regist(config, serviceCaller)
+            var serviceProxy = new ServiceProxy(
+                config.ProxyName,
+                config?.Services,
+                serviceCaller)
+                .AddServices(config.ProxyTypes)
                 .AddClients(
                     new NodeClientBuilder()
                         .ConfigConnections(config.Connections)
@@ -2942,6 +2994,7 @@ public class XNodeBootstrap
                         .UseDotNetty()
                         .Build()
                 );
+            serviceProxyManager.Regist(serviceProxy);
         }
 
         serviceProxyManager.ConnectAsync().ContinueWith(task =>
@@ -3112,8 +3165,11 @@ public class XNodeBootstrap
 
         foreach (var config in clientConfig.ServiceProxies)
         {
-            serviceProxyManager
-                .Regist(config, serviceCaller)
+            var serviceProxy = new ServiceProxy(
+                config.ProxyName,
+                config?.Services,
+                serviceCaller)
+                .AddServices(config.ProxyTypes)
                 .AddClients(
                     new NodeClientBuilder()
                         .ConfigConnections(config.Connections)
@@ -3122,6 +3178,7 @@ public class XNodeBootstrap
                         .UseDotNetty()
                         .Build()
                 );
+            serviceProxyManager.Regist(serviceProxy);
         }
 
         serviceProxyManager.ConnectAsync().ContinueWith(task =>
@@ -3181,7 +3238,7 @@ static void Main(string[] args)
     },
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9002"
       },
       "services": [
@@ -3217,7 +3274,7 @@ GoodsService使用了9002端口并开启服务Id为10001的服务。
     },
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9003"
       },
       "services": [
@@ -3250,17 +3307,19 @@ GoodsService使用了9002端口并开启服务Id为10001的服务。
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9002",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Contract.Service.IGoodsService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.Service.IGoodsService,Contract"
           ]
         }
       ]
@@ -3280,7 +3339,7 @@ OrderService使用了9003端口并开启服务Id为10002的服务。同时，对
     },
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -3313,17 +3372,19 @@ OrderService使用了9003端口并开启服务Id为10002的服务。同时，对
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9003",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10002,
-              "typeName": "Contract.Service.IOrderService,Contract",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Contract.Service.IOrderService,Contract"
           ]
         }
       ]

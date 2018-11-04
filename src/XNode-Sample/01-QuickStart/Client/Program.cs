@@ -46,8 +46,10 @@ namespace Client
                 //注册服务代理
                 foreach (var config in clientConfig.ServiceProxies)
                 {
-                    serviceProxyManager
-                        .Regist(config)
+                    var serviceProxy = new ServiceProxy(
+                        config.ProxyName,
+                        config?.Services)
+                        .AddServices(config.ProxyTypes)
                         .AddClients(
                             new NodeClientBuilder()
                                 .ConfigConnections(config.Connections)
@@ -55,6 +57,7 @@ namespace Client
                                 .UseDotNetty()
                                 .Build()
                         );
+                    serviceProxyManager.Regist(serviceProxy);
                 }
             }
 

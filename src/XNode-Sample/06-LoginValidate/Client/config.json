@@ -12,15 +12,14 @@
           },
           "connections": [
             {
-              "host": "10.246.84.200",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.200"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true,
               "actions": [
                 {
@@ -29,6 +28,9 @@
                 }
               ]
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]

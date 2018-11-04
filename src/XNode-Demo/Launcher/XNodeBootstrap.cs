@@ -80,8 +80,11 @@ namespace Launcher
 
             foreach (var config in clientConfig.ServiceProxies)
             {
-                serviceProxyManager
-                    .Regist(config, serviceCaller)
+                var serviceProxy = new ServiceProxy(
+                    config.ProxyName,
+                    config?.Services,
+                    serviceCaller)
+                    .AddServices(config.ProxyTypes)
                     .AddClients(
                         new NodeClientBuilder()
                             .ConfigConnections(config.Connections)
@@ -90,6 +93,7 @@ namespace Launcher
                             .UseDotNetty()
                             .Build()
                     );
+                serviceProxyManager.Regist(serviceProxy);
             }
 
             serviceProxyManager.ConnectAsync().ContinueWith(task =>

@@ -6,17 +6,19 @@
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.200",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
             {
               "serviceId": 10001,
-              "typeName": "Client.ISampleService,Client",
               "enabled": true
             }
+          ],
+          "proxyTypes": [
+            "Client.ISampleService,Client"
           ]
         }
       ]
