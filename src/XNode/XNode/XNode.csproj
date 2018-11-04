@@ -14,12 +14,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode\XNode.xml</DocumentationFile>
+    <DocumentationFile>XNode.xml</DocumentationFile>
     <OutputPath></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode\XNode.xml</DocumentationFile>
+    <DocumentationFile>XNode.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

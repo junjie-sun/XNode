@@ -13,11 +13,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Autofac\XNode.Autofac.xml</DocumentationFile>
+    <DocumentationFile>XNode.Autofac.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Autofac\XNode.Autofac.xml</DocumentationFile>
+    <DocumentationFile>XNode.Autofac.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

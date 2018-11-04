@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.MsgPack\XNode.Serializer.MsgPack.xml</DocumentationFile>
+    <DocumentationFile>XNode.Serializer.MsgPack.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.MsgPack\XNode.Serializer.MsgPack.xml</DocumentationFile>
+    <DocumentationFile>XNode.Serializer.MsgPack.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

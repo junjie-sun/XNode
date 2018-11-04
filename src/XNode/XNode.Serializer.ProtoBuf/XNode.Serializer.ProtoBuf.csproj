@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.ProtoBuf\XNode.Serializer.ProtoBuf.xml</DocumentationFile>
+    <DocumentationFile>XNode.Serializer.ProtoBuf.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Serializer.ProtoBuf\XNode.Serializer.ProtoBuf.xml</DocumentationFile>
+    <DocumentationFile>XNode.Serializer.ProtoBuf.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

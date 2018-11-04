@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Communication.DotNetty\XNode.Communication.DotNetty.xml</DocumentationFile>
+    <DocumentationFile>XNode.Communication.DotNetty.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Git\Projects\XNode\src\XNode\XNode.Communication.DotNetty\XNode.Communication.DotNetty.xml</DocumentationFile>
+    <DocumentationFile>XNode.Communication.DotNetty.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
