@@ -792,7 +792,7 @@ public interface ISampleService
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
-      Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
+      Node server has an error, Host=192.168.37.131, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
 除了为Service设置启用/禁用，也可以为某个单独的Action进行设置。需要注意的是，一个Action是否启用取决于Service的Enabled与Action的Enabled的交集，也就是说当设置了Service的Enabled为false，无论Action如何设置，这个Service下的所有Action都将被禁用。因此，先将ServiceAttribute的enabled参数还原为true：
 ``` c#
@@ -829,7 +829,7 @@ public interface ISampleService
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
-      Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
+      Node server has an error, Host=192.168.37.131, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
 
 #### 使用配置文件的方式设置
@@ -848,7 +848,7 @@ public interface ISampleService
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -869,7 +869,7 @@ services配置节是一个数组，可以在这里配置所有的XNode服务，s
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -892,7 +892,7 @@ actions配置节同样为数组，某一个Service下所有的Action都可以这
 ``` c#
 Service call exception: ExceptionId=-10003, ExceptionMessage=Service is disabled.
 fail: XNode.Client.NodeClient[0]
-      Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
+      Node server has an error, Host=192.168.37.131, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10003, ExceptionMessage=Service is disabled.
 ```
 
 ### 代理启用/禁用
@@ -909,9 +909,9 @@ XNode代理与XNode服务一样可以通过Attribute与配置文件的方式设�
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ]
         }
@@ -1015,9 +1015,9 @@ public interface ISampleService
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
@@ -1086,9 +1086,9 @@ if (clientConfig.ServiceProxies != null)
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
@@ -1168,7 +1168,7 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -1197,9 +1197,9 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
@@ -1229,7 +1229,7 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -1250,7 +1250,7 @@ XNode内置了身份验证的默认实现，该实现提供了基于用户名、
             {
               "accountName": "Test01",
               "accountKey": "123456",
-              "ipWhiteList": ["10.246.84.201"]
+              "ipWhiteList": ["192.168.37.131"]
             }
           ]
         }
@@ -1291,9 +1291,9 @@ var nodeServer = new NodeServerBuilder()
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
@@ -1374,7 +1374,7 @@ public interface IServiceAuthorizer
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       },
       "services": [
@@ -1402,7 +1402,7 @@ public interface IServiceAuthorizer
             {
               "accountName": "Test01",
               "accountKey": "123456",
-              "ipWhiteList": [ "10.246.84.201" ]
+              "ipWhiteList": [ "192.168.37.131" ]
             }
           ]
         }
@@ -1434,7 +1434,7 @@ var nodeServer = new NodeServerBuilder()
 ``` c#
 Service call exception: ExceptionId=-10005, ExceptionMessage=Service no authorize.
 fail: XNode.Client.NodeClient[0]
-      Node server has an error, Host=10.246.84.201, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10005, ExceptionMessage=Service no authorize.
+      Node server has an error, Host=192.168.37.131, Port=9001, ServiceId=10001, ActionId=1, ExceptionId=-10005, ExceptionMessage=Service no authorize.
 ```
 同样，将日期与时间限制修改为不符合调用条件的值也会收到相应的异常信息。
 
@@ -1682,7 +1682,7 @@ XNode.Zipkin
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9002"
       }
     }
@@ -1767,7 +1767,7 @@ XNode.Zipkin
   "xnode": {
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "192.168.37.131",
         "port": "9001"
       }
     },
@@ -1777,9 +1777,9 @@ XNode.Zipkin
           "proxyName": "OrderService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9002",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
@@ -1955,9 +1955,9 @@ XNode.Zipkin
           "proxyName": "CustomerService",
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "192.168.37.131",
               "port": "9001",
-              "localHost": "10.246.84.201"
+              "localHost": "192.168.37.131"
             }
           ],
           "services": [
