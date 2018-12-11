@@ -6,7 +6,7 @@
     },
     "server": {
       "serverInfo": {
-        "host": "192.168.37.131",
+        "host": "127.0.0.1",
         "port": "9003"
       },
       "services": [
@@ -39,9 +39,9 @@
           },
           "connections": [
             {
-              "host": "192.168.37.131",
+              "host": "127.0.0.1",
               "port": "9002",
-              "localHost": "192.168.37.131"
+              "localHost": "127.0.0.1"
             }
           ],
           "services": [

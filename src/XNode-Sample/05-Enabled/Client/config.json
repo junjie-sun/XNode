@@ -6,9 +6,9 @@
           "proxyName": "SampleService",
           "connections": [
             {
-              "host": "192.168.37.131",
+              "host": "127.0.0.1",
               "port": "9001",
-              "localHost": "192.168.37.131"
+              "localHost": "127.0.0.1"
             }
           ],
           "services": [
