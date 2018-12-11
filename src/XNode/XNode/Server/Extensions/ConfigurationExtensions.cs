@@ -19,7 +19,7 @@ namespace XNode.Server.Configuration
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static ServerConfig GetServerConfig(this IConfigurationRoot config)
+        public static ServerConfig GetServerConfig(this IConfiguration config)
         {
             var serverConfig = new ServerConfig();
             config.GetSection("xnode:server")
@@ -32,7 +32,7 @@ namespace XNode.Server.Configuration
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static DefaultLoginValidatorConfig GetDefaultLoginValidatorConfig(this IConfigurationRoot config)
+        public static DefaultLoginValidatorConfig GetDefaultLoginValidatorConfig(this IConfiguration config)
         {
             var loginValidatorConfig = new DefaultLoginValidatorConfig();
             config.GetSection("xnode:server:security:loginValidator")
@@ -45,7 +45,7 @@ namespace XNode.Server.Configuration
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static IList<DefaultServiceAuthorizeConfig> GetDefaultServiceAuthorizeConfig(this IConfigurationRoot config)
+        public static IList<DefaultServiceAuthorizeConfig> GetDefaultServiceAuthorizeConfig(this IConfiguration config)
         {
             var list = new List<DefaultServiceAuthorizeConfig>();
             config.GetSection("xnode:server:services")

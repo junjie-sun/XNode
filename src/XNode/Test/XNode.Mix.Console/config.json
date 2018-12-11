@@ -16,9 +16,9 @@
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "127.0.0.1",
               "port": "9001",
-              "localHost": "10.246.84.201",
+              "localHost": "127.0.0.1",
               "reconnectCount": 3,
               "reconnectInterval": 30000
             }
@@ -49,9 +49,9 @@
           },
           "connections": [
             {
-              "host": "10.246.84.201",
+              "host": "127.0.0.1",
               "port": "9002",
-              "localHost": "10.246.84.201",
+              "localHost": "127.0.0.1",
               "reconnectCount": 3,
               "reconnectInterval": 30000
             }
@@ -70,7 +70,7 @@
     },
     "server": {
       "serverInfo": {
-        "host": "10.246.84.201",
+        "host": "127.0.0.1",
         "port": "9101"
       },
       "services": [

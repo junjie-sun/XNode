@@ -17,7 +17,7 @@ namespace XNode.Client.Configuration
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static ClientConfig GetClientConfig(this IConfigurationRoot config)
+        public static ClientConfig GetClientConfig(this IConfiguration config)
         {
             var clientConfig = new ClientConfig();
             config.GetSection("xnode:client")
@@ -31,7 +31,7 @@ namespace XNode.Client.Configuration
         /// <param name="config"></param>
         /// <param name="proxyName"></param>
         /// <returns></returns>
-        public static DefaultLoginHandlerConfig GetDefaultLoginHandlerConfig(this IConfigurationRoot config, string proxyName)
+        public static DefaultLoginHandlerConfig GetDefaultLoginHandlerConfig(this IConfiguration config, string proxyName)
         {
             var loginConfig = new DefaultLoginHandlerConfig();
             config

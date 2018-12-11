@@ -15,8 +15,7 @@ namespace XNode.Server.Console
             System.Console.InputEncoding = Encoding.UTF8;
             System.Console.OutputEncoding = Encoding.UTF8;
 
-            string host = "10.246.84.159";
-            //string host = "192.168.2.105";
+            string host = "127.0.0.1";
             int port = 9001;
             if (args != null && args.Length > 0)
             {

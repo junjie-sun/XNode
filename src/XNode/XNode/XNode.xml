@@ -131,14 +131,14 @@
             Client配置扩展方法类
             </summary>
         </member>
-        <member name="M:XNode.Client.Configuration.ConfigurationExtensions.GetClientConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:XNode.Client.Configuration.ConfigurationExtensions.GetClientConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             获取Client配置
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:XNode.Client.Configuration.ConfigurationExtensions.GetDefaultLoginHandlerConfig(Microsoft.Extensions.Configuration.IConfigurationRoot,System.String)">
+        <member name="M:XNode.Client.Configuration.ConfigurationExtensions.GetDefaultLoginHandlerConfig(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
             <summary>
             获取默认LoginHandler配置
             </summary>
@@ -2339,21 +2339,21 @@
             Server配置扩展方法
             </summary>
         </member>
-        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetServerConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetServerConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             获取Server服务配置
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetDefaultLoginValidatorConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetDefaultLoginValidatorConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             获取默认登录验证器配置
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetDefaultServiceAuthorizeConfig(Microsoft.Extensions.Configuration.IConfigurationRoot)">
+        <member name="M:XNode.Server.Configuration.ConfigurationExtensions.GetDefaultServiceAuthorizeConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             获取默认服务授权配置
             </summary>
