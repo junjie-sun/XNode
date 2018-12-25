@@ -116,6 +116,11 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task SendOneWayAsync(byte[] msg, int timeout = 30000, IDictionary<string, byte[]> attachments = null)
         {
+            if (status != ClientStatus.Connected)
+            {
+                throw new Exception("Client is not connected");
+            }
+
             var request = requestManager.CreateRequest(timeout);
             logger.LogDebug($"Client send one way message. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, RequestId={request.Id}");
             await channel.WriteAndFlushAsync(BuildServiceReqMessage(request.Id, attachments, msg, true));
@@ -131,6 +136,11 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task<RequestResult> SendAsync(byte[] msg, int timeout = 30000, IDictionary<string, byte[]> attachments = null)
         {
+            if (status != ClientStatus.Connected)
+            {
+                throw new Exception("Client is not connected");
+            }
+
             var request = requestManager.CreateRequest(timeout);
             logger.LogDebug($"Client send message. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, RequestId={request.Id}");
             try
@@ -237,13 +247,13 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         private Task ReconnectAsync()
         {
+            if (reconnectCount == 0 || Interlocked.CompareExchange(ref isReconnecting, 1, 0) == 1)
+            {
+                return Task.CompletedTask;
+            }
+
             return Task.Run(async () =>
             {
-                if (reconnectCount == 0 || Interlocked.CompareExchange(ref isReconnecting, 1, 0) == 1)
-                {
-                    return;
-                }
-
                 status = ClientStatus.Closed;
                 await BootstrapManager.CloseAsync(channelName);
 
