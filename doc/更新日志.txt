@@ -106,7 +106,7 @@ Client和Server扩展方法ConfigurationExtensions改为基于IConfiguration接口
 2018-12-26
 XNode Tag：0.3.3
 
-XNode
+XNode.Communication.DotNetty
 优化Client重连逻辑
 
 --------------------------------------------------------------------------------
