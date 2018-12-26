@@ -134,7 +134,7 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public static INodeClientBuilder UseDotNetty(this INodeClientBuilder builder)
         {
-            return builder.ConfigCommunicationFactory((c) => { return new DotNettyClient(c.Host, c.Port, c.LocalHost, c.LocalPort, c.ReconnectCount, c.ReconnectInterval); });
+            return builder.ConfigCommunicationFactory((c) => { return new DotNettyClient(c.Host, c.Port, c.LocalHost, c.LocalPort); });
         }
     }
 }

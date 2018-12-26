@@ -25,6 +25,8 @@ namespace XNode.Client
 
         private ILoginHandler loginHandler;
 
+        private IPassiveClosedStrategy passiveClosedStrategy;
+
         /// <summary>
         /// 服务地址
         /// </summary>
@@ -41,7 +43,7 @@ namespace XNode.Client
         public string LocalHost { get; }
 
         /// <summary>
-        /// 本地商端口
+        /// 本地端口
         /// </summary>
         public int? LocalPort { get; }
 
@@ -85,6 +87,7 @@ namespace XNode.Client
             Serializer = parameters.Serializer ?? throw new NodeClientException("Serializer is null.");
             ProtocolStackFactory = parameters.ProtocolStackFactory ?? new DefaultProtocolStackFactory();
             loginHandler = parameters.LoginHandler ?? new DefaultLoginHandler(null, Serializer, LoggerManager.ClientLoggerFactory);
+            passiveClosedStrategy = parameters.PassiveClosedStrategy ?? new DefaultPassiveClosedStrategy(new DefaultPassiveClosedStrategyConfig(), LoggerManager.ClientLoggerFactory);
             client = parameters.Communication;
 
             if (loginHandler != null)
@@ -106,6 +109,11 @@ namespace XNode.Client
                         Body = body,
                         Attachments = attachments
                     });
+                });
+
+                client.OnInactive += new InactiveDelegate(client =>
+                {
+                    return passiveClosedStrategy.Handle(client);
                 });
             }
         }

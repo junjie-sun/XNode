@@ -31,7 +31,7 @@ namespace XNode.Client
         string LocalHost { get; }
 
         /// <summary>
-        /// 本地商端口
+        /// 本地端口
         /// </summary>
         int? LocalPort { get; }
 

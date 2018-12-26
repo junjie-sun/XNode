@@ -31,15 +31,5 @@ namespace XNode.Client.Configuration
         /// 本地绑定IP
         /// </summary>
         public int? LocalPort { get; set; }
-
-        /// <summary>
-        /// 当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1
-        /// </summary>
-        public int ReconnectCount { get; set; } = -1;
-
-        /// <summary>
-        /// 每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒
-        /// </summary>
-        public int ReconnectInterval { get; set; } = 3000;
     }
 }

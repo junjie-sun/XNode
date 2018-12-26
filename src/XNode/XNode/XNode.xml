@@ -65,16 +65,6 @@
             本地绑定IP
             </summary>
         </member>
-        <member name="P:XNode.Client.Configuration.ConnectionInfo.ReconnectCount">
-            <summary>
-            当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1
-            </summary>
-        </member>
-        <member name="P:XNode.Client.Configuration.ConnectionInfo.ReconnectInterval">
-            <summary>
-            每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒
-            </summary>
-        </member>
         <member name="T:XNode.Client.Configuration.ServiceInfo">
             <summary>
             服务配置
@@ -146,6 +136,14 @@
             <param name="proxyName"></param>
             <returns></returns>
         </member>
+        <member name="M:XNode.Client.Configuration.ConfigurationExtensions.GetDefaultPassiveClosedStrategyConfig(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            获取默认客户端被动关闭处理策略配置
+            </summary>
+            <param name="config"></param>
+            <param name="proxyName"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Client.DefaultNodeClient">
             <summary>
             NodeClient默认实现
@@ -168,7 +166,7 @@
         </member>
         <member name="P:XNode.Client.DefaultNodeClient.LocalPort">
             <summary>
-            本地商端口
+            本地端口
             </summary>
         </member>
         <member name="P:XNode.Client.DefaultNodeClient.Serializer">
@@ -215,6 +213,40 @@
             <param name="timeout">Action调用超时时长（毫秒）</param>
             <param name="attachments">Action调用的附加数据</param>
             <returns></returns>
+        </member>
+        <member name="T:XNode.Client.DefaultPassiveClosedStrategy">
+            <summary>
+            默认客户端被动关闭处理策略
+            </summary>
+        </member>
+        <member name="M:XNode.Client.DefaultPassiveClosedStrategy.#ctor(XNode.Client.DefaultPassiveClosedStrategyConfig,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="config">配置对象</param>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.Client.DefaultPassiveClosedStrategy.Handle(XNode.Communication.IClient)">
+            <summary>
+            客户端被动关闭处理
+            </summary>
+            <param name="client">客户端通信对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Client.DefaultPassiveClosedStrategyConfig">
+            <summary>
+            默认客户端被动关闭处理策略配置
+            </summary>
+        </member>
+        <member name="P:XNode.Client.DefaultPassiveClosedStrategyConfig.ReconnectCount">
+            <summary>
+            当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1
+            </summary>
+        </member>
+        <member name="P:XNode.Client.DefaultPassiveClosedStrategyConfig.ReconnectInterval">
+            <summary>
+            每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒
+            </summary>
         </member>
         <member name="T:XNode.Client.NodeClientException">
             <summary>
@@ -359,7 +391,7 @@
         </member>
         <member name="P:XNode.Client.INodeClient.LocalPort">
             <summary>
-            本地商端口
+            本地端口
             </summary>
         </member>
         <member name="P:XNode.Client.INodeClient.Serializer">
@@ -432,6 +464,13 @@
             配置登录处理器
             </summary>
             <param name="loginHandler">登录处理器</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Client.INodeClientBuilder.ConfigPassiveClosedStrategy(XNode.Client.IPassiveClosedStrategy)">
+            <summary>
+            配置客户端被动关闭处理策略
+            </summary>
+            <param name="passiveClosedStrategy"></param>
             <returns></returns>
         </member>
         <member name="M:XNode.Client.INodeClientBuilder.ConfigNodeClientFactory(System.Func{XNode.Client.NodeClientParameters,XNode.Client.INodeClient})">
@@ -508,6 +547,18 @@
             <summary>
             关闭中容器中所有NodeClient连接
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Client.IPassiveClosedStrategy">
+            <summary>
+            客户端被动关闭处理策略接口
+            </summary>
+        </member>
+        <member name="M:XNode.Client.IPassiveClosedStrategy.Handle(XNode.Communication.IClient)">
+            <summary>
+            客户端被动关闭处理
+            </summary>
+            <param name="client">客户端通信对象</param>
             <returns></returns>
         </member>
         <member name="T:XNode.Client.IServiceCaller">
@@ -715,6 +766,13 @@
             <param name="loginHandler">登录处理器</param>
             <returns></returns>
         </member>
+        <member name="M:XNode.Client.NodeClientBuilder.ConfigPassiveClosedStrategy(XNode.Client.IPassiveClosedStrategy)">
+            <summary>
+            配置客户端被动关闭处理策略
+            </summary>
+            <param name="passiveClosedStrategy"></param>
+            <returns></returns>
+        </member>
         <member name="M:XNode.Client.NodeClientBuilder.ConfigNodeClientFactory(System.Func{XNode.Client.NodeClientParameters,XNode.Client.INodeClient})">
             <summary>
             配置客户端工厂
@@ -862,7 +920,12 @@
             底层客户端通信组件
             </summary>
         </member>
-        <member name="M:XNode.Client.NodeClientParameters.Create(System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},XNode.Serializer.ISerializer,System.Func{XNode.Client.Configuration.ConnectionInfo,XNode.Communication.IClient},XNode.Security.ILoginHandler,XNode.ProtocolStack.IProtocolStackFactory)">
+        <member name="P:XNode.Client.NodeClientParameters.PassiveClosedStrategy">
+            <summary>
+            客户端被动关闭处理策略
+            </summary>
+        </member>
+        <member name="M:XNode.Client.NodeClientParameters.Create(System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},XNode.Serializer.ISerializer,System.Func{XNode.Client.Configuration.ConnectionInfo,XNode.Communication.IClient},XNode.Security.ILoginHandler,XNode.ProtocolStack.IProtocolStackFactory,XNode.Client.IPassiveClosedStrategy)">
             <summary>
             创建NodeClientParameters实例
             </summary>
@@ -871,6 +934,7 @@
             <param name="communicationFactory">底层客户端通信组件工厂</param>
             <param name="loginHandler">登录处理器</param>
             <param name="protocolStackFactory">协议栈工厂实例</param>
+            <param name="passiveClosedStrategy">客户端被动关闭处理策略</param>
             <returns></returns>
         </member>
         <member name="T:XNode.Client.ServiceCallerBase">
@@ -1200,6 +1264,13 @@
             </summary>
             <returns>登录验证状态码（非0表示验证失败，1-30为XNode保留状态码）</returns>
         </member>
+        <member name="T:XNode.Communication.InactiveDelegate">
+            <summary>
+            连接断开委托
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Communication.IClient">
             <summary>
             客服端通信接口
@@ -1215,9 +1286,34 @@
             接收登录响应事件
             </summary>
         </member>
+        <member name="E:XNode.Communication.IClient.OnInactive">
+            <summary>
+            连接断开事件
+            </summary>
+        </member>
         <member name="P:XNode.Communication.IClient.Status">
             <summary>
             客户端状态
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.IClient.Host">
+            <summary>
+            服务地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.IClient.Port">
+            <summary>
+            服务端口
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.IClient.LocalHost">
+            <summary>
+            本地地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.IClient.LocalPort">
+            <summary>
+            本地端口
             </summary>
         </member>
         <member name="M:XNode.Communication.IClient.ConnectAsync">
@@ -1257,7 +1353,7 @@
         </member>
         <member name="F:XNode.Communication.ClientStatus.Closed">
             <summary>
-            连接关闭
+            主动关闭
             </summary>
         </member>
         <member name="F:XNode.Communication.ClientStatus.Connecting">
@@ -1268,6 +1364,11 @@
         <member name="F:XNode.Communication.ClientStatus.Connected">
             <summary>
             已连接
+            </summary>
+        </member>
+        <member name="F:XNode.Communication.ClientStatus.PassiveClosed">
+            <summary>
+            被动关闭
             </summary>
         </member>
         <member name="T:XNode.Communication.RecieveLoginRequestDelegate">

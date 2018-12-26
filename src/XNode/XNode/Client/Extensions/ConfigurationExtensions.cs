@@ -42,5 +42,23 @@ namespace XNode.Client.Configuration
                 .Bind(loginConfig);
             return loginConfig;
         }
+
+        /// <summary>
+        /// 获取默认客户端被动关闭处理策略配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="proxyName"></param>
+        /// <returns></returns>
+        public static DefaultPassiveClosedStrategyConfig GetDefaultPassiveClosedStrategyConfig(this IConfiguration config, string proxyName)
+        {
+            var strategyConfig = new DefaultPassiveClosedStrategyConfig();
+            config
+                .GetSection("xnode:client:serviceProxies")
+                .GetChildren().Where(o => o.GetValue<string>("proxyName") == proxyName)
+                .FirstOrDefault()
+                .GetSection("passiveClosedStrategy")
+                .Bind(strategyConfig);
+            return strategyConfig;
+        }
     }
 }

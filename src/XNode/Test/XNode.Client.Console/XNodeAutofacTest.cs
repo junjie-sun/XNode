@@ -481,6 +481,7 @@ namespace XNode.Client.Console
                         .ConfigConnections(serviceProxyConfig.Connections)
                         .ConfigSerializer(serializer)
                         .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+                        .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(configRoot.GetDefaultPassiveClosedStrategyConfig(serviceProxyConfig.ProxyName), LoggerManager.ClientLoggerFactory))
                         .UseDotNetty()
                         .Build()
                 );

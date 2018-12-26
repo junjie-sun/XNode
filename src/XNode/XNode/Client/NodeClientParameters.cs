@@ -59,6 +59,11 @@ namespace XNode.Client
         public IClient Communication { get; set; }
 
         /// <summary>
+        /// 客户端被动关闭处理策略
+        /// </summary>
+        public IPassiveClosedStrategy PassiveClosedStrategy { get; set; }
+
+        /// <summary>
         /// 创建NodeClientParameters实例
         /// </summary>
         /// <param name="connectionInfoList">连接信息</param>
@@ -66,8 +71,9 @@ namespace XNode.Client
         /// <param name="communicationFactory">底层客户端通信组件工厂</param>
         /// <param name="loginHandler">登录处理器</param>
         /// <param name="protocolStackFactory">协议栈工厂实例</param>
+        /// <param name="passiveClosedStrategy">客户端被动关闭处理策略</param>
         /// <returns></returns>
-        public static IList<NodeClientParameters> Create(IList<ConnectionInfo> connectionInfoList, ISerializer serializer, Func<ConnectionInfo, IClient> communicationFactory, ILoginHandler loginHandler = null, IProtocolStackFactory protocolStackFactory = null)
+        public static IList<NodeClientParameters> Create(IList<ConnectionInfo> connectionInfoList, ISerializer serializer, Func<ConnectionInfo, IClient> communicationFactory, ILoginHandler loginHandler = null, IProtocolStackFactory protocolStackFactory = null, IPassiveClosedStrategy passiveClosedStrategy = null)
         {
             var list = new List<NodeClientParameters>();
             foreach (var connectionInfo in connectionInfoList)
@@ -81,6 +87,7 @@ namespace XNode.Client
                     Serializer = serializer,
                     ProtocolStackFactory = protocolStackFactory,
                     LoginHandler = loginHandler,
+                    PassiveClosedStrategy = passiveClosedStrategy,
                     Communication = communicationFactory(connectionInfo)
                 };
                 list.Add(item);

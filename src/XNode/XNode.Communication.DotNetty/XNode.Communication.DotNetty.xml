@@ -129,12 +129,37 @@
             接收登录响应事件
             </summary>
         </member>
+        <member name="E:XNode.Communication.DotNetty.DotNettyClient.OnInactive">
+            <summary>
+            连接断开事件
+            </summary>
+        </member>
         <member name="P:XNode.Communication.DotNetty.DotNettyClient.Status">
             <summary>
             客户端状态
             </summary>
         </member>
-        <member name="M:XNode.Communication.DotNetty.DotNettyClient.#ctor(System.String,System.Int32,System.String,System.Nullable{System.Int32},System.Int32,System.Int32)">
+        <member name="P:XNode.Communication.DotNetty.DotNettyClient.Host">
+            <summary>
+            服务地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClient.Port">
+            <summary>
+            服务端口
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClient.LocalHost">
+            <summary>
+            本地地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyClient.LocalPort">
+            <summary>
+            本地端口
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.#ctor(System.String,System.Int32,System.String,System.Nullable{System.Int32})">
             <summary>
             构造函数
             </summary>
@@ -142,8 +167,6 @@
             <param name="port">服务端端口</param>
             <param name="localHost">本地地址</param>
             <param name="localPort">本地端口</param>
-            <param name="reconnectCount">当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1</param>
-            <param name="reconnectInterval">每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒</param>
         </member>
         <member name="M:XNode.Communication.DotNetty.DotNettyClient.ConnectAsync">
             <summary>
@@ -181,9 +204,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:XNode.Communication.DotNetty.DotNettyClient.ReconnectAsync">
+        <member name="M:XNode.Communication.DotNetty.DotNettyClient.InactiveHandler">
             <summary>
-            重新连接到服务端
+            断开连接处理器
             </summary>
             <returns></returns>
         </member>

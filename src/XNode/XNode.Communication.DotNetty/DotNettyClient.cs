@@ -28,23 +28,11 @@ namespace XNode.Communication.DotNetty
 
         private IChannel channel;
 
-        private string host, localHost;
-
-        private int port;
-
-        private int? localPort;
-
-        private int reconnectCount;
-
-        private int reconnectInterval;
-
         private TaskCompletionSource<object> connectTcs;
 
         private CancellationTokenSource connectCts;
 
         private ClientStatus status;
-
-        private bool allowReconnect = false;
 
         private int isInactiveHandle = 0;
 
@@ -59,6 +47,11 @@ namespace XNode.Communication.DotNetty
         public event RecieveLoginResponseDelegate OnRecieveLoginResponse;
 
         /// <summary>
+        /// 连接断开事件
+        /// </summary>
+        public event InactiveDelegate OnInactive;
+
+        /// <summary>
         /// 客户端状态
         /// </summary>
         public ClientStatus Status
@@ -70,25 +63,41 @@ namespace XNode.Communication.DotNetty
         }
 
         /// <summary>
+        /// 服务地址
+        /// </summary>
+        public string Host { get; }
+
+        /// <summary>
+        /// 服务端口
+        /// </summary>
+        public int Port { get; }
+
+        /// <summary>
+        /// 本地地址
+        /// </summary>
+        public string LocalHost { get; }
+
+        /// <summary>
+        /// 本地端口
+        /// </summary>
+        public int? LocalPort { get; }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="host">服务端地址</param>
         /// <param name="port">服务端端口</param>
         /// <param name="localHost">本地地址</param>
         /// <param name="localPort">本地端口</param>
-        /// <param name="reconnectCount">当发生网络错误时尝试重新连接的次数，-1表示无限，默认为-1</param>
-        /// <param name="reconnectInterval">每次尝试重新连接的时间间隔，单位：毫秒，默认为3000毫秒</param>
-        public DotNettyClient(string host, int port, string localHost = null, int? localPort = null, int reconnectCount = -1, int reconnectInterval = 3000)
+        public DotNettyClient(string host, int port, string localHost = null, int? localPort = null)
         {
             loggerFactory = LoggerManager.ClientLoggerFactory;
             logger = loggerFactory.CreateLogger<DotNettyClient>();
             requestManager = new RequestManager(loggerFactory);
-            this.port = port;
-            this.host = host;
-            this.localPort = localPort;
-            this.localHost = localHost;
-            this.reconnectCount = reconnectCount;
-            this.reconnectInterval = reconnectInterval;
+            this.Port = port;
+            this.Host = host;
+            this.LocalPort = localPort;
+            this.LocalHost = localHost;
         }
 
         static DotNettyClient()
@@ -103,8 +112,6 @@ namespace XNode.Communication.DotNetty
         public async Task ConnectAsync()
         {
             await DoConnectAsync();
-
-            allowReconnect = true;
         }
 
         /// <summary>
@@ -122,7 +129,7 @@ namespace XNode.Communication.DotNetty
             }
 
             var request = requestManager.CreateRequest(timeout);
-            logger.LogDebug($"Client send one way message. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, RequestId={request.Id}");
+            logger.LogDebug($"Client send one way message. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, RequestId={request.Id}");
             await channel.WriteAndFlushAsync(BuildServiceReqMessage(request.Id, attachments, msg, true));
             await request.Task;
         }
@@ -142,7 +149,7 @@ namespace XNode.Communication.DotNetty
             }
 
             var request = requestManager.CreateRequest(timeout);
-            logger.LogDebug($"Client send message. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, RequestId={request.Id}");
+            logger.LogDebug($"Client send message. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, RequestId={request.Id}");
             try
             {
                 await channel.WriteAndFlushAsync(BuildServiceReqMessage(request.Id, attachments, msg, false));
@@ -151,7 +158,7 @@ namespace XNode.Communication.DotNetty
             {
                 if (ex.InnerException is ClosedChannelException || ex.InnerException is SocketException)
                 {
-                    throw new NetworkException(host, port, ex.InnerException.Message);
+                    throw new NetworkException(Host, Port, ex.InnerException.Message);
                 }
                 throw ex;
             }
@@ -166,9 +173,8 @@ namespace XNode.Communication.DotNetty
         public async Task CloseAsync()
         {
             status = ClientStatus.Closed;
-            allowReconnect = false;
             await BootstrapManager.CloseAsync(channelName);
-            logger.LogDebug($"Client closed. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
+            logger.LogDebug($"Client closed. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
         }
 
         /// <summary>
@@ -177,12 +183,12 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         private async Task DoConnectAsync()
         {
-            logger.LogDebug($"Client connect beginning. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
+            logger.LogDebug($"Client connect beginning. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
 
             if (connectTcs != null)
             {
-                logger.LogError($"Client connect has begun. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-                throw new InvalidOperationException($"Client connect has begun. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
+                logger.LogError($"Client connect has begun. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
+                throw new InvalidOperationException($"Client connect has begun. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
             }
 
             try
@@ -190,10 +196,10 @@ namespace XNode.Communication.DotNetty
                 status = ClientStatus.Connecting;
                 var dotNettyClientInfo = new DotNettyClientInfo()
                 {
-                    Host = host,
-                    Port = port,
-                    LocalHost = localHost,
-                    LocalPort = localPort,
+                    Host = Host,
+                    Port = Port,
+                    LocalHost = LocalHost,
+                    LocalPort = LocalPort,
                     RequestManager = requestManager,
                     InactiveHandler = InactiveHandler,
                     GetLoginRequestDataHandler = GetLoginRequestData,
@@ -205,9 +211,9 @@ namespace XNode.Communication.DotNetty
             }
             catch (Exception ex)
             {
-                status = ClientStatus.Closed;
-                logger.LogError(ex, $"Client connect has error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
-                throw new NetworkException(host, port, ex.Message);
+                status = ClientStatus.PassiveClosed;
+                logger.LogError(ex, $"Client connect has error. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                throw new NetworkException(Host, Port, ex.Message);
             }
 
             try
@@ -226,13 +232,13 @@ namespace XNode.Communication.DotNetty
 
                 await connectTcs.Task;      //等待登录验证响应
                 status = ClientStatus.Connected;
-                logger.LogDebug($"Client connect finished. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
+                logger.LogDebug($"Client connect finished. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
             }
             catch (Exception ex)
             {
                 await CloseAsync();
-                logger.LogError(ex, $"Client login has error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
-                throw new NetworkException(host, port, ex.Message);
+                logger.LogError(ex, $"Client login has error. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                throw new NetworkException(Host, Port, ex.Message);
             }
             finally
             {
@@ -245,45 +251,35 @@ namespace XNode.Communication.DotNetty
         /// 断开连接处理器
         /// </summary>
         /// <returns></returns>
-        private Task InactiveHandler()
+        private async Task InactiveHandler()
         {
-            if (reconnectCount == 0 || Interlocked.CompareExchange(ref isInactiveHandle, 1, 0) == 1)
+            if (Interlocked.CompareExchange(ref isInactiveHandle, 1, 0) == 1)
             {
-                return Task.CompletedTask;
+                return;
             }
 
-            return Task.Run(async () =>
+            if (status == ClientStatus.Closed)
             {
-                status = ClientStatus.Closed;
-                await BootstrapManager.CloseAsync(channelName);
+                return;
+            }
 
-                logger.LogDebug($"Client reconnect: close connect. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
+            status = ClientStatus.PassiveClosed;
+            await BootstrapManager.CloseAsync(channelName);
 
-                int i = 0;
+            logger.LogDebug($"Client inactive: close connect. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
 
-                while (reconnectCount == -1 || i < reconnectCount)
+            if (OnInactive != null)
+            {
+                await Task.Run(async () =>
                 {
-                    if (reconnectCount != -1) { i++; }
-
-                    Thread.Sleep(reconnectInterval);
-
-                    if (!allowReconnect) { break; }
-
-                    try
-                    {
-                        logger.LogDebug($"Client reconnect: connecting. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-                        await DoConnectAsync();
-                        logger.LogDebug($"Client reconnect: connect success. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"Client reconnect: connect error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
-                    }
-                }
+                    await OnInactive(this);
+                    isInactiveHandle = 0;
+                });
+            }
+            else
+            {
                 isInactiveHandle = 0;
-                logger.LogDebug($"Client reconnect finished. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
-            });
+            }
         }
 
         private Message BuildServiceReqMessage(long requestId, IDictionary<string, byte[]> attachments, byte[] msg, bool isOneWay)
@@ -326,7 +322,7 @@ namespace XNode.Communication.DotNetty
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, $"DotNettyClient.OnRecieveLoginResponse error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
+                    logger.LogError(ex, $"DotNettyClient.OnRecieveLoginResponse error. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
                     result = (byte)AuthStatusCodes.ParseLoginResponseDataError;
                     connectTcs.SetException(ex);
                     return result;

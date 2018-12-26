@@ -18,6 +18,13 @@ namespace XNode.Communication
     public delegate Task<byte> RecieveLoginResponseDelegate(byte[] message, IDictionary<string, byte[]> attachments);
 
     /// <summary>
+    /// 连接断开委托
+    /// </summary>
+    /// <param name="client"></param>
+    /// <returns></returns>
+    public delegate Task InactiveDelegate(IClient client);
+
+    /// <summary>
     /// 客服端通信接口
     /// </summary>
     public interface IClient
@@ -33,9 +40,34 @@ namespace XNode.Communication
         event RecieveLoginResponseDelegate OnRecieveLoginResponse;
 
         /// <summary>
+        /// 连接断开事件
+        /// </summary>
+        event InactiveDelegate OnInactive;
+
+        /// <summary>
         /// 客户端状态
         /// </summary>
         ClientStatus Status { get; }
+
+        /// <summary>
+        /// 服务地址
+        /// </summary>
+        string Host { get; }
+
+        /// <summary>
+        /// 服务端口
+        /// </summary>
+        int Port { get; }
+
+        /// <summary>
+        /// 本地地址
+        /// </summary>
+        string LocalHost { get; }
+
+        /// <summary>
+        /// 本地端口
+        /// </summary>
+        int? LocalPort { get; }
 
         /// <summary>
         /// 向服务端发起连接
@@ -74,7 +106,7 @@ namespace XNode.Communication
     public enum ClientStatus
     {
         /// <summary>
-        /// 连接关闭
+        /// 主动关闭
         /// </summary>
         Closed = 1,
 
@@ -86,6 +118,11 @@ namespace XNode.Communication
         /// <summary>
         /// 已连接
         /// </summary>
-        Connected = 3
+        Connected = 3,
+
+        /// <summary>
+        /// 被动关闭
+        /// </summary>
+        PassiveClosed = 4
     }
 }

@@ -106,8 +106,11 @@ Client和Server扩展方法ConfigurationExtensions改为基于IConfiguration接口
 2018-12-26
 XNode Tag：0.3.3
 
+XNode
+Client重构，将重连逻辑分离出作为独立的可配置的策略
+
 XNode.Communication.DotNetty
-优化Client重连逻辑
-修复Client重连无法触发的问题
+Client重连及相关部分重构
+修复重连逻辑未触发的问题
 
 --------------------------------------------------------------------------------

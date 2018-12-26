@@ -44,6 +44,13 @@ namespace XNode.Client
         INodeClientBuilder ConfigLoginHandler(ILoginHandler loginHandler);
 
         /// <summary>
+        /// 配置客户端被动关闭处理策略
+        /// </summary>
+        /// <param name="passiveClosedStrategy"></param>
+        /// <returns></returns>
+        INodeClientBuilder ConfigPassiveClosedStrategy(IPassiveClosedStrategy passiveClosedStrategy);
+
+        /// <summary>
         /// 配置客户端工厂
         /// </summary>
         /// <param name="nodeClientFactory"></param>

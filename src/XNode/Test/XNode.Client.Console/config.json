@@ -13,11 +13,13 @@
           "connections": [
             {
               "host": "127.0.0.1",
-              "port": "9001",
-              "reconnectCount": 3,
-              "reconnectInterval": 3000
+              "port": "9001"
             }
           ],
+          "passiveClosedStrategy": {
+            "reconnectCount": 3,
+            "reconnectInterval": 3000
+          },
           "services": [
             {
               "serviceId": 10001,

@@ -26,6 +26,8 @@ namespace XNode.Client
 
         private ILoginHandler loginHandler;
 
+        private IPassiveClosedStrategy passiveClosedStrategy;
+
         private Func<NodeClientParameters, INodeClient> nodeClientFactory;
 
         private Func<ConnectionInfo, IClient> communicationFactory;
@@ -82,6 +84,20 @@ namespace XNode.Client
             CheckIsBuild();
 
             this.loginHandler = loginHandler;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 配置客户端被动关闭处理策略
+        /// </summary>
+        /// <param name="passiveClosedStrategy"></param>
+        /// <returns></returns>
+        public INodeClientBuilder ConfigPassiveClosedStrategy(IPassiveClosedStrategy passiveClosedStrategy)
+        {
+            CheckIsBuild();
+
+            this.passiveClosedStrategy = passiveClosedStrategy;
 
             return this;
         }
@@ -167,12 +183,17 @@ namespace XNode.Client
             {
                 loginHandler = new DefaultLoginHandler(null, serializer, LoggerManager.ClientLoggerFactory);
             }
+
+            if (passiveClosedStrategy == null)
+            {
+                passiveClosedStrategy = new DefaultPassiveClosedStrategy(new DefaultPassiveClosedStrategyConfig(), LoggerManager.ClientLoggerFactory);
+            }
         }
 
         private IList<INodeClient> BuildNodeClient()
         {
             var nodeClientList = new List<INodeClient>();
-            var nodeClientParametersList = NodeClientParameters.Create(connectionInfos, serializer, communicationFactory, loginHandler, protocolStackFactory);
+            var nodeClientParametersList = NodeClientParameters.Create(connectionInfos, serializer, communicationFactory, loginHandler, protocolStackFactory, passiveClosedStrategy);
 
             foreach (var parameters in nodeClientParametersList)
             {
