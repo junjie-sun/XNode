@@ -89,6 +89,29 @@
             Channel名称，格式：Host:Port
             </summary>
         </member>
+        <member name="T:XNode.Communication.DotNetty.ChannelHandlerContextManager">
+            <summary>
+            ChannelHandlerContext管理器
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextManager.Regist(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            注册ChannelHandlerContext
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextManager.Unregist(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            注销ChannelHandlerContext
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextManager.CloseAllAsync">
+            <summary>
+            关闭所有注册的ChannelHandlerContext
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Communication.DotNetty.ChannelState">
             <summary>
             每个连接独立的状态数据
@@ -484,12 +507,13 @@
             握手接入和安全认证
             </summary>
         </member>
-        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{XNode.Communication.LoginAuthInfo,System.Threading.Tasks.Task{XNode.Communication.LoginResponseData}})">
+        <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Func{XNode.Communication.LoginAuthInfo,System.Threading.Tasks.Task{XNode.Communication.LoginResponseData}},XNode.Communication.DotNetty.ChannelHandlerContextManager)">
             <summary>
             构造函数
             </summary>
             <param name="loggerFactory">日志工厂</param>
             <param name="loginRecieveHandler">登录请求接收Handler</param>
+            <param name="channelHandlerContextManager">ChannelHandlerContext管理器</param>
         </member>
         <member name="M:XNode.Communication.DotNetty.Handlers.ServerLoginAuthHandler.ChannelActive(DotNetty.Transport.Channels.IChannelHandlerContext)">
             <summary>

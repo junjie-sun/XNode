@@ -20,15 +20,19 @@ namespace XNode.Communication.DotNetty.Handlers
 
         private Func<LoginAuthInfo, Task<LoginResponseData>> loginRecieveHandler;
 
+        private ChannelHandlerContextManager channelHandlerContextManager;
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="loggerFactory">日志工厂</param>
         /// <param name="loginRecieveHandler">登录请求接收Handler</param>
-        public ServerLoginAuthHandler(ILoggerFactory loggerFactory, Func<LoginAuthInfo, Task<LoginResponseData>> loginRecieveHandler)
+        /// <param name="channelHandlerContextManager">ChannelHandlerContext管理器</param>
+        public ServerLoginAuthHandler(ILoggerFactory loggerFactory, Func<LoginAuthInfo, Task<LoginResponseData>> loginRecieveHandler, ChannelHandlerContextManager channelHandlerContextManager)
         {
             logger = loggerFactory.CreateLogger<ServerLoginAuthHandler>();
             this.loginRecieveHandler = loginRecieveHandler;
+            this.channelHandlerContextManager = channelHandlerContextManager;
         }
 
         /// <summary>
@@ -41,6 +45,8 @@ namespace XNode.Communication.DotNetty.Handlers
 
             logger.LogDebug($"Channel actived. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
 
+            channelHandlerContextManager.Regist(context);
+
             base.ChannelActive(context);
         }
 
@@ -52,7 +58,7 @@ namespace XNode.Communication.DotNetty.Handlers
         {
             ChannelState.RemoveLoginState(context);
 
-            logger.LogDebug($"Channel inactived. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
+            channelHandlerContextManager.Unregist(context);
 
             base.ChannelInactive(context);
         }

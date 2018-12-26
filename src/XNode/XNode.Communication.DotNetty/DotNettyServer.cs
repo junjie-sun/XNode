@@ -31,6 +31,8 @@ namespace XNode.Communication.DotNetty
 
         private IEventLoopGroup bossGroup, workerGroup;
 
+        private ChannelHandlerContextManager channelHandlerContextManager = new ChannelHandlerContextManager();
+
         private string host;
 
         private int port;
@@ -87,7 +89,7 @@ namespace XNode.Communication.DotNetty
                         channel.Pipeline.AddLast("IdleStateHandler", new IdleStateHandler(0, 0, 30));        //自带心跳包方案，每隔指定时间检查是否有读和写操作，如果没有则触发userEventTriggered事件
                         channel.Pipeline.AddLast("MessageDecoder", new MessageDecoder(loggerFactory, 1024 * 1024, 4, 4, -8, 0));
                         channel.Pipeline.AddLast("MessageEncoder", new MessageEncoder(loggerFactory));
-                        channel.Pipeline.AddLast("ServerLoginAuthHandler", new ServerLoginAuthHandler(loggerFactory, loginRecieveHandler));
+                        channel.Pipeline.AddLast("ServerLoginAuthHandler", new ServerLoginAuthHandler(loggerFactory, loginRecieveHandler, channelHandlerContextManager));
                         channel.Pipeline.AddLast("ServerServiceHandler", new ServerServiceHandler(loggerFactory, serviceRecieveHandler));
                         channel.Pipeline.AddLast("IdleStateHearBeatReqHandler", new IdleStateHearBeatReqHandler(loggerFactory));
                         channel.Pipeline.AddLast("IdleStateHearBeatRespHandler", new IdleStateHearBeatRespHandler(loggerFactory));
@@ -116,6 +118,7 @@ namespace XNode.Communication.DotNetty
                 logger.LogDebug($"Server close beginning. Host={host}, port={port}");
                 //等待服务端监听端口关闭
                 await channel.CloseAsync();
+                await channelHandlerContextManager.CloseAllAsync();
                 logger.LogDebug($"Server close finished. Host={host}, port={port}");
             }
             finally
