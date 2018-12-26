@@ -39,7 +39,7 @@ namespace XNode.Communication.DotNetty
             var getLoginRequestDataHandler = CreateGetLoginRequestDataHandler();
             var loginResponseHandler = CreateLoginResponseHandler();
             var serviceResponseHandler = CreateServiceResponseHandler();
-            var exceptionHandler = CreateExceptionHandler();
+            var inactiveHandler = CreateInactiveHandler();
 
             bootstrap.Group(group)
                 .Channel<TcpSocketChannel>()
@@ -52,7 +52,7 @@ namespace XNode.Communication.DotNetty
                     channel.Pipeline.AddLast("LoginAuthHandler", new ClientLoginAuthHandler(LoggerManager.ClientLoggerFactory, getLoginRequestDataHandler, loginResponseHandler));
                     channel.Pipeline.AddLast("ServiceResultHandler", new ClientServiceHandler(LoggerManager.ClientLoggerFactory, serviceResponseHandler));
                     channel.Pipeline.AddLast("IdleStateHearBeatReqHandler", new IdleStateHearBeatReqHandler(LoggerManager.ClientLoggerFactory));
-                    channel.Pipeline.AddLast("ExceptionHandler", new ClientExceptionHandler(LoggerManager.ClientLoggerFactory, exceptionHandler));
+                    channel.Pipeline.AddLast("InactiveHandler", new ClientExceptionHandler(LoggerManager.ClientLoggerFactory, inactiveHandler));
                 }));
         }
 
@@ -168,12 +168,12 @@ namespace XNode.Communication.DotNetty
             });
         }
 
-        private static Func<string, Task> CreateExceptionHandler()
+        private static Func<string, Task> CreateInactiveHandler()
         {
             return new Func<string, Task>(channelName =>
             {
                 clientInfoList.TryGetValue(channelName, out DotNettyClientInfo result);
-                return result != null ? result.ExceptionHandler() : Task.CompletedTask;
+                return result != null ? result.InactiveHandler() : Task.CompletedTask;
             });
         }
     }
@@ -209,9 +209,9 @@ namespace XNode.Communication.DotNetty
         public RequestManager RequestManager { get; set; }
 
         /// <summary>
-        /// 异常Handler
+        /// 连接断开Handler
         /// </summary>
-        public Func<Task> ExceptionHandler { get; set; }
+        public Func<Task> InactiveHandler { get; set; }
 
         /// <summary>
         /// 登录响应Handler，对服务端返回的登录验证信息进行解析并返回登录验证结果

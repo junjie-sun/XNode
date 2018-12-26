@@ -64,9 +64,9 @@
             Request管理器
             </summary>
         </member>
-        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.ExceptionHandler">
+        <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.InactiveHandler">
             <summary>
-            异常Handler
+            连接断开Handler
             </summary>
         </member>
         <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.LoginResponseHandler">
@@ -317,7 +317,7 @@
             构造函数
             </summary>
             <param name="loggerFactory">日志工厂</param>
-            <param name="socketExceptionHandler">网络异常Handler</param>
+            <param name="inactiveHandler">网络异常Handler</param>
         </member>
         <member name="M:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler.ExceptionCaught(DotNetty.Transport.Channels.IChannelHandlerContext,System.Exception)">
             <summary>

@@ -46,7 +46,7 @@ namespace XNode.Communication.DotNetty
 
         private bool allowReconnect = false;
 
-        private int isReconnecting = 0;
+        private int isInactiveHandle = 0;
 
         /// <summary>
         /// 提交登录请求事件
@@ -195,7 +195,7 @@ namespace XNode.Communication.DotNetty
                     LocalHost = localHost,
                     LocalPort = localPort,
                     RequestManager = requestManager,
-                    ExceptionHandler = ReconnectAsync,
+                    InactiveHandler = InactiveHandler,
                     GetLoginRequestDataHandler = GetLoginRequestData,
                     LoginResponseHandler = LoginResponse
                 };
@@ -242,12 +242,12 @@ namespace XNode.Communication.DotNetty
         }
 
         /// <summary>
-        /// 重新连接到服务端
+        /// 断开连接处理器
         /// </summary>
         /// <returns></returns>
-        private Task ReconnectAsync()
+        private Task InactiveHandler()
         {
-            if (reconnectCount == 0 || Interlocked.CompareExchange(ref isReconnecting, 1, 0) == 1)
+            if (reconnectCount == 0 || Interlocked.CompareExchange(ref isInactiveHandle, 1, 0) == 1)
             {
                 return Task.CompletedTask;
             }
@@ -281,7 +281,7 @@ namespace XNode.Communication.DotNetty
                         logger.LogError(ex, $"Client reconnect: connect error. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
                     }
                 }
-                isReconnecting = 0;
+                isInactiveHandle = 0;
                 logger.LogDebug($"Client reconnect finished. Host={host}, Port={port}, LocalHost={localHost}, LocalPort={localPort}");
             });
         }

@@ -19,17 +19,17 @@ namespace XNode.Communication.DotNetty.Handlers
     {
         private ILogger logger;
 
-        private Func<string, Task> socketExceptionHandler;
+        private Func<string, Task> inactiveHandler;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="loggerFactory">日志工厂</param>
-        /// <param name="socketExceptionHandler">网络异常Handler</param>
-        public ClientExceptionHandler(ILoggerFactory loggerFactory, Func<string, Task> socketExceptionHandler)
+        /// <param name="inactiveHandler">网络异常Handler</param>
+        public ClientExceptionHandler(ILoggerFactory loggerFactory, Func<string, Task> inactiveHandler)
         {
             logger = loggerFactory.CreateLogger<ClientExceptionHandler>();
-            this.socketExceptionHandler = socketExceptionHandler;
+            this.inactiveHandler = inactiveHandler;
         }
 
         /// <summary>
@@ -42,9 +42,6 @@ namespace XNode.Communication.DotNetty.Handlers
             if (exception is SocketException)
             {
                 logger.LogError(exception, $"Socket exception. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}, ExceptionMessage={exception.Message}");
-                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
-                var port = context.GetRemotePort();
-                await socketExceptionHandler?.Invoke($"{ip}:{port}");
             }
             else
             {
@@ -59,10 +56,14 @@ namespace XNode.Communication.DotNetty.Handlers
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public override void ChannelInactive(IChannelHandlerContext context)
+        public async override void ChannelInactive(IChannelHandlerContext context)
         {
             logger.LogInformation($"Channel inactived. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
             base.ChannelInactive(context);
+
+            var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
+            var port = context.GetRemotePort();
+            await inactiveHandler?.Invoke($"{ip}:{port}");
         }
 
         /// <summary>
