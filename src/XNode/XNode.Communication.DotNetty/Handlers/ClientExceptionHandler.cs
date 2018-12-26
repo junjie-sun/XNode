@@ -46,10 +46,10 @@ namespace XNode.Communication.DotNetty.Handlers
             else
             {
                 logger.LogError(exception, $"Unhandle exception. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}, ExceptionMessage={exception.Message}");
-                await context.CloseAsync();
-                logger.LogInformation($"Channel closed because has an unhandle exception. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
-                context.FireExceptionCaught(exception);
             }
+            await context.CloseAsync();
+            logger.LogInformation($"Channel closed because has an unhandle exception. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
+            context.FireExceptionCaught(exception);
         }
 
         /// <summary>
