@@ -1,4 +1,7 @@
-﻿using DotNetty.Transport.Channels;
+﻿// Copyright (c) junjie sun. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using DotNetty.Transport.Channels;
 using System;
 using System.Collections.Generic;
 using System.Text;
