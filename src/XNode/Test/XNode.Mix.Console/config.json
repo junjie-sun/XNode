@@ -18,9 +18,7 @@
             {
               "host": "127.0.0.1",
               "port": "9001",
-              "localHost": "127.0.0.1",
-              "reconnectCount": 3,
-              "reconnectInterval": 30000
+              "localHost": "127.0.0.1"
             }
           ],
           "services": [
@@ -51,9 +49,7 @@
             {
               "host": "127.0.0.1",
               "port": "9002",
-              "localHost": "127.0.0.1",
-              "reconnectCount": 3,
-              "reconnectInterval": 30000
+              "localHost": "127.0.0.1"
             }
           ],
           "services": [
