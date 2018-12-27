@@ -111,7 +111,7 @@ namespace XNode.Client
                     });
                 });
 
-                client.OnInactive += new InactiveDelegate(client =>
+                client.OnPassiveClosed += new PassiveClosedDelegate(client =>
                 {
                     return passiveClosedStrategy.Handle(client);
                 });

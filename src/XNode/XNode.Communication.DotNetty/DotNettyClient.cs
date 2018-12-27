@@ -47,9 +47,9 @@ namespace XNode.Communication.DotNetty
         public event RecieveLoginResponseDelegate OnRecieveLoginResponse;
 
         /// <summary>
-        /// 连接断开事件
+        /// 被动关闭事件
         /// </summary>
-        public event InactiveDelegate OnInactive;
+        public event PassiveClosedDelegate OnPassiveClosed;
 
         /// <summary>
         /// 客户端状态
@@ -258,7 +258,7 @@ namespace XNode.Communication.DotNetty
                 return;
             }
 
-            if (status == ClientStatus.Closed)
+            if (status == ClientStatus.Closed || status == ClientStatus.Connecting)
             {
                 return;
             }
@@ -268,11 +268,11 @@ namespace XNode.Communication.DotNetty
 
             logger.LogDebug($"Client inactive: close connect. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
 
-            if (OnInactive != null)
+            if (OnPassiveClosed != null)
             {
                 await Task.Run(async () =>
                 {
-                    await OnInactive(this);
+                    await OnPassiveClosed(this);
                     isInactiveHandle = 0;
                 });
             }

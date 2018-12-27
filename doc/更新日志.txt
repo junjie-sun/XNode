@@ -115,3 +115,15 @@ Client重连及相关部分重构
 修复Server的Close方法未正确关闭的问题
 
 --------------------------------------------------------------------------------
+
+2018-12-27
+XNode Tag：0.3.5
+
+XNode
+IClient.OnInactive事件改名为OnPassiveClosed事件
+
+XNode.Communication.DotNetty
+修复Client登录验证失败时进行重连的bug
+DotNettyClient.OnInactive事件改名为OnPassiveClosed事件
+
+--------------------------------------------------------------------------------

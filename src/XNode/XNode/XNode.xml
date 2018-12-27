@@ -1264,9 +1264,9 @@
             </summary>
             <returns>登录验证状态码（非0表示验证失败，1-30为XNode保留状态码）</returns>
         </member>
-        <member name="T:XNode.Communication.InactiveDelegate">
+        <member name="T:XNode.Communication.PassiveClosedDelegate">
             <summary>
-            连接断开委托
+            被动关闭委托
             </summary>
             <param name="client"></param>
             <returns></returns>
@@ -1286,9 +1286,9 @@
             接收登录响应事件
             </summary>
         </member>
-        <member name="E:XNode.Communication.IClient.OnInactive">
+        <member name="E:XNode.Communication.IClient.OnPassiveClosed">
             <summary>
-            连接断开事件
+            被动关闭事件
             </summary>
         </member>
         <member name="P:XNode.Communication.IClient.Status">
