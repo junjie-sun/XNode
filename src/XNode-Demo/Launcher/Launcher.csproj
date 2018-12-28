@@ -10,10 +10,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
-    <PackageReference Include="XNode" Version="0.3.5" />
-    <PackageReference Include="XNode.Autofac" Version="0.3.5" />
-    <PackageReference Include="XNode.Communication.DotNetty" Version="0.3.5" />
-    <PackageReference Include="XNode.Serializer.ProtoBuf" Version="0.3.5" />
+    <PackageReference Include="XNode" Version="0.3.6" />
+    <PackageReference Include="XNode.Autofac" Version="0.3.6" />
+    <PackageReference Include="XNode.Communication.DotNetty" Version="0.3.6" />
+    <PackageReference Include="XNode.Serializer.ProtoBuf" Version="0.3.6" />
   </ItemGroup>
 
   <ItemGroup>
