@@ -52,6 +52,9 @@
     - [扩展点](#扩展点)
         - [服务端扩展接口](#服务端扩展接口)
         - [客户端扩展接口](#客户端扩展接口)
+    - [应对服务中断](#应对服务中断)
+        - [客户端轮循访问服务](#客户端轮循访问服务)
+        - [客户端被动关闭处理策略](#客户端被动关闭处理策略)
     - [Demo解析](#demo解析)
         - [Demo介绍](#demo介绍)
         - [Entity](#entity)
@@ -2254,6 +2257,106 @@ if (clientConfig.ServiceProxies != null)
     }
 }
 ......
+```
+
+## 应对服务中断
+XNode服务端和客户端采用的是TCP长连接的方式进行通信，网络是否通畅影响着基于XNode开发的应用的稳定性。一旦网络出现问题或者某个服务所部署的服务器重启等情况导致服务中断时，XNode框架需要有些应对策略使得将影响降到最小。因此，XNode提供了一些内置的解决方案。
+
+### 客户端轮循访问服务
+XNode客户端代理在注册并初始化完成后，每一个代理对象都包含了一个实现了INodeClientContainer接口的对象实例。INodeClientContainer对象保存了代理所配置的所有INodeClient对象，每个INodeClient对象引用了一个实现了IClient接口的对象，IClient对象维护着对应服务的物理连接。从XNode客户端的配置文件中可以看出，为代理所配置的服务地址是放置在数组中的：
+``` c#
+{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "SampleService",
+          "connections": [
+            {
+              "host": "192.168.37.131",
+              "port": "9001"
+            }
+          ],
+        ...
+        }
+      ]
+    }
+  }
+}
+```
+当一个服务被部署在多台服务器时，客户端的connections配置中就可以相应的配置多个连接地址，这样INodeClientContainer对象中就会有多个INodeClient对象。每次代理对象执行服务请求时便会从INodeClientContainer对象获取INodeClient对象，XNode默认提供的INodeClientContainer实现采用轮循的方式返回已连接的INodeClient对象，如果容器内没有已连接的INodeClient对象可用，代理对象则会抛出异常。默认的轮循实现了2个功能：
+1. 实现了简单的负载均衡功能，服务请求会平均分配至不同的服务器。
+2. 因为只会返回已连接的INodeClient对象，所以当与某台服务器网络连接断开时，后续的服务请求便不会使用这个INodeClient对象，直到这个INodeClient连接恢复。这样就不会因为个别服务器出现问题而造成后续服务请求失败。
+
+如果默认的容器无法满足需求，开发者也可以根据需要实现容器，只需实现INodeClientContainer接口，并通过ServiceProxy对象的构造函数进行配置。
+
+### 客户端被动关闭处理策略
+通过使用客户端轮循访问服务的方式解决了当个别服务器无法访问时保证后续服务请求正常的问题。当这些暂时无法访问的服务恢复后，客户端需要重新进行连接。XNode客户端提供了IPassiveClosedStrategy接口用于处理这种重连逻辑。IPassiveClosedStrategy接口的原型如下：
+``` c#
+/// <summary>
+/// 客户端被动关闭处理策略接口
+/// </summary>
+public interface IPassiveClosedStrategy
+{
+    /// <summary>
+    /// 客户端被动关闭处理
+    /// </summary>
+    /// <param name="client">客户端通信对象</param>
+    /// <returns></returns>
+    Task Handle(IClient client);
+}
+```
+IPassiveClosedStrategy接口只有一个Handle方法，这个方法只有在连接被动关闭时才会被调用，如果是通过调用Client的Close方法关闭连接则不会调用此方法。XNode内置了一个IPassiveClosedStrategy接口的实现DefaultPassiveClosedStrategy，它会被XNode客户端默认使用。DefaultPassiveClosedStrategy有2个参数：
+
+ReconnectCount 尝试重连的次数，默认为-1，表示无限
+ReconnectInterval 每次尝试重连的时间间隔，默认为3000毫秒
+
+当Handle方法被调用时，XNode客户端会在单独的线程中按设置时间间隔尝试与服务端进行连接，直到连接成功或达到重连次数上限。
+
+如果想要修改重连参数，可以在配置文件中加入passiveClosedStrategy配置节：
+``` c#
+{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "XNodeDemoService",
+          "connections": [
+            {
+              "host": "192.168.37.131",
+              "port": "9001"
+            }
+          ],
+          "passiveClosedStrategy": {
+            "reconnectCount": 3,
+            "reconnectInterval": 3000
+          },
+          ...
+        }
+      ]
+    }
+  }
+}
+```
+并通过NodeClientBuilder.ConfigPassiveClosedStrategy方法将配置传入DefaultPassiveClosedStrategy的构造函数：
+``` c#
+...
+var serviceProxy = new ServiceProxy(
+serviceProxyConfig.ProxyName,
+serviceProxyConfig?.Services,
+serviceCaller)
+.AddServices(serviceProxyConfig.ProxyTypes)
+.AddClients(
+    new NodeClientBuilder()
+        .ConfigConnections(serviceProxyConfig.Connections)
+        .ConfigSerializer(serializer)
+        .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+        .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(configRoot.GetDefaultPassiveClosedStrategyConfig(serviceProxyConfig.ProxyName), LoggerManager.ClientLoggerFactory))
+        .UseDotNetty()
+        .Build()
+);
+serviceProxyManager.Regist(serviceProxy);
+...
 ```
 
 ## Demo解析
