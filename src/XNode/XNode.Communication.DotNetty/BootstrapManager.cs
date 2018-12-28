@@ -112,7 +112,8 @@ namespace XNode.Communication.DotNetty
             }
             else
             {
-                return Task.FromException(new InvalidOperationException($"Channel is not exist. Host={info.Host}, Port={info.Port}, LocalHost={info.LocalHost}, LocalPort={info.LocalPort}"));
+                logger.LogError($"Channel is not exist. ChannelName={channelName}");
+                return Task.CompletedTask;
             }
         }
 
