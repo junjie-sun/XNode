@@ -127,3 +127,11 @@ XNode.Communication.DotNetty
 DotNettyClient.OnInactive事件改名为OnPassiveClosed事件
 
 --------------------------------------------------------------------------------
+
+2018-12-28
+XNode Tag：0.3.6
+
+XNode.Communication.DotNetty
+修复已关闭状态时调用Close方法出现异常的问题
+
+--------------------------------------------------------------------------------
