@@ -2308,8 +2308,9 @@ public interface IPassiveClosedStrategy
 ```
 IPassiveClosedStrategy接口只有一个Handle方法，这个方法只有在连接被动关闭时才会被调用，如果是通过调用Client的Close方法关闭连接则不会调用此方法。XNode内置了一个IPassiveClosedStrategy接口的实现DefaultPassiveClosedStrategy，它会被XNode客户端默认使用。DefaultPassiveClosedStrategy有2个参数：
 
-ReconnectCount 尝试重连的次数，默认为-1，表示无限
-ReconnectInterval 每次尝试重连的时间间隔，默认为3000毫秒
+ReconnectCount 尝试重连的次数，默认为-1，表示无限次数。
+
+ReconnectInterval 每次尝试重连的时间间隔，默认为3000毫秒。
 
 当Handle方法被调用时，XNode客户端会在单独的线程中按设置时间间隔尝试与服务端进行连接，直到连接成功或达到重连次数上限。
 
