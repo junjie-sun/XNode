@@ -153,6 +153,30 @@
             是否启用
             </summary>
         </member>
+        <member name="T:XNode.Common.HostStringExtensions">
+            <summary>
+            Host字符串扩展方法 
+            </summary>
+        </member>
+        <member name="M:XNode.Common.HostStringExtensions.ToIPAddress(System.String)">
+            <summary>
+            将Host字符串转换为IPAddress
+            </summary>
+            <param name="host">Host字符串，可以是IP、主机名或域名</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Common.IPAddressExtensions">
+            <summary>
+            IPAddress扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Common.IPAddressExtensions.ToIPString(System.Net.IPAddress)">
+            <summary>
+            获取IP地址
+            </summary>
+            <param name="ipAddress"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.ProtocolStack.DefaultProtocolStackFactory">
             <summary>
             默认协议栈工厂

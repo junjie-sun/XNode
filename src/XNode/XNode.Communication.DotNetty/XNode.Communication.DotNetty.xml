@@ -338,6 +338,13 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetChannelName(DotNetty.Transport.Channels.IChannelHandlerContext)">
+            <summary>
+            获取Channel名称
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Communication.DotNetty.NodeServerBuilderExtensions">
             <summary>
             NodeServer构造器扩展方法
@@ -361,30 +368,6 @@
             加载DotNetty客户端
             </summary>
             <param name="builder"></param>
-            <returns></returns>
-        </member>
-        <member name="T:XNode.Communication.DotNetty.HostStringExtensions">
-            <summary>
-            Host字符串扩展方法 
-            </summary>
-        </member>
-        <member name="M:XNode.Communication.DotNetty.HostStringExtensions.ToIPAddress(System.String)">
-            <summary>
-            将Host字符串转换为IPAddress
-            </summary>
-            <param name="host">Host字符串，可以是IP、主机名或域名</param>
-            <returns></returns>
-        </member>
-        <member name="T:XNode.Communication.DotNetty.IPAddressExtensions">
-            <summary>
-            IPAddress扩展方法
-            </summary>
-        </member>
-        <member name="M:XNode.Communication.DotNetty.IPAddressExtensions.ToIPString(System.Net.IPAddress)">
-            <summary>
-            获取IP地址
-            </summary>
-            <param name="ipAddress"></param>
             <returns></returns>
         </member>
         <member name="T:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler">

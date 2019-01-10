@@ -9,6 +9,7 @@ using XNode.Serializer;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using XNode.Logging;
+using XNode.Common;
 
 namespace XNode.Security
 {
@@ -85,8 +86,8 @@ namespace XNode.Security
             //验证IP
             if (!ValidateIP(loginInfo.RemoteAddress, accountInfo))
             {
-                LogInformation($"Login validate completed. Result reject, IP rejected. AccountName={accountInfo.AccountName} IP={loginInfo.RemoteAddress.Address.MapToIPv4().ToString()}");
-                return CreateFailedLoginAuthResult(accountInfo.AccountName, 111, $"IP rejected. IP={loginInfo.RemoteAddress.Address.MapToIPv4().ToString()}");
+                LogInformation($"Login validate completed. Result reject, IP rejected. AccountName={accountInfo.AccountName} IP={loginInfo.RemoteAddress.Address.ToIPString()}");
+                return CreateFailedLoginAuthResult(accountInfo.AccountName, 111, $"IP rejected. IP={loginInfo.RemoteAddress.Address.ToIPString()}");
             }
 
             //时间戳：1970年至今的毫秒数
@@ -148,7 +149,7 @@ namespace XNode.Security
                 return true;
             }
 
-            var ip = remoteAddress.Address.MapToIPv4().ToString();
+            var ip = remoteAddress.Address.ToIPString();
 
             foreach (var allowedIP in accountInfo.IPWhiteList)
             {

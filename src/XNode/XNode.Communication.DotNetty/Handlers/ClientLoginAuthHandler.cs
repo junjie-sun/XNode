@@ -43,9 +43,8 @@ namespace XNode.Communication.DotNetty.Handlers
         {
             if (getLoginRequestDataHandler != null)
             {
-                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
-                var port = context.GetRemotePort();
-                getLoginRequestDataHandler($"{ip}:{port}").ContinueWith((t) =>
+                var channelName = context.GetChannelName();
+                getLoginRequestDataHandler(channelName).ContinueWith((t) =>
                 {
                     context.WriteAndFlushAsync(BuildLoginReq(t.Result));
                 });
@@ -72,9 +71,8 @@ namespace XNode.Communication.DotNetty.Handlers
                 {
                     Task.Run(() =>
                     {
-                        var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
-                        var port = context.GetRemotePort();
-                        loginResponseHandler($"{ip}:{port}", msg.Body, msg.Header.Attachments).ContinueWith(t =>
+                        var channelName = context.GetChannelName();
+                        loginResponseHandler(channelName, msg.Body, msg.Header.Attachments).ContinueWith(t =>
                         {
                             var loginResult = t.Result;
                             if (loginResult == 0)

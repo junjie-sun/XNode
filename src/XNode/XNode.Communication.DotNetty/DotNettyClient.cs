@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using XNode.Common;
 using XNode.Communication.ProtocolStack;
 using XNode.Logging;
 

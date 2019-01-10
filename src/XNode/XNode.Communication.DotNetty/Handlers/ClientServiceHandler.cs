@@ -43,9 +43,8 @@ namespace XNode.Communication.DotNetty.Handlers
 
             if (serviceResponseHandler != null)
             {
-                var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
-                var port = context.GetRemotePort();
-                requestManager = serviceResponseHandler($"{ip}:{port}");
+                var channelName = context.GetChannelName();
+                requestManager = serviceResponseHandler(channelName);
             }
 
             //如果是服务响应消息，处理，其它消息透传

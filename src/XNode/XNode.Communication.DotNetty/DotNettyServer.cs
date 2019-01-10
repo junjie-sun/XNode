@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using XNode.Common;
 using XNode.Communication.DotNetty.Handlers;
 using XNode.Logging;
 using DotNettyLogging = DotNetty.Handlers.Logging;

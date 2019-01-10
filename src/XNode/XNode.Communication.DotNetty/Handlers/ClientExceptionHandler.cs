@@ -61,9 +61,8 @@ namespace XNode.Communication.DotNetty.Handlers
             logger.LogInformation($"Channel inactived. Local={context.GetLocalNetString()}, Remote={context.GetRemoteNetString()}");
             base.ChannelInactive(context);
 
-            var ip = context.GetRemoteAddress().Address.MapToIPv4().ToString();
-            var port = context.GetRemotePort();
-            await inactiveHandler?.Invoke($"{ip}:{port}");
+            var channelName = context.GetChannelName();
+            await inactiveHandler?.Invoke(channelName);
         }
 
         /// <summary>

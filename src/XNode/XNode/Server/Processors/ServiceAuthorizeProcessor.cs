@@ -11,6 +11,7 @@ using XNode.Serializer;
 using XNode.ProtocolStack;
 using XNode.Server.Route;
 using XNode.Security;
+using XNode.Common;
 
 namespace XNode.Server.Processors
 {
@@ -46,7 +47,7 @@ namespace XNode.Server.Processors
             }
             catch (ServiceAuthorizeException ex)
             {
-                logger.LogError(ex, $"Service authorize failed. ServiceId={context.Route.ServiceId}, ActionId={context.Route.ActionId}, Identity={context.Identity}, Remote={context.RemoteAddress.Address.MapToIPv4().ToString()}, Message={ex.Message}");
+                logger.LogError(ex, $"Service authorize failed. ServiceId={context.Route.ServiceId}, ActionId={context.Route.ActionId}, Identity={context.Identity}, Remote={context.RemoteAddress.Address.ToIPString()}, Message={ex.Message}");
                 switch(ex.ServiceAuthorizeExceptionType)
                 {
                     case ServiceAuthorizeExceptionType.NoAuthorize:
@@ -61,7 +62,7 @@ namespace XNode.Server.Processors
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Service authorize has error. ServiceId={context.Route.ServiceId}, ActionId={context.Route.ActionId}, Identity={context.Identity}, Remote={context.RemoteAddress.Address.MapToIPv4().ToString()}, ExceptionMessage={ex.Message}");
+                logger.LogError(ex, $"Service authorize has error. ServiceId={context.Route.ServiceId}, ActionId={context.Route.ActionId}, Identity={context.Identity}, Remote={context.RemoteAddress.Address.ToIPString()}, ExceptionMessage={ex.Message}");
                 return ServiceProcessorUtils.CreateSystemExceptionResult(SystemExceptionKeys.SYSTEM_ERROR, ProtocolStackFactory);
             }
 
