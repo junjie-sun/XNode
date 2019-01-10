@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using XNode.Communication.DotNetty.Handlers;
@@ -31,11 +32,19 @@ namespace XNode.Communication.DotNetty
 
         private IEventLoopGroup bossGroup, workerGroup;
 
+        private IPAddress hostIPAddress;
+
         private ChannelHandlerContextManager channelHandlerContextManager = new ChannelHandlerContextManager();
 
-        private string host;
+        /// <summary>
+        /// 服务地址
+        /// </summary>
+        public string Host { get; }
 
-        private int port;
+        /// <summary>
+        /// 服务端口
+        /// </summary>
+        public int Port { get; }
 
         /// <summary>
         /// 接收登录请求事件
@@ -56,8 +65,9 @@ namespace XNode.Communication.DotNetty
         {
             loggerFactory = LoggerManager.ServerLoggerFactory;
             logger = loggerFactory.CreateLogger<DotNettyServer>();
-            this.host = host;
-            this.port = port;
+            hostIPAddress = host.ToIPAddress().Result;
+            Host = hostIPAddress.ToIPString();
+            Port = port;
         }
 
         /// <summary>
@@ -66,7 +76,7 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task StartAsync()
         {
-            logger.LogDebug($"Server bind beginning. Host={host}, Port={port}");
+            logger.LogDebug($"Server bind beginning. Host={Host}, Port={Port}");
 
             //配置服务端的NIO线程组
             bossGroup = new MultithreadEventLoopGroup(1);
@@ -96,13 +106,14 @@ namespace XNode.Communication.DotNetty
                         channel.Pipeline.AddLast("ServerExceptionHandler", new ServerExceptionHandler(loggerFactory));
                     }));
 
-                channel = await b.BindAsync(new IPEndPoint(IPAddress.Parse(host), port));
-                logger.LogDebug($"Server bind finished. Host={host}, Port={port}");
+                
+                channel = await b.BindAsync(new IPEndPoint(hostIPAddress, Port));
+                logger.LogDebug($"Server bind finished. Host={Host}, Port={Port}");
             }
             catch (Exception ex)
             {
                 var t = CloseAsync();
-                logger.LogError(ex, $"Server bind has error. Host={host}, Port={port}, ExceptionMessage={ex.Message}");
+                logger.LogError(ex, $"Server bind has error. Host={Host}, Port={Port}, ExceptionMessage={ex.Message}");
                 throw ex;
             }
         }
@@ -115,19 +126,19 @@ namespace XNode.Communication.DotNetty
         {
             try
             {
-                logger.LogDebug($"Server close beginning. Host={host}, port={port}");
+                logger.LogDebug($"Server close beginning. Host={Host}, port={Port}");
                 //等待服务端监听端口关闭
                 await channel.CloseAsync();
                 await channelHandlerContextManager.CloseAllAsync();
-                logger.LogDebug($"Server close finished. Host={host}, port={port}");
+                logger.LogDebug($"Server close finished. Host={Host}, port={Port}");
             }
             finally
             {
                 //释放资源
                 var t1 = workerGroup.ShutdownGracefullyAsync()
-                    .ContinueWith(t => logger.LogDebug($"Server workerGroup shutdow. Host={host}, port={port}"));
+                    .ContinueWith(t => logger.LogDebug($"Server workerGroup shutdow. Host={Host}, port={Port}"));
                 var t2 = bossGroup.ShutdownGracefullyAsync()
-                    .ContinueWith(t => logger.LogDebug($"Server bossGroup shutdow. Host={host}, port={port}"));
+                    .ContinueWith(t => logger.LogDebug($"Server bossGroup shutdow. Host={Host}, port={Port}"));
             }
         }
 

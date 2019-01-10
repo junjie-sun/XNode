@@ -23,6 +23,16 @@ namespace XNode.Communication
     public interface IServer
     {
         /// <summary>
+        /// 服务地址
+        /// </summary>
+        string Host { get; }
+
+        /// <summary>
+        /// 服务端口
+        /// </summary>
+        int Port { get; }
+
+        /// <summary>
         /// 接收登录请求事件
         /// </summary>
         event RecieveLoginRequestDelegate OnRecieveLoginRequest;

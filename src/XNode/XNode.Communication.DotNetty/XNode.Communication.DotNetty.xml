@@ -238,6 +238,16 @@
             服务端底层实现
             </summary>
         </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyServer.Host">
+            <summary>
+            服务地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.DotNetty.DotNettyServer.Port">
+            <summary>
+            服务端口
+            </summary>
+        </member>
         <member name="E:XNode.Communication.DotNetty.DotNettyServer.OnRecieveLoginRequest">
             <summary>
             接收登录请求事件
@@ -351,6 +361,30 @@
             加载DotNetty客户端
             </summary>
             <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.HostStringExtensions">
+            <summary>
+            Host字符串扩展方法 
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.HostStringExtensions.ToIPAddress(System.String)">
+            <summary>
+            将Host字符串转换为IPAddress
+            </summary>
+            <param name="host">Host字符串，可以是IP、主机名或域名</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.Communication.DotNetty.IPAddressExtensions">
+            <summary>
+            IPAddress扩展方法
+            </summary>
+        </member>
+        <member name="M:XNode.Communication.DotNetty.IPAddressExtensions.ToIPString(System.Net.IPAddress)">
+            <summary>
+            获取IP地址
+            </summary>
+            <param name="ipAddress"></param>
             <returns></returns>
         </member>
         <member name="T:XNode.Communication.DotNetty.Handlers.ClientExceptionHandler">

@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using XNode.Client;
 using XNode.Server;
 using XNode.Server.Configuration;
@@ -36,7 +38,7 @@ namespace XNode.Communication.DotNetty
         public static string GetRemoteNetString(this IChannelHandlerContext context)
         {
             var address = context.GetRemoteAddress();
-            return $"{address.Address.MapToIPv4().ToString()}:{address.Port}";
+            return $"{address.Address.ToIPString()}:{address.Port}";
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace XNode.Communication.DotNetty
         public static string GetRemoteIP(this IChannelHandlerContext context)
         {
             var address = context.GetRemoteAddress();
-            return address.Address.MapToIPv4().ToString();
+            return address.Address.ToIPString();
         }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace XNode.Communication.DotNetty
         public static string GetLocalNetString(this IChannelHandlerContext context)
         {
             var address = context.GetLocalAddress();
-            return $"{address.Address.MapToIPv4().ToString()}:{address.Port}";
+            return $"{address.Address.ToIPString()}:{address.Port}";
         }
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace XNode.Communication.DotNetty
         public static string GetLocalIP(this IChannelHandlerContext context)
         {
             var address = context.GetLocalAddress();
-            return address.Address.MapToIPv4().ToString();
+            return address.Address.ToIPString();
         }
 
         /// <summary>
@@ -135,6 +137,57 @@ namespace XNode.Communication.DotNetty
         public static INodeClientBuilder UseDotNetty(this INodeClientBuilder builder)
         {
             return builder.ConfigCommunicationFactory((c) => { return new DotNettyClient(c.Host, c.Port, c.LocalHost, c.LocalPort); });
+        }
+    }
+
+    /// <summary>
+    /// Host字符串扩展方法 
+    /// </summary>
+    public static class HostStringExtensions
+    {
+        /// <summary>
+        /// 将Host字符串转换为IPAddress
+        /// </summary>
+        /// <param name="host">Host字符串，可以是IP、主机名或域名</param>
+        /// <returns></returns>
+        public async static Task<IPAddress> ToIPAddress(this string host)
+        {
+            if (!IPAddress.TryParse(host, out IPAddress ipAddress))
+            {
+                var ips = await Dns.GetHostAddressesAsync(host);
+                if (ips.Length > 0)
+                {
+                    foreach (var ip in ips)
+                    {
+                        if (ip.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddress = ip;
+                            break;
+                        }
+                    }
+                }
+                if (ipAddress == null)
+                {
+                    throw new InvalidOperationException("Host is invalid.");
+                }
+            }
+            return ipAddress;
+        }
+    }
+
+    /// <summary>
+    /// IPAddress扩展方法
+    /// </summary>
+    public static class IPAddressExtensions
+    {
+        /// <summary>
+        /// 获取IP地址
+        /// </summary>
+        /// <param name="ipAddress"></param>
+        /// <returns></returns>
+        public static string ToIPString(this IPAddress ipAddress)
+        {
+            return ipAddress.MapToIPv4().ToString();
         }
     }
 }

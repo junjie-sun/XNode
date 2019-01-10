@@ -1388,6 +1388,16 @@
             服务端通信接口
             </summary>
         </member>
+        <member name="P:XNode.Communication.IServer.Host">
+            <summary>
+            服务地址
+            </summary>
+        </member>
+        <member name="P:XNode.Communication.IServer.Port">
+            <summary>
+            服务端口
+            </summary>
+        </member>
         <member name="E:XNode.Communication.IServer.OnRecieveLoginRequest">
             <summary>
             接收登录请求事件

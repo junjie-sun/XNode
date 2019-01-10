@@ -5,6 +5,7 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,8 +33,6 @@ namespace XNode.Communication.DotNetty
 
         private CancellationTokenSource connectCts;
 
-        private ClientStatus status;
-
         private int isInactiveHandle = 0;
 
         /// <summary>
@@ -54,13 +53,7 @@ namespace XNode.Communication.DotNetty
         /// <summary>
         /// 客户端状态
         /// </summary>
-        public ClientStatus Status
-        {
-            get
-            {
-                return status;
-            }
-        }
+        public ClientStatus Status { get; private set; }
 
         /// <summary>
         /// 服务地址
@@ -94,10 +87,15 @@ namespace XNode.Communication.DotNetty
             loggerFactory = LoggerManager.ClientLoggerFactory;
             logger = loggerFactory.CreateLogger<DotNettyClient>();
             requestManager = new RequestManager(loggerFactory);
-            this.Port = port;
-            this.Host = host;
-            this.LocalPort = localPort;
-            this.LocalHost = localHost;
+            Port = port;
+            var hostIPAddress = host.ToIPAddress().Result;
+            Host = hostIPAddress.ToIPString();
+            LocalPort = localPort;
+            if (!string.IsNullOrWhiteSpace(localHost))
+            {
+                var localHostIPAddress = localHost.ToIPAddress().Result;
+                LocalHost = localHostIPAddress.ToIPString();
+            }
         }
 
         static DotNettyClient()
@@ -123,7 +121,7 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task SendOneWayAsync(byte[] msg, int timeout = 30000, IDictionary<string, byte[]> attachments = null)
         {
-            if (status != ClientStatus.Connected)
+            if (Status != ClientStatus.Connected)
             {
                 throw new Exception("Client is not connected");
             }
@@ -143,7 +141,7 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task<RequestResult> SendAsync(byte[] msg, int timeout = 30000, IDictionary<string, byte[]> attachments = null)
         {
-            if (status != ClientStatus.Connected)
+            if (Status != ClientStatus.Connected)
             {
                 throw new Exception("Client is not connected");
             }
@@ -172,7 +170,7 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async Task CloseAsync()
         {
-            status = ClientStatus.Closed;
+            Status = ClientStatus.Closed;
             await BootstrapManager.CloseAsync(channelName);
             logger.LogDebug($"Client closed. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
         }
@@ -193,7 +191,7 @@ namespace XNode.Communication.DotNetty
 
             try
             {
-                status = ClientStatus.Connecting;
+                Status = ClientStatus.Connecting;
                 var dotNettyClientInfo = new DotNettyClientInfo()
                 {
                     Host = Host,
@@ -211,7 +209,7 @@ namespace XNode.Communication.DotNetty
             }
             catch (Exception ex)
             {
-                status = ClientStatus.PassiveClosed;
+                Status = ClientStatus.PassiveClosed;
                 logger.LogError(ex, $"Client connect has error. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}, ExceptionMessage={ex.Message}, ExceptionStackTrace={ex.StackTrace}");
                 throw new NetworkException(Host, Port, ex.Message);
             }
@@ -231,7 +229,7 @@ namespace XNode.Communication.DotNetty
                 });
 
                 await connectTcs.Task;      //等待登录验证响应
-                status = ClientStatus.Connected;
+                Status = ClientStatus.Connected;
                 logger.LogDebug($"Client connect finished. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
             }
             catch (Exception ex)
@@ -258,12 +256,12 @@ namespace XNode.Communication.DotNetty
                 return;
             }
 
-            if (status == ClientStatus.Closed || status == ClientStatus.Connecting)
+            if (Status == ClientStatus.Closed || Status == ClientStatus.Connecting)
             {
                 return;
             }
 
-            status = ClientStatus.PassiveClosed;
+            Status = ClientStatus.PassiveClosed;
             await BootstrapManager.CloseAsync(channelName);
 
             logger.LogDebug($"Client inactive: close connect. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");

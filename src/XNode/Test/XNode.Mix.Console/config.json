@@ -17,7 +17,7 @@
           "connections": [
             {
               "host": "127.0.0.1",
-              "port": "9001",
+              "port": 9001,
               "localHost": "127.0.0.1"
             }
           ],
@@ -48,7 +48,7 @@
           "connections": [
             {
               "host": "127.0.0.1",
-              "port": "9002",
+              "port": 9002,
               "localHost": "127.0.0.1"
             }
           ],
@@ -67,7 +67,7 @@
     "server": {
       "serverInfo": {
         "host": "127.0.0.1",
-        "port": "9101"
+        "port": 9101
       },
       "services": [
         {

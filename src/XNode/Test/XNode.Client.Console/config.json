@@ -12,8 +12,8 @@
           },
           "connections": [
             {
-              "host": "127.0.0.1",
-              "port": "9001"
+              "host": "localhost",
+              "port": 9001
             }
           ],
           "passiveClosedStrategy": {
