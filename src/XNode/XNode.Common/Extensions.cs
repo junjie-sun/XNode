@@ -24,13 +24,13 @@ namespace XNode.Common
                 var ips = await Dns.GetHostAddressesAsync(host);
                 if (ips.Length > 0)
                 {
-                    foreach (var ip in ips)
+                    if (ips[0].IsIPv4MappedToIPv6)
                     {
-                        if (ip.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            ipAddress = ip;
-                            break;
-                        }
+                        ipAddress = ips[0].MapToIPv4();
+                    }
+                    else
+                    {
+                        ipAddress = ips[0];
                     }
                 }
                 if (ipAddress == null)
@@ -54,7 +54,11 @@ namespace XNode.Common
         /// <returns></returns>
         public static string ToIPString(this IPAddress ipAddress)
         {
-            return ipAddress.MapToIPv4().ToString();
+            if (ipAddress.IsIPv4MappedToIPv6)
+            {
+                return ipAddress.MapToIPv4().ToString();
+            }
+            return ipAddress.ToString();
         }
     }
 }
