@@ -21,9 +21,11 @@ using XNode.Client.Configuration;
 using XNode.Security;
 using XNode.Client.ServiceCallers;
 using XNode.Client.NodeClientContainers;
+using XNode.ServiceDiscovery.Zookeeper;
 using XNode.Zipkin;
 using Zipkin;
 using XNode.Communication.DotNetty;
+using XNode.Serializer;
 
 namespace XNode.Client.Console
 {
@@ -487,6 +489,79 @@ namespace XNode.Client.Console
                 );
                 serviceProxyManager.Regist(serviceProxy);
             }
+
+            serviceProxyManager.ConnectAsync().Wait();
+
+            var builder = new ContainerBuilder();
+            builder.Register(c => new ServiceProxyInterceptor(serviceProxyManager));
+            builder.RegisterType<CustomerService>()
+               .As<ICustomerService>()
+               .EnableInterfaceInterceptors()       //接口拦截
+               .InterceptedBy(typeof(ServiceProxyInterceptor))
+               .SingleInstance();
+            builder.RegisterType<OrderService>()
+               //.As<IOrderService>()
+               .EnableClassInterceptors()           //类拦截
+               .InterceptedBy(typeof(ServiceProxyInterceptor))
+               .SingleInstance();
+
+            container = builder.Build();
+            return serviceProxyManager;
+        }
+
+        private static IServiceProxyManager InitWithZookeeper(string host, int port, string localHost, int? localPort)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "config_service_discovery.json");
+
+            var configRoot = new ConfigurationBuilder()
+                .AddJsonFile(path)
+                .Build();
+
+            var clientConfig = configRoot.GetClientConfig();
+
+            LoggerManager.ClientLoggerFactory.AddConsole(LogLevel.Information);
+
+            var serviceProxyTypeList = new List<Type>() { typeof(ICustomerService), typeof(OrderService) };
+
+            var serializerList = new List<ISerializer>()
+            {
+                new MsgPackSerializer(LoggerManager.ClientLoggerFactory),
+                new ProtoBufSerializer(LoggerManager.ClientLoggerFactory)
+            };
+
+            var serviceCaller = new ServiceCallerBuilder()
+                .UseDefault()
+                .Build();
+
+            var serviceProxyManager = new ServiceProxyManager();
+
+            var serviceProxyConfig = clientConfig.ServiceProxies.Where(s => s.ProxyName == "XNodeDemoService").Single();
+            var zookeeperConfig = configRoot.GetZookeeperConfig();
+
+            IServiceProxy serviceProxyFactory(ServiceProxyArgs args)
+            {
+                return new ServiceProxy(
+                args.Name,
+                new List<ServiceInfo>() { args.ServiceInfo },
+                serviceCaller);
+            }
+
+            IList<INodeClient> nodeClientFactory(NodeClientArgs args)
+            {
+                var serializer = serializerList.Where(s => s.Name == args.SerializerName).Single();
+
+                return new NodeClientBuilder()
+                    .ConfigConnections(args.ConnectionInfos)
+                    .ConfigSerializer(serializer)
+                    .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+                    .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(configRoot.GetDefaultPassiveClosedStrategyConfig(serviceProxyConfig.ProxyName), LoggerManager.ClientLoggerFactory))
+                    .UseDotNetty()
+                    .Build();
+            }
+
+            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString, LoggerManager.ClientLoggerFactory, serviceProxyConfig.Services)
+                .Subscribe<ICustomerService>(serviceProxyFactory, nodeClientFactory, serviceProxyManager)
+                .Subscribe<OrderService>(serviceProxyFactory, nodeClientFactory, serviceProxyManager);
 
             serviceProxyManager.ConnectAsync().Wait();
 

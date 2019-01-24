@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\XNode.Communication.DotNetty\XNode.Communication.DotNetty.csproj" />
     <ProjectReference Include="..\..\XNode.Serializer.MsgPack\XNode.Serializer.MsgPack.csproj" />
     <ProjectReference Include="..\..\XNode.Serializer.ProtoBuf\XNode.Serializer.ProtoBuf.csproj" />
+    <ProjectReference Include="..\..\XNode.ServiceDiscovery.Zookeeper\XNode.ServiceDiscovery.Zookeeper.csproj" />
     <ProjectReference Include="..\..\XNode.Zipkin\XNode.Zipkin.csproj" />
     <ProjectReference Include="..\..\XNode\XNode.csproj" />
   </ItemGroup>

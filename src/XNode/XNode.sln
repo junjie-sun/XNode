@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XNode.Zipkin", "XNode.Zipki
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XNode.Common", "XNode.Common\XNode.Common.csproj", "{141B94D3-745C-44FB-9A04-EE89430CD584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XNode.Communication.DotNetty", "XNode.Communication.DotNetty\XNode.Communication.DotNetty.csproj", "{6C3EA2EB-4E59-45F4-911B-C7D70D3C01EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XNode.Communication.DotNetty", "XNode.Communication.DotNetty\XNode.Communication.DotNetty.csproj", "{6C3EA2EB-4E59-45F4-911B-C7D70D3C01EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XNode.ServiceDiscovery.Zookeeper", "XNode.ServiceDiscovery.Zookeeper\XNode.ServiceDiscovery.Zookeeper.csproj", "{8D37759A-9B43-44EC-A330-50BBF2AEC819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{6C3EA2EB-4E59-45F4-911B-C7D70D3C01EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C3EA2EB-4E59-45F4-911B-C7D70D3C01EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C3EA2EB-4E59-45F4-911B-C7D70D3C01EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D37759A-9B43-44EC-A330-50BBF2AEC819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D37759A-9B43-44EC-A330-50BBF2AEC819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D37759A-9B43-44EC-A330-50BBF2AEC819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D37759A-9B43-44EC-A330-50BBF2AEC819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

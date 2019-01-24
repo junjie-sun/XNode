@@ -1,0 +1,43 @@
+{
+  "xnode": {
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "XNodeDemoService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "passiveClosedStrategy": {
+            "reconnectCount": 3,
+            "reconnectInterval": 3000
+          },
+          "services": [
+            {
+              "serviceId": 10001,
+              "enabled": true,
+              "actions": [
+                {
+                  "actionId": 1,
+                  "timeout": 10000,
+                  "enabled": true
+                }
+              ]
+            },
+            {
+              "serviceId": 10002,
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "zookeeper": {
+        "connectionString": "192.168.108.135:2181"
+      }
+    },
+    "server": {
+    }
+  }
+}
