@@ -13,7 +13,38 @@
             <summary>
             获取Zookeeper配置
             </summary>
-            <param name="config"></param>
+            <param name="config">配置对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.SrviceProxyManagerExtensions">
+            <summary>
+            ServiceProxyManager扩展方法类
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.SrviceProxyManagerExtensions.Regist(XNode.Client.IServiceProxyManager,XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber)">
+            <summary>
+            注册所有订阅服务的代理对象
+            </summary>
+            <param name="serviceProxyManager">服务代理管理器</param>
+            <param name="serviceSubscriber">服务订阅器</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber">
+            <summary>
+            服务订阅器接口
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.Subscribe``1(System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}})">
+            <summary>
+            服务订阅
+            </summary>
+            <param name="serviceProxyFactory">ServiceProxy工厂</param>
+            <param name="nodeClientFactory">NodeClient工厂</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.GetServiceProxies">
+            <summary>
+            获取所有订阅服务的代理对象
+            </summary>
             <returns></returns>
         </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeClientArgs">
@@ -76,13 +107,15 @@
             服务订阅器
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IList{XNode.Client.Configuration.ServiceInfo},System.String)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IList{XNode.Client.Configuration.ServiceInfo},System.String,System.Nullable{System.Int32},System.String)">
             <summary>
             构造函数
             </summary>
             <param name="connectionString">Zookeeper连接字符串</param>
             <param name="loggerFactory">日志工厂</param>
             <param name="serviceConfigs">服务配置</param>
+            <param name="localHost">本地Host</param>
+            <param name="localPort">本地端口</param>
             <param name="basePath">Zookeeper根路径</param>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.ConnectionString">
@@ -95,21 +128,24 @@
             Zookeeper根路径
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe``1(System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}},XNode.Client.IServiceProxyManager,System.String,System.Nullable{System.Int32})">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe``1(System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}})">
             <summary>
             服务订阅
             </summary>
             <param name="serviceProxyFactory">ServiceProxy工厂</param>
             <param name="nodeClientFactory">NodeClient工厂</param>
-            <param name="serviceProxyManager">服务代理管理器</param>
-            <param name="localHost">本地Host</param>
-            <param name="localPort">本地端口</param>
             <returns></returns>
         </member>
         <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Dispose">
             <summary>
             关闭订阅
             </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.GetServiceProxies">
+            <summary>
+            获取所有订阅服务的代理对象
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig">
             <summary>

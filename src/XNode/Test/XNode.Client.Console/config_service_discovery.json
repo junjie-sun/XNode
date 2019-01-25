@@ -1,5 +1,8 @@
 {
   "xnode": {
+    "zookeeper": {
+      "connectionString": "192.168.108.135:2181"
+    },
     "client": {
       "serviceProxies": [
         {
@@ -32,10 +35,7 @@
             }
           ]
         }
-      ],
-      "zookeeper": {
-        "connectionString": "192.168.108.135:2181"
-      }
+      ]
     },
     "server": {
     }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using XNode.Client;
 
 namespace XNode.ServiceDiscovery.Zookeeper
 {
@@ -16,15 +17,35 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 获取Zookeeper配置
         /// </summary>
-        /// <param name="config"></param>
+        /// <param name="config">配置对象</param>
         /// <returns></returns>
         public static ZookeeperConfig GetZookeeperConfig(this IConfiguration config)
         {
             var zookepperConfig = new ZookeeperConfig();
             config
-                .GetSection("xnode:client:zookeeper")
+                .GetSection("xnode:zookeeper")
                 .Bind(zookepperConfig);
             return zookepperConfig;
+        }
+    }
+
+    /// <summary>
+    /// ServiceProxyManager扩展方法类
+    /// </summary>
+    public static class SrviceProxyManagerExtensions
+    {
+        /// <summary>
+        /// 注册所有订阅服务的代理对象
+        /// </summary>
+        /// <param name="serviceProxyManager">服务代理管理器</param>
+        /// <param name="serviceSubscriber">服务订阅器</param>
+        public static void Regist(this IServiceProxyManager serviceProxyManager, IServiceSubscriber serviceSubscriber)
+        {
+            var serviceProxies = serviceSubscriber.GetServiceProxies();
+            foreach (var serviceProxy in serviceProxies)
+            {
+                serviceProxyManager.Regist(serviceProxy);
+            }
         }
     }
 }

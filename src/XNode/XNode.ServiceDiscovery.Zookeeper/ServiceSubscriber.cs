@@ -19,13 +19,17 @@ namespace XNode.ServiceDiscovery.Zookeeper
     /// <summary>
     /// 服务订阅器
     /// </summary>
-    public class ServiceSubscriber : IDisposable
+    public class ServiceSubscriber : IServiceSubscriber
     {
         private ILogger logger;
 
         private IZookeeperClient client;
 
         private IList<ServiceInfo> serviceConfigs;
+
+        private string localHost;
+
+        private int? localPort;
 
         private IDictionary<string, ServiceSubscriberInfo> serviceSubscriberList = new Dictionary<string, ServiceSubscriberInfo>();
 
@@ -35,16 +39,22 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <param name="connectionString">Zookeeper连接字符串</param>
         /// <param name="loggerFactory">日志工厂</param>
         /// <param name="serviceConfigs">服务配置</param>
+        /// <param name="localHost">本地Host</param>
+        /// <param name="localPort">本地端口</param>
         /// <param name="basePath">Zookeeper根路径</param>
         public ServiceSubscriber(string connectionString,
             ILoggerFactory loggerFactory,
             IList<ServiceInfo> serviceConfigs = null,
+            string localHost = null,
+            int? localPort = null,
             string basePath = "/XNode")
         {
             ConnectionString = connectionString;
             BasePath = basePath;
             logger = loggerFactory.CreateLogger<ServiceSubscriber>();
             this.serviceConfigs = serviceConfigs;
+            this.localHost = localHost;
+            this.localPort = localPort;
             try
             {
                 client = new ZookeeperClient(new ZookeeperClientOptions(connectionString));
@@ -71,16 +81,10 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// </summary>
         /// <param name="serviceProxyFactory">ServiceProxy工厂</param>
         /// <param name="nodeClientFactory">NodeClient工厂</param>
-        /// <param name="serviceProxyManager">服务代理管理器</param>
-        /// <param name="localHost">本地Host</param>
-        /// <param name="localPort">本地端口</param>
         /// <returns></returns>
         public ServiceSubscriber Subscribe<ServiceProxyType>(
             Func<ServiceProxyArgs, IServiceProxy> serviceProxyFactory,
-            Func<NodeClientArgs, IList<INodeClient>> nodeClientFactory,
-            IServiceProxyManager serviceProxyManager,
-            string localHost = null,
-            int? localPort = null)
+            Func<NodeClientArgs, IList<INodeClient>> nodeClientFactory)
         {
             var serviceProxyType = typeof(ServiceProxyType);
 
@@ -122,8 +126,6 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             HostsChangedHandler(serviceName);
 
-            serviceProxyManager.Regist(serviceProxy);
-
             return this;
         }
 
@@ -136,6 +138,15 @@ namespace XNode.ServiceDiscovery.Zookeeper
             logger.LogInformation("ServiceSubscriber dispose.");
         }
 
+        /// <summary>
+        /// 获取所有订阅服务的代理对象
+        /// </summary>
+        /// <returns></returns>
+        public IList<IServiceProxy> GetServiceProxies()
+        {
+            return null;
+        }
+
         private ServiceProxyAttribute GetServiceProxyAttribute(Type serviceProxyType)
         {
             var typeInfo = serviceProxyType.GetTypeInfo();
@@ -143,8 +154,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             if (serviceProxyAttr == null)
             {
-                logger.LogInformation($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType}");
-                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType}");
+                logger.LogInformation($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
+                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
             }
 
             return serviceProxyAttr;

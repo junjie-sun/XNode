@@ -509,6 +509,7 @@ namespace XNode.Client.Console
             return serviceProxyManager;
         }
 
+        /*
         private static IServiceProxyManager InitWithZookeeper(string host, int port, string localHost, int? localPort)
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "config_service_discovery.json");
@@ -581,6 +582,7 @@ namespace XNode.Client.Console
             container = builder.Build();
             return serviceProxyManager;
         }
+        */
 
         private static MethodInfo GetCustomerServiceActionType(string methodName)
         {
