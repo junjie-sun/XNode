@@ -38,7 +38,8 @@ namespace XNode.Client.Console
             System.Console.ReadLine();
 
             //var serviceProxyManager = Init(host, port, localHost, localPort);
-            var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);
+            //var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);
+            var serviceProxyManager = InitWithZookeeper(host, port, localHost, localPort);
 
             System.Console.ReadLine();
 
@@ -511,7 +512,7 @@ namespace XNode.Client.Console
 
         private static IServiceProxyManager InitWithZookeeper(string host, int port, string localHost, int? localPort)
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "config_service_discovery.json");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "config_service_discovery_zookeeper.json");
 
             var configRoot = new ConfigurationBuilder()
                 .AddJsonFile(path)
@@ -559,9 +560,13 @@ namespace XNode.Client.Console
                     .Build();
             }
 
-            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString, LoggerManager.ClientLoggerFactory, serviceProxyConfig.Services)
-                .Subscribe<ICustomerService>(serviceProxyFactory, nodeClientFactory)
-                .Subscribe<OrderService>(serviceProxyFactory, nodeClientFactory);
+            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+                LoggerManager.ClientLoggerFactory,
+                serviceProxyFactory,
+                nodeClientFactory,
+                serviceProxyConfig.Services)
+                .Subscribe<ICustomerService>()
+                .Subscribe<OrderService>();
 
             serviceProxyManager.ConnectAsync().Wait();
 

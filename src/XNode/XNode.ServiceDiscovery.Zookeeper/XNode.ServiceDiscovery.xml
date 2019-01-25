@@ -33,12 +33,11 @@
             服务订阅器接口
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.Subscribe``1(System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}})">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.Subscribe``1(System.Boolean)">
             <summary>
             服务订阅
             </summary>
-            <param name="serviceProxyFactory">ServiceProxy工厂</param>
-            <param name="nodeClientFactory">NodeClient工厂</param>
+            <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
             <returns></returns>
         </member>
         <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.GetServiceProxies">
@@ -107,12 +106,14 @@
             服务订阅器
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IList{XNode.Client.Configuration.ServiceInfo},System.String,System.Nullable{System.Int32},System.String)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}},System.Collections.Generic.IList{XNode.Client.Configuration.ServiceInfo},System.String,System.Nullable{System.Int32},System.String)">
             <summary>
             构造函数
             </summary>
             <param name="connectionString">Zookeeper连接字符串</param>
             <param name="loggerFactory">日志工厂</param>
+            <param name="serviceProxyFactory">ServiceProxy工厂</param>
+            <param name="nodeClientFactory">NodeClient工厂</param>
             <param name="serviceConfigs">服务配置</param>
             <param name="localHost">本地Host</param>
             <param name="localPort">本地端口</param>
@@ -128,12 +129,11 @@
             Zookeeper根路径
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe``1(System.Func{XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs,XNode.Client.IServiceProxy},System.Func{XNode.ServiceDiscovery.Zookeeper.NodeClientArgs,System.Collections.Generic.IList{XNode.Client.INodeClient}})">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe``1(System.Boolean)">
             <summary>
             服务订阅
             </summary>
-            <param name="serviceProxyFactory">ServiceProxy工厂</param>
-            <param name="nodeClientFactory">NodeClient工厂</param>
+            <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
             <returns></returns>
         </member>
         <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Dispose">

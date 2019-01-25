@@ -16,12 +16,9 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 服务订阅
         /// </summary>
-        /// <param name="serviceProxyFactory">ServiceProxy工厂</param>
-        /// <param name="nodeClientFactory">NodeClient工厂</param>
+        /// <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
         /// <returns></returns>
-        ServiceSubscriber Subscribe<ServiceProxyType>(
-            Func<ServiceProxyArgs, IServiceProxy> serviceProxyFactory,
-            Func<NodeClientArgs, IList<INodeClient>> nodeClientFactory);
+        ServiceSubscriber Subscribe<ServiceProxyType>(bool useNewClient = false);
 
         /// <summary>
         /// 获取所有订阅服务的代理对象
