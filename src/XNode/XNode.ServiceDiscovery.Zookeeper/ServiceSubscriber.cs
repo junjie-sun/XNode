@@ -62,6 +62,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Connect zookeeper failed. ConnectionString={connectionString}");
+                throw ex;
             }
             logger.LogInformation($"Connect zookeeper success. ConnectionString={connectionString}");
         }

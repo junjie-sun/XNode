@@ -5,9 +5,9 @@
     <Authors>Sun junjie</Authors>
     <Company>Sun junjie</Company>
     <Description>Distributed service framework.</Description>
-    <AssemblyVersion>0.3.7.0</AssemblyVersion>
-    <FileVersion>0.3.7.0</FileVersion>
-    <Version>0.3.7</Version>
+    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <FileVersion>0.5.0.0</FileVersion>
+    <Version>0.5.0</Version>
     <PackageTags>distributed,rpc,xnode</PackageTags>
     <PackageProjectUrl>https://github.com/junjie-sun/XNode</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
