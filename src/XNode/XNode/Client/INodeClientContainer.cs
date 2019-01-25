@@ -34,7 +34,8 @@ namespace XNode.Client
         /// </summary>
         /// <param name="host">客户端地址</param>
         /// <param name="port">客户端端口</param>
-        void Remove(string host, int port);
+        /// <param name="isDisconnect">是否将移除的Client连接关闭</param>
+        void Remove(string host, int port, bool isDisconnect = true);
 
         /// <summary>
         /// 获取可用的NodeClient对象

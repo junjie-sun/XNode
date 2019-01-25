@@ -114,9 +114,10 @@ namespace XNode.Client
         /// </summary>
         /// <param name="host">Client地址</param>
         /// <param name="port">Client端口</param>
-        public virtual IServiceProxy RemoveClient(string host, int port)
+        /// <param name="isDisconnect">是否将移除的Client连接关闭</param>
+        public virtual IServiceProxy RemoveClient(string host, int port, bool isDisconnect = true)
         {
-            nodeClientContainer.Remove(host, port);
+            nodeClientContainer.Remove(host, port, isDisconnect);
             logger.LogInformation($"Remove client success. ProxyName={ProxyName}, Host={host}, Port={port}");
             return this;
         }

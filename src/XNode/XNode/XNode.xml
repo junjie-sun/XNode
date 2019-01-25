@@ -514,12 +514,13 @@
             </summary>
             <param name="nodeClient"></param>
         </member>
-        <member name="M:XNode.Client.INodeClientContainer.Remove(System.String,System.Int32)">
+        <member name="M:XNode.Client.INodeClientContainer.Remove(System.String,System.Int32,System.Boolean)">
             <summary>
             从容器中移除指定NodeClient对象
             </summary>
             <param name="host">客户端地址</param>
             <param name="port">客户端端口</param>
+            <param name="isDisconnect">是否将移除的Client连接关闭</param>
         </member>
         <member name="M:XNode.Client.INodeClientContainer.Get(System.Int32,System.Int32,System.Object[],System.Type,System.Collections.Generic.IDictionary{System.String,System.Byte[]})">
             <summary>
@@ -667,12 +668,13 @@
             </summary>
             <param name="nodeClient">nodeClient实例</param>
         </member>
-        <member name="M:XNode.Client.IServiceProxy.RemoveClient(System.String,System.Int32)">
+        <member name="M:XNode.Client.IServiceProxy.RemoveClient(System.String,System.Int32,System.Boolean)">
             <summary>
             移除Client
             </summary>
             <param name="host">Client地址</param>
             <param name="port">Client端口</param>
+            <param name="isDisconnect">是否将移除的Client连接关闭</param>
         </member>
         <member name="M:XNode.Client.IServiceProxy.CallRemoteServiceAsync(System.Reflection.MethodInfo,System.Object[])">
             <summary>
@@ -824,12 +826,13 @@
             </summary>
             <param name="nodeClient"></param>
         </member>
-        <member name="M:XNode.Client.NodeClientContainerBase.Remove(System.String,System.Int32)">
+        <member name="M:XNode.Client.NodeClientContainerBase.Remove(System.String,System.Int32,System.Boolean)">
             <summary>
             从容器中移除指定NodeClient对象
             </summary>
             <param name="host">客户端地址</param>
             <param name="port">客户端端口</param>
+            <param name="isDisconnect">是否将移除的Client连接关闭</param>
         </member>
         <member name="M:XNode.Client.NodeClientContainerBase.CloseAsync">
             <summary>
@@ -1085,12 +1088,13 @@
             </summary>
             <param name="nodeClient">nodeClient实例</param>
         </member>
-        <member name="M:XNode.Client.ServiceProxy.RemoveClient(System.String,System.Int32)">
+        <member name="M:XNode.Client.ServiceProxy.RemoveClient(System.String,System.Int32,System.Boolean)">
             <summary>
             移除Client
             </summary>
             <param name="host">Client地址</param>
             <param name="port">Client端口</param>
+            <param name="isDisconnect">是否将移除的Client连接关闭</param>
         </member>
         <member name="M:XNode.Client.ServiceProxy.CallRemoteServiceAsync(System.Reflection.MethodInfo,System.Object[])">
             <summary>

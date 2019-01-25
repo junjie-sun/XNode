@@ -55,7 +55,8 @@ namespace XNode.Client
         /// </summary>
         /// <param name="host">客户端地址</param>
         /// <param name="port">客户端端口</param>
-        public virtual void Remove(string host, int port)
+        /// <param name="isDisconnect">是否将移除的Client连接关闭</param>
+        public virtual void Remove(string host, int port, bool isDisconnect = true)
         {
             lock (nodeClientListLockObj)
             {
@@ -65,7 +66,10 @@ namespace XNode.Client
                 {
                     if (client.Host == host && client.Port == port)
                     {
-                        client.CloseAsync().Wait();
+                        if (isDisconnect)
+                        {
+                            client.CloseAsync().Wait();
+                        }
                         isRemove = true;
                         continue;
                     }

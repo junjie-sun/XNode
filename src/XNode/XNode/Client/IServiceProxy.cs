@@ -54,7 +54,8 @@ namespace XNode.Client
         /// </summary>
         /// <param name="host">Client地址</param>
         /// <param name="port">Client端口</param>
-        IServiceProxy RemoveClient(string host, int port);
+        /// <param name="isDisconnect">是否将移除的Client连接关闭</param>
+        IServiceProxy RemoveClient(string host, int port, bool isDisconnect = true);
 
         /// <summary>
         /// 调用远程服务
