@@ -562,11 +562,12 @@ namespace XNode.Client.Console
 
             var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
                 LoggerManager.ClientLoggerFactory,
-                serviceProxyFactory,
-                nodeClientFactory,
-                serviceProxyConfig.Services)
+                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory,serviceProxyFactory, serviceProxyConfig.Services),
+                new NodeClientManager(LoggerManager.ClientLoggerFactory,nodeClientFactory))
                 .Subscribe<ICustomerService>()
                 .Subscribe<OrderService>();
+
+            serviceProxyManager.Regist(serviceSubscriber);
 
             serviceProxyManager.ConnectAsync().Wait();
 

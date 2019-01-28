@@ -6,7 +6,6 @@ using Rabbit.Zookeeper;
 using Rabbit.Zookeeper.Implementation;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
 using XNode.Client;
 using XNode.Client.Configuration;
@@ -25,48 +24,31 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         private IZookeeperClient client;
 
-        private Func<ServiceProxyArgs, IServiceProxy> serviceProxyFactory;
+        private IServiceProxyCreator serviceProxyCreator;
 
-        private Func<NodeClientArgs, IList<INodeClient>> nodeClientFactory;
-
-        private IList<ServiceInfo> serviceConfigs;
-
-        private string localHost;
-
-        private int? localPort;
+        private INodeClientManager nodeClientManager;
 
         private IDictionary<string, ServiceSubscriberInfo> serviceSubscriberList = new Dictionary<string, ServiceSubscriberInfo>();
-
-        private IDictionary<string, NodeClientInfo> sharedNodeClientList = new Dictionary<string, NodeClientInfo>();
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="connectionString">Zookeeper连接字符串</param>
         /// <param name="loggerFactory">日志工厂</param>
-        /// <param name="serviceProxyFactory">ServiceProxy工厂</param>
-        /// <param name="nodeClientFactory">NodeClient工厂</param>
-        /// <param name="serviceConfigs">服务配置</param>
-        /// <param name="localHost">本地Host</param>
-        /// <param name="localPort">本地端口</param>
+        /// <param name="serviceProxyCreator">服务代理构造器</param>
+        /// <param name="nodeClientManager">NodeClient管理器</param>
         /// <param name="basePath">Zookeeper根路径</param>
         public ServiceSubscriber(string connectionString,
             ILoggerFactory loggerFactory,
-            Func<ServiceProxyArgs, IServiceProxy> serviceProxyFactory,
-            Func<NodeClientArgs, IList<INodeClient>> nodeClientFactory,
-            IList<ServiceInfo> serviceConfigs = null,
-            string localHost = null,
-            int? localPort = null,
+            IServiceProxyCreator serviceProxyCreator,
+            INodeClientManager nodeClientManager,
             string basePath = "/XNode")
         {
             ConnectionString = connectionString;
             BasePath = basePath;
             logger = loggerFactory.CreateLogger<ServiceSubscriber>();
-            this.serviceProxyFactory = serviceProxyFactory;
-            this.nodeClientFactory = nodeClientFactory;
-            this.serviceConfigs = serviceConfigs;
-            this.localHost = localHost;
-            this.localPort = localPort;
+            this.serviceProxyCreator = serviceProxyCreator;
+            this.nodeClientManager = nodeClientManager;
 
             try
             {
@@ -100,51 +82,30 @@ namespace XNode.ServiceDiscovery.Zookeeper
         {
             var serviceProxyType = typeof(ServiceProxyType);
 
-            var serviceProxyAttr = GetServiceProxyAttribute(serviceProxyType);
+            var serviceProxyAttr = Utils.GetServiceProxyAttribute(serviceProxyType);
 
-            ServiceInfo config = null;
-            if (serviceConfigs != null && serviceConfigs.Count > 0)
-            {
-                config = serviceConfigs.Where(c => c.ServiceId == serviceProxyAttr.ServiceId).FirstOrDefault();
-            }
-
-            var serviceName = config != null ? config.Name : serviceProxyAttr.Name;
+            var serviceName = serviceProxyAttr.Name;
 
             var servicePublishInfos = GetServicePublishInfos(serviceName);
 
-            var serviceProxy = serviceProxyFactory(new ServiceProxyArgs()
-            {
-                Name = serviceName,
-                ServiceInfo = config,
-                ServiceType = serviceProxyType
-            }).AddService(serviceProxyType);
+            var serializerName = servicePublishInfos[0].SerializerName;
 
-            var connectionInfos = GetConnectionInfos(servicePublishInfos, localHost, localPort);
+            var connectionInfos = GetConnectionInfos(servicePublishInfos);
 
-            var nodeClientList = CreateNodeClientList(connectionInfos, servicePublishInfos[0].SerializerName, useNewClient);
+            var nodeClientList = nodeClientManager.CreateNodeClientList(connectionInfos, serializerName, useNewClient);
 
-            serviceProxy.AddClients(nodeClientList);
+            var serviceProxy = serviceProxyCreator.Create(serviceName, serviceProxyType, nodeClientList);
 
             serviceSubscriberList.Add(serviceName, new ServiceSubscriberInfo()
             {
                 ServiceProxy = serviceProxy,
                 ConnectionInfos = connectionInfos,
-                NodeClientFactory = nodeClientFactory,
                 UseNewClient = useNewClient
             });
 
             HostsChangedHandler(serviceName);
 
             return this;
-        }
-
-        /// <summary>
-        /// 关闭订阅
-        /// </summary>
-        public void Dispose()
-        {
-            client.Dispose();
-            logger.LogInformation("ServiceSubscriber dispose.");
         }
 
         /// <summary>
@@ -156,21 +117,16 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return serviceSubscriberList.Values.Select(s => s.ServiceProxy).ToList();
         }
 
-        #region 私有方法
-
-        private ServiceProxyAttribute GetServiceProxyAttribute(Type serviceProxyType)
+        /// <summary>
+        /// 关闭订阅
+        /// </summary>
+        public void Dispose()
         {
-            var typeInfo = serviceProxyType.GetTypeInfo();
-            var serviceProxyAttr = typeInfo.GetCustomAttribute<ServiceProxyAttribute>();
-
-            if (serviceProxyAttr == null)
-            {
-                logger.LogInformation($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
-                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
-            }
-
-            return serviceProxyAttr;
+            client.Dispose();
+            logger.LogInformation("ServiceSubscriber dispose.");
         }
+
+        #region 私有方法
 
         private IList<ServicePublishInfo> GetServicePublishInfos(string serviceName)
         {
@@ -207,7 +163,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return MessagePackSerializer.Deserialize<ServicePublishInfo>(data);
         }
 
-        private IList<ConnectionInfo> GetConnectionInfos(IList<ServicePublishInfo> servicePublishInfos, string localHost, int? localPort)
+        private IList<ConnectionInfo> GetConnectionInfos(IList<ServicePublishInfo> servicePublishInfos)
         {
             var list = new List<ConnectionInfo>();
 
@@ -216,81 +172,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 list.Add(new ConnectionInfo()
                 {
                     Host = publishInfo.Host,
-                    Port = publishInfo.Port,
-                    LocalHost = localHost,
-                    LocalPort = localPort
+                    Port = publishInfo.Port
                 });
             }
 
             return list;
-        }
-
-        private IList<INodeClient> CreateNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false)
-        {
-            if (useNewClient)
-            {
-                var nodeClientList = nodeClientFactory(new NodeClientArgs()
-                {
-                    SerializerName = serializerName,
-                    ConnectionInfos = connectionInfos
-                });
-                if (isConnect)
-                {
-                    var list = new List<INodeClient>();
-                    foreach (var nodeClient in nodeClientList)
-                    {
-                        try
-                        {
-                            nodeClient.ConnectAsync().Wait();
-                            list.Add(nodeClient);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, $"NodeClient connect failed. Host={nodeClient.Host}, Port={nodeClient.Port}");
-                            continue;
-                        }
-                    }
-                    nodeClientList = list;
-                }
-                return nodeClientList;
-            }
-            else
-            {
-                var nodeClientList = new List<INodeClient>();
-                foreach (var connectionInfo in connectionInfos)
-                {
-                    var hostName = Utils.GetHostName(connectionInfo.Host, connectionInfo.Port);
-                    if (!sharedNodeClientList.ContainsKey(hostName))
-                    {
-                        var nodeClient = nodeClientFactory(new NodeClientArgs()
-                        {
-                            SerializerName = serializerName,
-                            ConnectionInfos = new List<ConnectionInfo>() { connectionInfo }
-                        })[0];
-                        if (isConnect)
-                        {
-                            try
-                            {
-                                nodeClient.ConnectAsync().Wait();
-                            }
-                            catch (Exception ex)
-                            {
-                                logger.LogError(ex, $"NodeClient connect failed. Host={nodeClient.Host}, Port={nodeClient.Port}");
-                                continue;
-                            }
-                        }
-                        sharedNodeClientList.Add(hostName, new NodeClientInfo()
-                        {
-                            NodeClient = nodeClient,
-                            RefCount = 0
-                        });
-                    }
-                    var nodeClientInfo = sharedNodeClientList[hostName];
-                    nodeClientInfo.RefCount++;
-                    nodeClientList.Add(nodeClientInfo.NodeClient);
-                }
-                return nodeClientList;
-            }
         }
 
         private string GetServicePath(string serviceName)
@@ -345,20 +231,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 else
                 {
                     serviceSubscriberInfo.ServiceProxy.RemoveClient(connectionInfo.Host, connectionInfo.Port, false);
-                    var nodeClientInfo = sharedNodeClientList[hostName];
-                    nodeClientInfo.RefCount--;
-                    if (nodeClientInfo.RefCount == 0)
-                    {
-                        sharedNodeClientList.Remove(hostName);
-                        try
-                        {
-                            nodeClientInfo.NodeClient.CloseAsync().Wait();
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, $"Close NodeClient failed. HostName={hostName}");
-                        }
-                    }
+                    nodeClientManager.RemoveNodeClient(hostName);
                 }
                 serviceSubscriberInfo.ConnectionInfos.Remove(connectionInfo);
             }
@@ -402,7 +275,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             try
             {
-                nodeClientList = CreateNodeClientList(connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
+                nodeClientList = nodeClientManager.CreateNodeClientList(connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
             }
             catch(Exception ex)
             {
@@ -429,15 +302,6 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         public IList<ConnectionInfo> ConnectionInfos { get; set; }
 
-        public Func<NodeClientArgs, IList<INodeClient>> NodeClientFactory { get; set; }
-
         public bool UseNewClient { get; set; }
-    }
-
-    internal class NodeClientInfo
-    {
-        public INodeClient NodeClient { get; set; }
-
-        public int RefCount { get; set; }
     }
 }

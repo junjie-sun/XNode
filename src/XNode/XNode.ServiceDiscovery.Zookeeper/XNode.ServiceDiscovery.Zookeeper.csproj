@@ -28,4 +28,8 @@
     <ProjectReference Include="..\XNode\XNode.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Server\" />
+  </ItemGroup>
+
 </Project>

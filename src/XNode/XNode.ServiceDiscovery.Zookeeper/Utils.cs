@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using XNode.Client;
 
 namespace XNode.ServiceDiscovery.Zookeeper
 {
@@ -12,6 +14,19 @@ namespace XNode.ServiceDiscovery.Zookeeper
         public static string GetHostName(string host, int port)
         {
             return $"{host}:{port}";
+        }
+
+        public static ServiceProxyAttribute GetServiceProxyAttribute(Type serviceProxyType)
+        {
+            var typeInfo = serviceProxyType.GetTypeInfo();
+            var serviceProxyAttr = typeInfo.GetCustomAttribute<ServiceProxyAttribute>();
+
+            if (serviceProxyAttr == null)
+            {
+                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
+            }
+
+            return serviceProxyAttr;
         }
     }
 }
