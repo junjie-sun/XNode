@@ -560,17 +560,6 @@ namespace XNode.Client.Console
                     .Build();
             }
 
-            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
-                LoggerManager.ClientLoggerFactory,
-                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory,serviceProxyFactory, serviceProxyConfig.Services),
-                new NodeClientManager(LoggerManager.ClientLoggerFactory,nodeClientFactory))
-                .Subscribe<ICustomerService>()
-                .Subscribe<OrderService>();
-
-            serviceProxyManager.Regist(serviceSubscriber);
-
-            serviceProxyManager.ConnectAsync().Wait();
-
             var builder = new ContainerBuilder();
             builder.Register(c => new ServiceProxyInterceptor(serviceProxyManager));
             builder.RegisterType<CustomerService>()
@@ -585,6 +574,16 @@ namespace XNode.Client.Console
                .SingleInstance();
 
             container = builder.Build();
+
+            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+                LoggerManager.ClientLoggerFactory,
+                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
+                new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))
+                .Subscribe(container.GetNodeServiceProxyTypes())
+                .RegistTo(serviceProxyManager);
+
+            serviceProxyManager.ConnectAsync().Wait();
+
             return serviceProxyManager;
         }
 

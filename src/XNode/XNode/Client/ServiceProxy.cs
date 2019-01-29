@@ -188,8 +188,7 @@ namespace XNode.Client
         private IList<ServiceProxyInfo> CreateServiceProxyInfos(string proxyName, Type serviceProxyType)
         {
             var list = new List<ServiceProxyInfo>();
-            var typeInfo = serviceProxyType.GetTypeInfo();
-            var serviceProxyAttr = typeInfo.GetCustomAttribute<ServiceProxyAttribute>();
+            var serviceProxyAttr = serviceProxyType.GetServiceProxyAttribute();
 
             if (serviceProxyAttr == null)
             {

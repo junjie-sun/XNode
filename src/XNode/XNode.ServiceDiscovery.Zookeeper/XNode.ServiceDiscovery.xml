@@ -44,10 +44,11 @@
             服务订阅器接口
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.Subscribe``1(System.Boolean)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber.Subscribe(System.Type,System.Boolean)">
             <summary>
             服务订阅
             </summary>
+            <param name="serviceProxyType">服务代理类型</param>
             <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
             <returns></returns>
         </member>
@@ -169,10 +170,11 @@
             Zookeeper根路径
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe``1(System.Boolean)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Subscribe(System.Type,System.Boolean)">
             <summary>
             服务订阅
             </summary>
+            <param name="serviceProxyType">服务代理类型</param>
             <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
             <returns></returns>
         </member>
@@ -199,17 +201,34 @@
             <param name="config">配置对象</param>
             <returns></returns>
         </member>
-        <member name="T:XNode.ServiceDiscovery.Zookeeper.SrviceProxyManagerExtensions">
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriberExtensions">
             <summary>
-            ServiceProxyManager扩展方法类
+            ServiceSubscriber扩展方法类
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.SrviceProxyManagerExtensions.Regist(XNode.Client.IServiceProxyManager,XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriberExtensions.Subscribe``1(XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber,System.Boolean)">
             <summary>
-            注册所有订阅服务的代理对象
+            服务订阅
             </summary>
+            <param name="serviceSubscriber"></param>
+            <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriberExtensions.Subscribe(XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber,System.Collections.Generic.IEnumerable{System.Type},System.Boolean)">
+            <summary>
+            服务订阅
+            </summary>
+            <param name="serviceSubscriber"></param>
+            <param name="serviceProxyTypes">服务代理类型列表</param>
+            <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriberExtensions.RegistTo(XNode.ServiceDiscovery.Zookeeper.IServiceSubscriber,XNode.Client.IServiceProxyManager)">
+            <summary>
+            向ServiceProxyManager注册所有订阅服务的代理对象
+            </summary>
+            <param name="serviceSubscriber"></param>
             <param name="serviceProxyManager">服务代理管理器</param>
-            <param name="serviceSubscriber">服务订阅器</param>
         </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ServicePublishInfo">
             <summary>

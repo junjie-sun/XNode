@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using Microsoft.Extensions.Logging;
 
 namespace XNode.Server
 {
@@ -45,7 +42,7 @@ namespace XNode.Server
 
             foreach (var type in serviceTypes)
             {
-                if (IsNodeService(type))
+                if (type.IsNodeServiceType())
                 {
                     serviceList.Add(type);
                 }
@@ -59,22 +56,5 @@ namespace XNode.Server
         /// </summary>
         /// <returns></returns>
         protected abstract IList<Type> GetServiceTypes();
-
-        /// <summary>
-        /// 判断指定类型是否能实例化为XNode服务
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        protected bool IsNodeService(Type type)
-        {
-            if (type == null)
-            {
-                return false;
-            }
-
-            var typeInfo = type.GetTypeInfo();
-            var serviceAttr = typeInfo.GetCustomAttribute<ServiceAttribute>(false);
-            return serviceAttr != null;
-        }
     }
 }

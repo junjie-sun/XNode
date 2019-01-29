@@ -76,7 +76,7 @@ namespace XNode.Server
                 throw new InvalidOperationException("instanceType can not null when serviceType is interface.");
             }
 
-            if (IsNodeService(serviceType) && !serviceMap.ContainsKey(serviceType) && serviceType.IsAssignableFrom(instanceType))
+            if (serviceType.IsNodeServiceType() && !serviceMap.ContainsKey(serviceType) && serviceType.IsAssignableFrom(instanceType))
             {
                 object serviceObj = Activator.CreateInstance(instanceType, createServiceInstanceArgs);
                 serviceMap.Add(serviceType, serviceObj);
@@ -99,7 +99,7 @@ namespace XNode.Server
                 return this;
             }
 
-            if (IsNodeService(serviceType) && !serviceMap.ContainsKey(serviceType))
+            if (serviceType.IsNodeServiceType() && !serviceMap.ContainsKey(serviceType))
             {
                 object serviceObj = createServiceInstance();
                 if(serviceObj != null && serviceType.IsAssignableFrom(serviceObj.GetType()))
@@ -125,7 +125,7 @@ namespace XNode.Server
             }
 
             var serviceType = serviceObj.GetType();
-            if (IsNodeService(serviceType) && !serviceMap.ContainsKey(serviceType))
+            if (serviceType.IsNodeServiceType() && !serviceMap.ContainsKey(serviceType))
             {
                 serviceMap.Add(serviceType, serviceObj);
                 logger.LogInformation($"Regist service success. ServiceType={serviceType}, InstanceType={serviceType}");

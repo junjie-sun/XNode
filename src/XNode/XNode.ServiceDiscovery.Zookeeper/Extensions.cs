@@ -4,7 +4,6 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using XNode.Client;
 
 namespace XNode.ServiceDiscovery.Zookeeper
@@ -30,22 +29,54 @@ namespace XNode.ServiceDiscovery.Zookeeper
     }
 
     /// <summary>
-    /// ServiceProxyManager扩展方法类
+    /// ServiceSubscriber扩展方法类
     /// </summary>
-    public static class SrviceProxyManagerExtensions
+    public static class ServiceSubscriberExtensions
     {
         /// <summary>
-        /// 注册所有订阅服务的代理对象
+        /// 服务订阅
         /// </summary>
+        /// <param name="serviceSubscriber"></param>
+        /// <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
+        /// <returns></returns>
+        public static IServiceSubscriber Subscribe<ServiceProxyType>(this IServiceSubscriber serviceSubscriber, bool useNewClient = false)
+        {
+            var serviceProxyType = typeof(ServiceProxyType);
+
+            return serviceSubscriber.Subscribe(serviceProxyType, useNewClient);
+        }
+
+        /// <summary>
+        /// 服务订阅
+        /// </summary>
+        /// <param name="serviceSubscriber"></param>
+        /// <param name="serviceProxyTypes">服务代理类型列表</param>
+        /// <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
+        /// <returns></returns>
+        public static IServiceSubscriber Subscribe(this IServiceSubscriber serviceSubscriber, IEnumerable<Type> serviceProxyTypes, bool useNewClient = false)
+        {
+            foreach (var serviceProxyType in serviceProxyTypes)
+            {
+                serviceSubscriber.Subscribe(serviceProxyType, useNewClient);
+            }
+
+            return serviceSubscriber;
+        }
+
+        /// <summary>
+        /// 向ServiceProxyManager注册所有订阅服务的代理对象
+        /// </summary>
+        /// <param name="serviceSubscriber"></param>
         /// <param name="serviceProxyManager">服务代理管理器</param>
-        /// <param name="serviceSubscriber">服务订阅器</param>
-        public static void Regist(this IServiceProxyManager serviceProxyManager, IServiceSubscriber serviceSubscriber)
+        public static IServiceSubscriber RegistTo(this IServiceSubscriber serviceSubscriber, IServiceProxyManager serviceProxyManager)
         {
             var serviceProxies = serviceSubscriber.GetServiceProxies();
             foreach (var serviceProxy in serviceProxies)
             {
                 serviceProxyManager.Regist(serviceProxy);
             }
+
+            return serviceSubscriber;
         }
     }
 }

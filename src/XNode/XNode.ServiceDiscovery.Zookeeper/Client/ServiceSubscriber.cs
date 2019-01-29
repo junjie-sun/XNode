@@ -78,12 +78,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 服务订阅
         /// </summary>
+        /// <param name="serviceProxyType">服务代理类型</param>
         /// <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
         /// <returns></returns>
-        public ServiceSubscriber Subscribe<ServiceProxyType>(bool useNewClient = false)
+        public IServiceSubscriber Subscribe(Type serviceProxyType, bool useNewClient = false)
         {
-            var serviceProxyType = typeof(ServiceProxyType);
-
             var serviceProxyAttr = Utils.GetServiceProxyAttribute(serviceProxyType);
 
             var serviceName = serviceProxyAttr.Name;

@@ -28,6 +28,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:XNode.Autofac.ContainerExtensions">
+            <summary>
+            Container扩展类
+            </summary>
+        </member>
+        <member name="M:XNode.Autofac.ContainerExtensions.GetNodeServiceTypes(Autofac.IContainer)">
+            <summary>
+            获取XNode服务类型
+            </summary>
+            <param name="container"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Autofac.ContainerExtensions.GetNodeServiceProxyTypes(Autofac.IContainer)">
+            <summary>
+            获取XNode服务代理类型
+            </summary>
+            <param name="container"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Autofac.NodeServerBuilderExtensions">
             <summary>
             NodeServer构造器扩展方法

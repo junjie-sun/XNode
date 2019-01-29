@@ -369,6 +369,25 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="T:XNode.Client.TypeExtensions">
+            <summary>
+            Type扩展方法类
+            </summary>
+        </member>
+        <member name="M:XNode.Client.TypeExtensions.IsNodeServiceProxyType(System.Type)">
+            <summary>
+            判断指定类型是否能实例化为XNode服务代理
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Client.TypeExtensions.GetServiceProxyAttribute(System.Type)">
+            <summary>
+            获取XNode服务代理的Attribute
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Client.INodeClient">
             <summary>
             NodeClient接口
@@ -2668,6 +2687,25 @@
             <param name="actionId"></param>
             <returns></returns>
         </member>
+        <member name="T:XNode.Server.TypeExtensions">
+            <summary>
+            Type扩展方法类
+            </summary>
+        </member>
+        <member name="M:XNode.Server.TypeExtensions.IsNodeServiceType(System.Type)">
+            <summary>
+            判断指定类型是否能实例化为XNode服务
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.Server.TypeExtensions.GetServiceAttribute(System.Type)">
+            <summary>
+            获取XNode服务的Attribute
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.Server.NodeServerStartDelegate">
             <summary>
             NodeServer启动时触发的委托
@@ -3481,13 +3519,6 @@
             <summary>
             返回所有需要注册为XNode服务的实例类型，必须为可实例化的Class
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:XNode.Server.ServiceProviderBase.IsNodeService(System.Type)">
-            <summary>
-            判断指定类型是否能实例化为XNode服务
-            </summary>
-            <param name="type"></param>
             <returns></returns>
         </member>
     </members>

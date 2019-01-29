@@ -42,8 +42,7 @@ namespace XNode.Server.Route
                 throw new InvalidOperationException("ServiceType is null.");
             }
 
-            var serviceTypeInfo = serviceType.GetTypeInfo();
-            var serviceAttr = serviceTypeInfo.GetCustomAttribute<ServiceAttribute>(false);
+            var serviceAttr = serviceType.GetServiceAttribute();
 
             if (serviceAttr == null)
             {

@@ -16,9 +16,10 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 服务订阅
         /// </summary>
+        /// <param name="serviceProxyType">服务代理类型</param>
         /// <param name="useNewClient">是否强制使用新的NodeClient，当为false时会多个服务代理共享一个NodeClient实例</param>
         /// <returns></returns>
-        ServiceSubscriber Subscribe<ServiceProxyType>(bool useNewClient = false);
+        IServiceSubscriber Subscribe(Type serviceProxyType, bool useNewClient = false);
 
         /// <summary>
         /// 获取所有订阅服务的代理对象

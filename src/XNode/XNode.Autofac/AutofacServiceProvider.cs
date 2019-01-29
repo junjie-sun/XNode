@@ -51,21 +51,7 @@ namespace XNode.Autofac
         {
             logger.LogDebug($"Get node service types from Autofac.");
 
-            var list = new List<Type>();
-
-            foreach (var reg in container.ComponentRegistry.Registrations)
-            {
-                var e = reg.Services.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    if (e.Current is TypedService t && IsNodeService(t.ServiceType))
-                    {
-                        list.Add(t.ServiceType);
-                    }
-                }
-            }
-
-            return list;
+            return container.GetNodeServiceTypes();
         }
 
         #endregion
