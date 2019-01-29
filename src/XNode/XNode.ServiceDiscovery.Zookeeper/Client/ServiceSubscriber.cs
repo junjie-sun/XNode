@@ -83,6 +83,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <returns></returns>
         public IServiceSubscriber Subscribe(Type serviceProxyType, bool useNewClient = false)
         {
+            logger.LogInformation($"Subscribe service begin. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
+
             var serviceProxyAttr = serviceProxyType.GetServiceProxyAttribute();
 
             if (serviceProxyAttr == null)
@@ -111,6 +113,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             HostsChangedHandler(serviceName);
 
+            logger.LogInformation($"Subscribe service finished. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
+
             return this;
         }
 
@@ -129,7 +133,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         public void Dispose()
         {
             client.Dispose();
-            logger.LogInformation("ServiceSubscriber dispose.");
+            logger.LogInformation("ServiceSubscriber disposed.");
         }
 
         #region 私有方法

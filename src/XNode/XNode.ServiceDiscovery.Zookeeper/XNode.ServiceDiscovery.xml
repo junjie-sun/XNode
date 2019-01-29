@@ -230,6 +230,89 @@
             <param name="serviceSubscriber"></param>
             <param name="serviceProxyManager">服务代理管理器</param>
         </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ServicePublisherExtensions">
+            <summary>
+            ServicePublisher扩展方法类
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisherExtensions.Publish(XNode.ServiceDiscovery.Zookeeper.IServicePublisher,System.Collections.Generic.IEnumerable{System.Type},System.String,System.Int32,System.String)">
+            <summary>
+            服务订阅
+            </summary>
+            <param name="servicePublisher"></param>
+            <param name="serviceTypes">服务类型</param>
+            <param name="host">服务Host</param>
+            <param name="port">服务端口</param>
+            <param name="serializerName">序列化器名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeServerExtensions">
+            <summary>
+            NodeServer扩展方法类
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeServerExtensions.UseServicePublish(XNode.Server.INodeServer,XNode.ServiceDiscovery.Zookeeper.IServicePublisher,System.String)">
+            <summary>
+            使用服务发布
+            </summary>
+            <param name="nodeServer"></param>
+            <param name="servicePublisher">服务发布器</param>
+            <param name="serializerName">序列化器名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.IServicePublisher">
+            <summary>
+            服务发布器接口
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IServicePublisher.Publish(System.Type,System.String,System.Int32,System.String)">
+            <summary>
+            服务订阅
+            </summary>
+            <param name="serviceType">服务类型</param>
+            <param name="host">服务Host</param>
+            <param name="port">服务端口</param>
+            <param name="serializerName">序列化器名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ServicePublisher">
+            <summary>
+            服务发布器
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="connectionString">Zookeeper连接字符串</param>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="basePath">Zookeeper根路径</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.ConnectionString">
+            <summary>
+            Zookeeper连接字符串
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.BasePath">
+            <summary>
+            Zookeeper根路径
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.Publish(System.Type,System.String,System.Int32,System.String)">
+            <summary>
+            服务订阅
+            </summary>
+            <param name="serviceType">服务类型</param>
+            <param name="host">服务Host</param>
+            <param name="port">服务端口</param>
+            <param name="serializerName">序列化器名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.Dispose">
+            <summary>
+            关闭发布
+            </summary>
+        </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ServicePublishInfo">
             <summary>
             服务发布信息

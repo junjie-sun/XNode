@@ -33,6 +33,8 @@ namespace XNode.Client.Console
     {
         private static IContainer container;
 
+        private static IServiceSubscriber serviceSubscriber;
+
         public static void Test(string host, int port, string localHost, int? localPort)
         {
             System.Console.ReadLine();
@@ -65,6 +67,11 @@ namespace XNode.Client.Console
             System.Console.WriteLine($"End time: {endTime.ToString("yyyy-MM-dd HH:mm:ss")} Used time: {endTime - beginTime}");
 
             System.Console.ReadLine();
+
+            if (serviceSubscriber != null)
+            {
+                serviceSubscriber.Dispose();
+            }
 
             serviceProxyManager.CloseAsync().ContinueWith(task =>
             {
@@ -575,7 +582,7 @@ namespace XNode.Client.Console
 
             container = builder.Build();
 
-            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+            serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
                 LoggerManager.ClientLoggerFactory,
                 new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
                 new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))

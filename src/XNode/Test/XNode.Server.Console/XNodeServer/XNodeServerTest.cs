@@ -21,6 +21,7 @@ using Microsoft.Extensions.Primitives;
 using Zipkin;
 using XNode.Zipkin;
 using XNode.Communication.DotNetty;
+using XNode.ServiceDiscovery.Zookeeper;
 
 namespace XNode.Server.Console.XNodeServer
 {
@@ -56,18 +57,23 @@ namespace XNode.Server.Console.XNodeServer
             //serviceProvider.LoggerFactory = LoggerManager.ServerLoggerFactory;
 
             var serverConfig = configRoot.GetServerConfig();
+            var container = GetAutofacContainer();
+            //var serializer = new MsgPackSerializer(LoggerManager.ServerLoggerFactory);
+            var serializer = new ProtoBufSerializer(LoggerManager.ServerLoggerFactory);
+
             var nodeServer = new NodeServerBuilder()
                 //.ConfigServerInfo(host, port)
                 .ApplyConfig(serverConfig)
                 //.ConfigServiceProvider(serviceProvider)
-                //.ConfigSerializer(new MsgPackSerializer(LoggerManager.ServerLoggerFactory))
-                .ConfigSerializer(new ProtoBufSerializer(LoggerManager.ServerLoggerFactory))
+                .ConfigSerializer(serializer)
                 .ConfigLoginValidator(loginValidator)
                 .AddServiceProcessor(new ZipkinProcessor())
                 .AddServiceProcessor(new ServiceAuthorizeProcessor(serviceAuthorizer))
                 .UseDotNetty(serverConfig.ServerInfo)
-                .UseAutofac(GetAutofacContainer())
+                .UseAutofac(container)
                 .Build();
+
+            UseServicePublish(configRoot, serializer, nodeServer);
 
             nodeServer.OnStarted += (arg) =>
             {
@@ -126,6 +132,13 @@ namespace XNode.Server.Console.XNodeServer
 
             var container = builder.Build();
             return container;
+        }
+
+        private static void UseServicePublish(IConfigurationRoot configRoot, ProtoBufSerializer serializer, INodeServer nodeServer)
+        {
+            var zookeeperConfig = configRoot.GetZookeeperConfig();
+            var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);
+            nodeServer.UseServicePublish(servicePublisher, serializer.Name);
         }
     }
 }

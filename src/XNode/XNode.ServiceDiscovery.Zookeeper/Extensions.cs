@@ -4,7 +4,9 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using XNode.Client;
+using XNode.Server;
 
 namespace XNode.ServiceDiscovery.Zookeeper
 {
@@ -77,6 +79,60 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
 
             return serviceSubscriber;
+        }
+    }
+
+    /// <summary>
+    /// ServicePublisher扩展方法类
+    /// </summary>
+    public static class ServicePublisherExtensions
+    {
+        /// <summary>
+        /// 服务订阅
+        /// </summary>
+        /// <param name="servicePublisher"></param>
+        /// <param name="serviceTypes">服务类型</param>
+        /// <param name="host">服务Host</param>
+        /// <param name="port">服务端口</param>
+        /// <param name="serializerName">序列化器名称</param>
+        /// <returns></returns>
+        public static IServicePublisher Publish(this IServicePublisher servicePublisher, IEnumerable<Type> serviceTypes, string host, int port, string serializerName)
+        {
+            foreach (var serviceType in serviceTypes)
+            {
+                servicePublisher.Publish(serviceType, host, port, serializerName);
+            }
+
+            return servicePublisher;
+        }
+    }
+
+    /// <summary>
+    /// NodeServer扩展方法类
+    /// </summary>
+    public static class NodeServerExtensions
+    {
+        /// <summary>
+        /// 使用服务发布
+        /// </summary>
+        /// <param name="nodeServer"></param>
+        /// <param name="servicePublisher">服务发布器</param>
+        /// <param name="serializerName">序列化器名称</param>
+        /// <returns></returns>
+        public static INodeServer UseServicePublish(this INodeServer nodeServer, IServicePublisher servicePublisher, string serializerName)
+        {
+            nodeServer.OnStarted += arg =>
+            {
+                var serviceTypes = arg.Routes.Select(r => r.ServiceType);
+                servicePublisher.Publish(serviceTypes, arg.Host, arg.Port, serializerName);
+            };
+
+            nodeServer.OnStopped += arg =>
+            {
+                servicePublisher.Dispose();
+            };
+
+            return nodeServer;
         }
     }
 }
