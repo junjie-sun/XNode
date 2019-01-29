@@ -227,26 +227,39 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         private void HandleDeletedHosts(IEnumerable<string> deletedHosts, ServiceSubscriberInfo serviceSubscriberInfo)
         {
+            logger.LogInformation($"Delete client begin. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
+
             foreach (var hostName in deletedHosts)
             {
-                var connectionInfo = serviceSubscriberInfo.ConnectionInfos.Where(c => Utils.GetHostName(c.Host, c.Port) == hostName).Single();
-                if (serviceSubscriberInfo.UseNewClient)
+                try
                 {
-                    serviceSubscriberInfo.ServiceProxy.RemoveClient(connectionInfo.Host, connectionInfo.Port);
+                    var connectionInfo = serviceSubscriberInfo.ConnectionInfos.Where(c => Utils.GetHostName(c.Host, c.Port) == hostName).Single();
+                    if (serviceSubscriberInfo.UseNewClient)
+                    {
+                        serviceSubscriberInfo.ServiceProxy.RemoveClient(connectionInfo.Host, connectionInfo.Port);
+                    }
+                    else
+                    {
+                        serviceSubscriberInfo.ServiceProxy.RemoveClient(connectionInfo.Host, connectionInfo.Port, false);
+                        nodeClientManager.RemoveNodeClient(hostName);
+                    }
+                    serviceSubscriberInfo.ConnectionInfos.Remove(connectionInfo);
                 }
-                else
+                catch(Exception ex)
                 {
-                    serviceSubscriberInfo.ServiceProxy.RemoveClient(connectionInfo.Host, connectionInfo.Port, false);
-                    nodeClientManager.RemoveNodeClient(hostName);
+                    logger.LogError(ex, $"Delete client failed. HostName={hostName}, ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
                 }
-                serviceSubscriberInfo.ConnectionInfos.Remove(connectionInfo);
             }
+
+            logger.LogInformation($"Delete client finished. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
         }
 
         private void HandleInsertedHosts(IEnumerable<string> insertedHosts, ServiceSubscriberInfo serviceSubscriberInfo, string path)
         {
             var connectionInfos = new List<ConnectionInfo>();
             string serializerName = null;
+
+            logger.LogInformation($"Insert client begin. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
 
             foreach (var hostName in insertedHosts)
             {
@@ -258,7 +271,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, $"Insert host failed, get connection infomation error. HostName={hostName}");
+                    logger.LogError(ex, $"Insert client failed, get connection infomation error. HostName={hostName}, ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
                     continue;
                 }
 
@@ -285,7 +298,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
             catch(Exception ex)
             {
-                logger.LogError(ex, "Insert host failed, create NodeClient error.");
+                logger.LogError(ex, "Insert client failed, create NodeClient error.");
                 return;
             }
 
@@ -295,8 +308,10 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Insert host failed, Append client to ServiceProxy error.");
+                logger.LogError(ex, "Insert client failed, append client to ServiceProxy error.");
             }
+
+            logger.LogInformation($"Insert client finished. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
         }
 
         #endregion
