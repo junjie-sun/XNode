@@ -30,6 +30,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         private IDictionary<string, ServiceSubscriberInfo> serviceSubscriberList = new Dictionary<string, ServiceSubscriberInfo>();
 
+        private object hostsChangedLockObj = new object();
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -196,7 +198,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
                     var serviceSubscriberInfo = serviceSubscriberList[serviceName];
 
-                    lock (serviceSubscriberInfo)
+                    lock (hostsChangedLockObj)
                     {
                         var serviceProxy = serviceSubscriberInfo.ServiceProxy;
                         var currentHosts = serviceSubscriberInfo.ConnectionInfos.Select(c => Utils.GetHostName(c.Host, c.Port));
