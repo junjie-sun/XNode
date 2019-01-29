@@ -83,7 +83,12 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <returns></returns>
         public IServiceSubscriber Subscribe(Type serviceProxyType, bool useNewClient = false)
         {
-            var serviceProxyAttr = Utils.GetServiceProxyAttribute(serviceProxyType);
+            var serviceProxyAttr = serviceProxyType.GetServiceProxyAttribute();
+
+            if (serviceProxyAttr == null)
+            {
+                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
+            }
 
             var serviceName = serviceProxyAttr.Name;
 

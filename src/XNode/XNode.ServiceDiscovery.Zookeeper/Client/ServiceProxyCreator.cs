@@ -48,7 +48,12 @@ namespace XNode.ServiceDiscovery.Zookeeper
             Type serviceProxyType,
             IList<INodeClient> nodeClientList)
         {
-            var serviceProxyAttr = Utils.GetServiceProxyAttribute(serviceProxyType);
+            var serviceProxyAttr = serviceProxyType.GetServiceProxyAttribute();
+
+            if (serviceProxyAttr == null)
+            {
+                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
+            }
 
             var config = GetServiceInfo(serviceProxyAttr);
 

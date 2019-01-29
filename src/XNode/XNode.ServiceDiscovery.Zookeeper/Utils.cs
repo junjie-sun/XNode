@@ -15,18 +15,5 @@ namespace XNode.ServiceDiscovery.Zookeeper
         {
             return $"{host}:{port}";
         }
-
-        public static ServiceProxyAttribute GetServiceProxyAttribute(Type serviceProxyType)
-        {
-            var typeInfo = serviceProxyType.GetTypeInfo();
-            var serviceProxyAttr = typeInfo.GetCustomAttribute<ServiceProxyAttribute>();
-
-            if (serviceProxyAttr == null)
-            {
-                throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
-            }
-
-            return serviceProxyAttr;
-        }
     }
 }
