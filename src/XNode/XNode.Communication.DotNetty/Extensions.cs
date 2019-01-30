@@ -108,13 +108,13 @@ namespace XNode.Communication.DotNetty
         }
 
         /// <summary>
-        /// 获取Channel名称
+        /// 获取Channel名称，格式：Host:Port|LocalHost:LocalPort
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public static string GetChannelName(this IChannelHandlerContext context)
         {
-            return context.GetRemoteNetString();
+            return $"{context.GetRemoteNetString()}|{context.GetLocalNetString()}";
         }
     }
 

@@ -22,6 +22,7 @@ using Zipkin;
 using XNode.Zipkin;
 using XNode.Communication.DotNetty;
 using XNode.ServiceDiscovery.Zookeeper;
+using XNode.Serializer;
 
 namespace XNode.Server.Console.XNodeServer
 {
@@ -103,7 +104,9 @@ namespace XNode.Server.Console.XNodeServer
             nodeServer.StartAsync().Wait();
 
             System.Console.ReadLine();
+
             nodeServer.StopAsync().Wait();
+
             System.Console.WriteLine("Stop");
         }
 
@@ -134,7 +137,7 @@ namespace XNode.Server.Console.XNodeServer
             return container;
         }
 
-        private static void UseServicePublish(IConfigurationRoot configRoot, ProtoBufSerializer serializer, INodeServer nodeServer)
+        private static void UseServicePublish(IConfigurationRoot configRoot, ISerializer serializer, INodeServer nodeServer)
         {
             var zookeeperConfig = configRoot.GetZookeeperConfig();
             var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
+using XNode.Common;
 using XNode.Communication.DotNetty.Handlers;
 using XNode.Logging;
 
@@ -63,18 +64,10 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         public async static Task<IChannel> ConnectAsync(DotNettyClientInfo info)
         {
-            var clientInfoAddResult = clientInfoList.TryAdd(info.ChannelName, info);
-
-            if (!clientInfoAddResult)
-            {
-                logger.LogError($"Channel is exist. Host={info.Host}, Port={info.Port}, LocalHost={info.LocalHost}, LocalPort={info.LocalPort}");
-                throw new InvalidOperationException("Channel is exist.");
-            }
+            IChannel channel;
 
             try
             {
-                IChannel channel;
-
                 if (!string.IsNullOrEmpty(info.LocalHost) && info.LocalPort != null)
                 {
                     channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port), new IPEndPoint(IPAddress.Parse(info.LocalHost), info.LocalPort.Value));
@@ -83,9 +76,6 @@ namespace XNode.Communication.DotNetty
                 {
                     channel = await bootstrap.ConnectAsync(new IPEndPoint(IPAddress.Parse(info.Host), info.Port));
                 }
-
-                info.Channel = channel;
-                return channel;
             }
             catch (Exception ex)
             {
@@ -97,6 +87,22 @@ namespace XNode.Communication.DotNetty
                 clientInfoList.TryRemove(info.ChannelName, out info);
                 throw ex;
             }
+
+            var localIPEndPoint = ((IPEndPoint)channel.LocalAddress);
+            info.LocalHost = localIPEndPoint.Address.ToIPString();
+            info.LocalPort = localIPEndPoint.Port;
+            info.Channel = channel;
+
+            var clientInfoAddResult = clientInfoList.TryAdd(info.ChannelName, info);
+
+            if (!clientInfoAddResult)
+            {
+                logger.LogError($"Channel is exist. Host={info.Host}, Port={info.Port}, LocalHost={info.LocalHost}, LocalPort={info.LocalPort}");
+                await channel.CloseAsync();
+                throw new InvalidOperationException("Channel is exist.");
+            }
+
+            return channel;
         }
 
         /// <summary>
@@ -112,7 +118,7 @@ namespace XNode.Communication.DotNetty
             }
             else
             {
-                logger.LogError($"Channel is not exist. ChannelName={channelName}");
+                logger.LogDebug($"Channel is not exist. ChannelName={channelName}");
                 return Task.CompletedTask;
             }
         }
@@ -136,14 +142,21 @@ namespace XNode.Communication.DotNetty
 
         private static Func<string, Task<LoginRequestData>> CreateGetLoginRequestDataHandler()
         {
-            return new Func<string, Task<LoginRequestData>>(channelName =>
+            return new Func<string, Task<LoginRequestData>>(async channelName =>
             {
-                clientInfoList.TryGetValue(channelName, out DotNettyClientInfo result);
+                DotNettyClientInfo result = null;
+
+                for (var i = 0; i < 3 && !clientInfoList.TryGetValue(channelName, out result); i++)
+                {
+                    await Task.Delay(100);
+                }
+
                 if (result != null)
                 {
-                    return result.GetLoginRequestDataHandler();
+                    return await result.GetLoginRequestDataHandler();
                 }
-                return Task.FromResult(new LoginRequestData());
+
+                return new LoginRequestData();
             });
         }
 
@@ -230,13 +243,13 @@ namespace XNode.Communication.DotNetty
         public IChannel Channel { get; set; }
 
         /// <summary>
-        /// Channel名称，格式：Host:Port
+        /// Channel名称，格式：Host:Port|LocalHost:LocalPort
         /// </summary>
         public string ChannelName
         {
             get
             {
-                return $"{Host}:{Port}";
+                return $"{Host}:{Port}|{LocalHost}:{LocalPort}";
             }
         }
     }

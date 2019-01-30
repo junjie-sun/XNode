@@ -12,6 +12,7 @@ using XNode.Client.Configuration;
 using static org.apache.zookeeper.Watcher.Event;
 using System.Threading.Tasks;
 using MessagePack;
+using org.apache.zookeeper;
 
 namespace XNode.ServiceDiscovery.Zookeeper
 {
@@ -52,6 +53,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
             this.serviceProxyCreator = serviceProxyCreator;
             this.nodeClientManager = nodeClientManager;
 
+            ZooKeeper.LogLevel = System.Diagnostics.TraceLevel.Error;
+
             try
             {
                 client = new ZookeeperClient(new ZookeeperClientOptions(connectionString));
@@ -62,7 +65,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 throw ex;
             }
 
-            logger.LogInformation($"Connect zookeeper success. ConnectionString={connectionString}");
+            logger.LogDebug($"Connect zookeeper success. ConnectionString={connectionString}");
         }
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <returns></returns>
         public IServiceSubscriber Subscribe(Type serviceProxyType, bool useNewClient = false)
         {
-            logger.LogInformation($"Subscribe service begin. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
+            logger.LogDebug($"Subscribe service begin. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
 
             var serviceProxyAttr = serviceProxyType.GetServiceProxyAttribute();
 
@@ -113,7 +116,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             HostsChangedHandler(serviceName);
 
-            logger.LogInformation($"Subscribe service finished. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
+            logger.LogDebug($"Subscribe service finished. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
 
             return this;
         }
@@ -133,7 +136,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         public void Dispose()
         {
             client.Dispose();
-            logger.LogInformation("ServiceSubscriber disposed.");
+            logger.LogDebug("ServiceSubscriber disposed.");
         }
 
         #region 私有方法
@@ -144,7 +147,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             if (!client.ExistsAsync(path).Result)
             {
-                logger.LogInformation($"Service not found on zookeeper. ServiceName={serviceName}");
+                logger.LogDebug($"Service not found on zookeeper. ServiceName={serviceName}");
                 throw new Exception($"Service not found on zookeeper. ServiceName={serviceName}");
             }
 
@@ -152,7 +155,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             if (hosts.Count == 0)
             {
-                logger.LogInformation($"No host config on zookeeper. ServiceName={serviceName}");
+                logger.LogDebug($"No host config on zookeeper. ServiceName={serviceName}");
                 throw new Exception($"No host config on zookeeper. ServiceName={serviceName}");
             }
 

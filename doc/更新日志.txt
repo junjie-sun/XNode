@@ -158,6 +158,9 @@ XNode
 XNode.Autofac
 增加容器扩展方法及重构相关代码
 
+XNode.Communication.DotNetty
+修复无法在一台客户端对同一个服务创建多个连接的问题
+
 XNode.ServiceDiscovery.Zookeeper
 新增服务发现模块
 

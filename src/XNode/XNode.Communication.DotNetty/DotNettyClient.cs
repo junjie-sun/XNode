@@ -182,6 +182,17 @@ namespace XNode.Communication.DotNetty
         /// <returns></returns>
         private async Task DoConnectAsync()
         {
+            if (Status == ClientStatus.Connected)
+            {
+                return;
+            }
+
+            if (Status == ClientStatus.Connecting)
+            {
+                await connectTcs.Task;
+                return;
+            }
+
             logger.LogDebug($"Client connect beginning. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
 
             if (connectTcs != null)
@@ -192,6 +203,7 @@ namespace XNode.Communication.DotNetty
 
             try
             {
+                connectTcs = new TaskCompletionSource<object>();
                 Status = ClientStatus.Connecting;
                 var dotNettyClientInfo = new DotNettyClientInfo()
                 {
@@ -204,9 +216,10 @@ namespace XNode.Communication.DotNetty
                     GetLoginRequestDataHandler = GetLoginRequestData,
                     LoginResponseHandler = LoginResponse
                 };
-                channelName = dotNettyClientInfo.ChannelName;
                 //发起异步连接操作
                 channel = await BootstrapManager.ConnectAsync(dotNettyClientInfo);
+
+                channelName = dotNettyClientInfo.ChannelName;
             }
             catch (Exception ex)
             {
@@ -217,7 +230,6 @@ namespace XNode.Communication.DotNetty
 
             try
             {
-                connectTcs = new TaskCompletionSource<object>();
                 connectCts = new CancellationTokenSource(3000);     //登录验证响应超时
                 var token = connectCts.Token;
                 token.Register(() =>

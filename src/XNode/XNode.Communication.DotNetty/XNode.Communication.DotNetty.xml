@@ -86,7 +86,7 @@
         </member>
         <member name="P:XNode.Communication.DotNetty.DotNettyClientInfo.ChannelName">
             <summary>
-            Channel名称，格式：Host:Port
+            Channel名称，格式：Host:Port|LocalHost:LocalPort
             </summary>
         </member>
         <member name="T:XNode.Communication.DotNetty.ChannelHandlerContextManager">
@@ -340,7 +340,7 @@
         </member>
         <member name="M:XNode.Communication.DotNetty.ChannelHandlerContextExtensions.GetChannelName(DotNetty.Transport.Channels.IChannelHandlerContext)">
             <summary>
-            获取Channel名称
+            获取Channel名称，格式：Host:Port|LocalHost:LocalPort
             </summary>
             <param name="context"></param>
             <returns></returns>

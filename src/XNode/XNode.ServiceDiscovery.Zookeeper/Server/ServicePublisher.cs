@@ -3,6 +3,7 @@
 
 using MessagePack;
 using Microsoft.Extensions.Logging;
+using org.apache.zookeeper;
 using Rabbit.Zookeeper;
 using Rabbit.Zookeeper.Implementation;
 using System;
@@ -36,6 +37,8 @@ namespace XNode.ServiceDiscovery.Zookeeper
             BasePath = basePath;
             logger = loggerFactory.CreateLogger<ServicePublisher>();
 
+            ZooKeeper.LogLevel = System.Diagnostics.TraceLevel.Error;
+
             try
             {
                 client = new ZookeeperClient(new ZookeeperClientOptions(connectionString));
@@ -46,7 +49,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 throw ex;
             }
 
-            logger.LogInformation($"Connect zookeeper success. ConnectionString={connectionString}");
+            logger.LogDebug($"Connect zookeeper success. ConnectionString={connectionString}");
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <returns></returns>
         public IServicePublisher Publish(Type serviceType, string host, int port, string serializerName)
         {
-            logger.LogInformation($"Publish service begin. ServiceType={serviceType.FullName}, Host={host}, Port={port}, SerializerName={serializerName}");
+            logger.LogDebug($"Publish service begin. ServiceType={serviceType.FullName}, Host={host}, Port={port}, SerializerName={serializerName}");
 
             var serviceAttr = serviceType.GetServiceAttribute();
 
@@ -93,7 +96,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             CreateHostNode(servicePath, servicePublishInfo);
 
-            logger.LogInformation($"Publish service finished. ServiceType={serviceType.FullName}, Host={host}, Port={port}, SerializerName={serializerName}");
+            logger.LogDebug($"Publish service finished. ServiceType={serviceType.FullName}, Host={host}, Port={port}, SerializerName={serializerName}");
 
             return this;
         }
@@ -104,7 +107,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         public void Dispose()
         {
             client.Dispose();
-            logger.LogInformation("ServicePublisher disposed.");
+            logger.LogDebug("ServicePublisher disposed.");
         }
 
         #region 私有方法
@@ -121,11 +124,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         private void CreateBaseNode()
         {
-            if (!client.ExistsAsync($"/{BasePath}").Result)
+            if (!client.ExistsAsync($"{BasePath}").Result)
             {
                 try
                 {
-                    client.CreatePersistentAsync($"/{BasePath}", null).Wait();
+                    client.CreatePersistentAsync($"{BasePath}", null).Wait();
                 }
                 catch (AggregateException ex)
                 {
