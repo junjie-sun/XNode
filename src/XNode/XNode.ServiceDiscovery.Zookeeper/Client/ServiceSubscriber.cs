@@ -212,7 +212,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                     lock (hostsChangedLockObj)
                     {
                         var serviceProxy = serviceSubscriberInfo.ServiceProxy;
-                        var currentHosts = serviceSubscriberInfo.ConnectionInfos.Select(c => Utils.GetHostName(c.Host, c.Port));
+                        var currentHosts = serviceSubscriberInfo.ConnectionInfos.Select(c => Utils.GetHostName(c.Host, c.Port)).ToList();
 
                         var deletedHosts = currentHosts.Except(args.CurrentChildrens);
                         var insertedHosts = args.CurrentChildrens.Except(currentHosts);

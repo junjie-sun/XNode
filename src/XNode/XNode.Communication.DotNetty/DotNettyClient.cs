@@ -189,22 +189,16 @@ namespace XNode.Communication.DotNetty
 
             if (Status == ClientStatus.Connecting)
             {
-                await connectTcs.Task;
-                return;
-            }
-
-            logger.LogDebug($"Client connect beginning. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
-
-            if (connectTcs != null)
-            {
                 logger.LogError($"Client connect has begun. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
                 throw new InvalidOperationException($"Client connect has begun. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
             }
 
+            Status = ClientStatus.Connecting;
+
+            logger.LogDebug($"Client connect beginning. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
+
             try
             {
-                connectTcs = new TaskCompletionSource<object>();
-                Status = ClientStatus.Connecting;
                 var dotNettyClientInfo = new DotNettyClientInfo()
                 {
                     Host = Host,
@@ -217,7 +211,12 @@ namespace XNode.Communication.DotNetty
                     LoginResponseHandler = LoginResponse
                 };
                 //发起异步连接操作
+                var oldChannel = channel;
                 channel = await BootstrapManager.ConnectAsync(dotNettyClientInfo);
+                if (oldChannel != null)
+                {
+                    await oldChannel.CloseAsync();
+                }
 
                 channelName = dotNettyClientInfo.ChannelName;
             }
@@ -230,6 +229,7 @@ namespace XNode.Communication.DotNetty
 
             try
             {
+                connectTcs = new TaskCompletionSource<object>();
                 connectCts = new CancellationTokenSource(3000);     //登录验证响应超时
                 var token = connectCts.Token;
                 token.Register(() =>
@@ -242,8 +242,6 @@ namespace XNode.Communication.DotNetty
                 });
 
                 await connectTcs.Task;      //等待登录验证响应
-                Status = ClientStatus.Connected;
-                logger.LogDebug($"Client connect finished. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
             }
             catch (Exception ex)
             {
@@ -256,6 +254,9 @@ namespace XNode.Communication.DotNetty
                 connectCts = null;
                 connectTcs = null;
             }
+
+            Status = ClientStatus.Connected;
+            logger.LogDebug($"Client connect finished. Host={Host}, Port={Port}, LocalHost={LocalHost}, LocalPort={LocalPort}");
         }
 
         /// <summary>

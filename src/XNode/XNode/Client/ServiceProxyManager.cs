@@ -70,25 +70,25 @@ namespace XNode.Client
         /// </summary>
         /// <param name="proxyName">代理名称</param>
         /// <returns></returns>
-        public Task ConnectAsync(string proxyName = null)
+        public async Task ConnectAsync(string proxyName = null)
         {
             if (string.IsNullOrEmpty(proxyName))
             {
-                var taskList = new List<Task>();
                 foreach (var serviceProxy in serviceProxyList.Values)
                 {
-                    taskList.Add(serviceProxy.ConnectAsync());
+                    await serviceProxy.ConnectAsync();
                 }
-                return Task.WhenAll(taskList);
             }
-
-            var proxy = GetServiceProxy(proxyName);
-            if (proxy == null)
+            else
             {
-                throw new InvalidOperationException($"Proxy is not exist. ProxyName={proxyName}");
-            }
+                var proxy = GetServiceProxy(proxyName);
+                if (proxy == null)
+                {
+                    throw new InvalidOperationException($"Proxy is not exist. ProxyName={proxyName}");
+                }
 
-            return proxy.ConnectAsync();
+                await proxy.ConnectAsync();
+            }
         }
 
         /// <summary>
@@ -96,25 +96,25 @@ namespace XNode.Client
         /// </summary>
         /// <param name="proxyName">代理名称</param>
         /// <returns></returns>
-        public Task CloseAsync(string proxyName = null)
+        public async Task CloseAsync(string proxyName = null)
         {
             if (string.IsNullOrEmpty(proxyName))
             {
-                var taskList = new List<Task>();
                 foreach (var serviceProxy in serviceProxyList.Values)
                 {
-                    taskList.Add(serviceProxy.CloseAsync());
+                    await serviceProxy.CloseAsync();
                 }
-                return Task.WhenAll(taskList);
             }
-
-            var proxy = GetServiceProxy(proxyName);
-            if (proxy == null)
+            else
             {
-                throw new InvalidOperationException($"Proxy is not exist. ProxyName={proxyName}");
-            }
+                var proxy = GetServiceProxy(proxyName);
+                if (proxy == null)
+                {
+                    throw new InvalidOperationException($"Proxy is not exist. ProxyName={proxyName}");
+                }
 
-            return proxy.CloseAsync();
+                await proxy.CloseAsync();
+            }
         }
     }
 }

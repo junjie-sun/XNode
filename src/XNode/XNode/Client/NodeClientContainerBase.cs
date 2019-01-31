@@ -86,38 +86,24 @@ namespace XNode.Client
         /// 关闭中容器中所有NodeClient连接
         /// </summary>
         /// <returns></returns>
-        public virtual Task CloseAsync()
+        public async virtual Task CloseAsync()
         {
-            var taskList = new List<Task>();
-
             foreach (var client in NodeClientList)
             {
-                taskList.Add(client.CloseAsync());
+                await client.CloseAsync();
             }
-
-            return Task.WhenAll((taskList));
         }
 
         /// <summary>
         /// 为容器中所有NodeClient执行连接操作
         /// </summary>
         /// <returns></returns>
-        public virtual Task ConnectAsync()
+        public async virtual Task ConnectAsync()
         {
-            var taskList = new List<Task>();
-
             foreach (var client in NodeClientList)
             {
-                taskList.Add(client.ConnectAsync());
+                await client.ConnectAsync();
             }
-
-            return Task.WhenAll(taskList).ContinueWith((t) =>
-            {
-                if (t.Exception != null && t.Exception.InnerExceptions.Count == taskList.Count)
-                {
-                    throw t.Exception.InnerException;
-                }
-            });
         }
 
         /// <summary>

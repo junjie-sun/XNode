@@ -123,7 +123,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
         {
             nodeServer.OnStarted += arg =>
             {
-                var serviceTypes = arg.Routes.Select(r => r.ServiceType);
+                var serviceTypes = arg.Routes.Where(r => r.Enabled).Select(r => r.ServiceType).Distinct();
                 servicePublisher.Publish(serviceTypes, arg.Host, arg.Port, serializerName);
             };
 

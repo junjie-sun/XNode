@@ -57,7 +57,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             if (useNewClient)
             {
-                return CreactNewNodeClientList(connectionInfos, serializerName, isConnect);
+                return CreateNewNodeClientList(connectionInfos, serializerName, isConnect);
             }
             else
             {
@@ -101,7 +101,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
         }
 
-        private IList<INodeClient> CreactNewNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
+        private IList<INodeClient> CreateNewNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
         {
             var nodeClientList = nodeClientFactory(new NodeClientArgs()
             {
@@ -148,7 +148,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 }
             }
 
-            var newNodeClientList = CreactNewNodeClientList(newConnectionInfos, serializerName, isConnect);
+            var newNodeClientList = CreateNewNodeClientList(newConnectionInfos, serializerName, isConnect);
 
             foreach (var nodeClient in newNodeClientList)
             {

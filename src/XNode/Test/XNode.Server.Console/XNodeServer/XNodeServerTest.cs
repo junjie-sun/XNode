@@ -74,7 +74,7 @@ namespace XNode.Server.Console.XNodeServer
                 .UseAutofac(container)
                 .Build();
 
-            UseServicePublish(configRoot, serializer, nodeServer);
+            //UseServicePublish(configRoot, serializer, nodeServer);
 
             nodeServer.OnStarted += (arg) =>
             {

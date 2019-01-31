@@ -40,8 +40,8 @@ namespace XNode.Client.Console
             System.Console.ReadLine();
 
             //var serviceProxyManager = Init(host, port, localHost, localPort);
-            //var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);
-            var serviceProxyManager = InitWithZookeeper(host, port, localHost, localPort);
+            var serviceProxyManager = InitWithConfig(host, port, localHost, localPort);
+            //var serviceProxyManager = InitWithZookeeper(host, port, localHost, localPort);
 
             System.Console.ReadLine();
 
