@@ -1,0 +1,36 @@
+﻿{
+  "xnode": {
+    "zookeeper": {
+      "connectionString": "192.168.108.135:2181"
+    },
+    "server": {
+      "serverInfo": {
+        "host": "127.0.0.1",
+        "port": 9001
+      },
+      "services": [
+        {
+          "serviceId": 10001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": [ "127.0.0.1" ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
