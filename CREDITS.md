@@ -22,5 +22,8 @@ Copyright (c) 2008 Marc Gravell
 * [Rabbit.Zookeeper](https://github.com/RabbitTeam/zookeeper-client), licensed under the [Apache License, Version 2.0](https://github.com/RabbitTeam/zookeeper-client/blob/master/LICENSE)  
 Copyright (c) RabbitTeam
 
+* [ZooKeeperNetEx](https://github.com/shayhatsor/zookeeper), licensed under the [Apache License, Version 2.0](https://github.com/shayhatsor/zookeeper/blob/trunk/LICENSE.txt)  
+Copyright (c) Shay Hazor
+
 * [Zipkin](https://github.com/d-collab/zipkin.net), licensed under the [Apache License, Version 2.0](https://raw.githubusercontent.com/d-collab/zipkin.net/master/LICENSE)  
 Copyright (c) d-collab

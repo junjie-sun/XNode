@@ -189,6 +189,586 @@
             关闭订阅
             </summary>
         </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeArgs">
+            <summary>
+            连接状态变更事件参数。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeArgs.State">
+            <summary>
+            连接状态。
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeChangeArgs">
+            <summary>
+            节点变更参数。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeChangeArgs.#ctor(System.String,org.apache.zookeeper.Watcher.Event.EventType)">
+            <summary>
+            创建一个新的节点变更参数。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="type">事件类型。</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeChangeArgs.Type">
+            <summary>
+            变更类型。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeChangeArgs.Path">
+            <summary>
+            节点路径。
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeDataChangeArgs">
+            <summary>
+            节点数据变更参数。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeDataChangeArgs.#ctor(System.String,org.apache.zookeeper.Watcher.Event.EventType,System.Collections.Generic.IEnumerable{System.Byte})">
+            <summary>
+            创建一个新的节点数据变更参数。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="type">事件类型。</param>
+            <param name="currentData">最新的节点数据。</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeDataChangeArgs.CurrentData">
+            <summary>
+            当前节点数据（最新的）
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeArgs">
+            <summary>
+            节点子节点变更参数。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeArgs.#ctor(System.String,org.apache.zookeeper.Watcher.Event.EventType,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            创建一个新的节点子节点变更参数。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="type">事件类型。</param>
+            <param name="currentChildrens">最新的子节点集合。</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeArgs.CurrentChildrens">
+            <summary>
+            当前节点的子节点数据（最新的）
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeDataChangeHandler">
+            <summary>
+            节点数据变更委托。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="args">节点数据变更参数。</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeHandler">
+            <summary>
+            节点子节点变更委托。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="args">节点子节点变更参数。</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeHandler">
+            <summary>
+            连接状态变更委托。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="args">连接状态变更参数。</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient">
+            <summary>
+            一个抽象的ZooKeeper客户端。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.ZooKeeper">
+            <summary>
+            具体的ZooKeeper连接。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.Options">
+            <summary>
+            客户端选项。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.WaitForKeeperState(org.apache.zookeeper.Watcher.Event.KeeperState,System.TimeSpan)">
+            <summary>
+            等待zk连接到具体的某一个状态。
+            </summary>
+            <param name="states">希望达到的状态。</param>
+            <param name="timeout">最长等待时间。</param>
+            <returns>如果成功则返回true，否则返回false。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.RetryUntilConnected``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            重试直到zk连接上。
+            </summary>
+            <typeparam name="T">返回类型。</typeparam>
+            <param name="callable">执行的zk操作。</param>
+            <returns>执行结果。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.GetDataAsync(System.String)">
+            <summary>
+            获取指定节点的数据。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>节点数据。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.GetChildrenAsync(System.String)">
+            <summary>
+            获取指定节点下的所有子节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>子节点集合。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.ExistsAsync(System.String)">
+            <summary>
+            判断节点是否存在。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>如果存在则返回true，否则返回false。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.CreateAsync(System.String,System.Byte[],System.Collections.Generic.List{org.apache.zookeeper.data.ACL},org.apache.zookeeper.CreateMode)">
+            <summary>
+            创建节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="acls">权限。</param>
+            <param name="createMode">创建模式。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.SetDataAsync(System.String,System.Byte[],System.Int32)">
+            <summary>
+            设置节点数据。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="version">版本号。</param>
+            <returns>节点状态。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.DeleteAsync(System.String,System.Int32)">
+            <summary>
+            删除节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="version">版本号。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.SubscribeDataChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeDataChangeHandler)">
+            <summary>
+            订阅节点数据变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.UnSubscribeDataChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeDataChangeHandler)">
+            <summary>
+            取消订阅节点数据变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.SubscribeStatusChange(XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeHandler)">
+            <summary>
+            订阅连接状态变更。
+            </summary>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.UnSubscribeStatusChange(XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeHandler)">
+            <summary>
+            取消订阅连接状态变更。
+            </summary>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.SubscribeChildrenChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeHandler)">
+            <summary>
+            订阅节点子节点变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.IZookeeperClient.UnSubscribeChildrenChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeHandler)">
+            <summary>
+            取消订阅节点子节点变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions">
+            <summary>
+            ZooKeeper客户端扩展方法。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreateEphemeralAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            创建短暂的节点。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="isSequential">是否按顺序创建。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreateEphemeralAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[],System.Collections.Generic.List{org.apache.zookeeper.data.ACL},System.Boolean)">
+            <summary>
+            创建短暂的节点。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="acls">权限。</param>
+            <param name="isSequential">是否按顺序创建。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreatePersistentAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[],System.Boolean)">
+            <summary>
+            创建节点。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="isSequential">是否按顺序创建。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreatePersistentAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[],System.Collections.Generic.List{org.apache.zookeeper.data.ACL},System.Boolean)">
+            <summary>
+            创建节点。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="acls">权限。</param>
+            <param name="isSequential">是否按顺序创建。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.DeleteRecursiveAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String)">
+            <summary>
+            递归删除该节点下的所有子节点和该节点本身。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <returns>如果成功则返回true，false。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreateRecursiveAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[])">
+            <summary>
+            递归创建该节点下的所有子节点和该节点本身。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreateRecursiveAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Byte[],System.Collections.Generic.List{org.apache.zookeeper.data.ACL})">
+            <summary>
+            递归创建该节点下的所有子节点和该节点本身。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="acls">权限。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.CreateRecursiveAsync(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.String,System.Func{System.String,System.Byte[]},System.Func{System.String,System.Collections.Generic.List{org.apache.zookeeper.data.ACL}})">
+            <summary>
+            递归创建该节点下的所有子节点和该节点本身。
+            </summary>
+            <param name="client">ZooKeeper客户端。</param>
+            <param name="path">节点路径。</param>
+            <param name="getNodeData">获取当前被创建节点数据的委托。</param>
+            <param name="getNodeAcls">获取当前被创建节点权限的委托。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.WaitForRetry(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient)">
+            <summary>
+            等待直到zk连接成功，超时时间为zk选项中的操作超时时间配置值。
+            </summary>
+            <param name="client">zk客户端。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientExtensions.WaitUntilConnected(XNode.ServiceDiscovery.Zookeeper.IZookeeperClient,System.TimeSpan)">
+            <summary>
+            等待直到zk连接成功。
+            </summary>
+            <param name="client">zk客户端。</param>
+            <param name="timeout">最长等待时间。</param>
+            <returns>如果成功则返回true，否则返回false。</returns>
+        </member>
+        <member name="F:XNode.ServiceDiscovery.Zookeeper.NodeEntry._dataChangeHandler">
+            <summary>
+            数据变更多播委托。
+            </summary>
+        </member>
+        <member name="F:XNode.ServiceDiscovery.Zookeeper.NodeEntry._childrenChangeHandler">
+            <summary>
+            子节点变更多播委托。
+            </summary>
+        </member>
+        <member name="F:XNode.ServiceDiscovery.Zookeeper.NodeEntry._localSnapshot">
+            <summary>
+            节点的快照。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeEntry.OnChange(org.apache.zookeeper.WatchedEvent,System.Boolean)">
+            <summary>
+            通知节点发生变化。
+            </summary>
+            <param name="watchedEvent">zookeeper sdk监听事件参数。</param>
+            <param name="isFirstConnection">是否是zk第一次连接上服务器。</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeEntry.HasDataChangeHandler">
+            <summary>
+            是否有数据变更处理者。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeEntry.HasChildrenChangeHandler">
+            <summary>
+            是否有子节点变更处理者。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeEntry.OnStatusChangeHandle(org.apache.zookeeper.WatchedEvent,System.Boolean)">
+            <summary>
+            状态变更处理。
+            </summary>
+            <param name="watchedEvent"></param>
+            <param name="isFirstConnection">是否是zk第一次连接上服务器。</param>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient">
+            <summary>
+            ZooKeeper客户端。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.#ctor(System.String)">
+            <summary>
+            创建一个新的ZooKeeper客户端。
+            </summary>
+            <param name="connectionString">连接字符串。</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="connectionString"/> 为空。</exception>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.#ctor(XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions)">
+            <summary>
+            创建一个新的ZooKeeper客户端。
+            </summary>
+            <param name="options">客户端选项。</param>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.ZooKeeper">
+            <summary>
+            具体的ZooKeeper连接。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.Options">
+            <summary>
+            客户端选项。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.WaitForKeeperState(org.apache.zookeeper.Watcher.Event.KeeperState,System.TimeSpan)">
+            <summary>
+            等待zk连接到具体的某一个状态。
+            </summary>
+            <param name="states">希望达到的状态。</param>
+            <param name="timeout">最长等待时间。</param>
+            <returns>如果成功则返回true，否则返回false。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.RetryUntilConnected``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            重试直到zk连接上。
+            </summary>
+            <typeparam name="T">返回类型。</typeparam>
+            <param name="callable">执行的zk操作。</param>
+            <returns>执行结果。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.GetDataAsync(System.String)">
+            <summary>
+            获取指定节点的数据。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>节点数据。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.GetChildrenAsync(System.String)">
+            <summary>
+            获取指定节点下的所有子节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>子节点集合。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.ExistsAsync(System.String)">
+            <summary>
+            判断节点是否存在。
+            </summary>
+            <param name="path">节点路径。</param>
+            <returns>如果存在则返回true，否则返回false。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.CreateAsync(System.String,System.Byte[],System.Collections.Generic.List{org.apache.zookeeper.data.ACL},org.apache.zookeeper.CreateMode)">
+            <summary>
+            创建节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="acls">权限。</param>
+            <param name="createMode">创建模式。</param>
+            <returns>节点路径。</returns>
+            <remarks>
+            因为使用序列方式创建节点zk会修改节点name，所以需要返回真正的节点路径。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.SetDataAsync(System.String,System.Byte[],System.Int32)">
+            <summary>
+            设置节点数据。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="data">节点数据。</param>
+            <param name="version">版本号。</param>
+            <returns>节点状态。</returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.DeleteAsync(System.String,System.Int32)">
+            <summary>
+            删除节点。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="version">版本号。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.SubscribeDataChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeDataChangeHandler)">
+            <summary>
+            订阅节点数据变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.UnSubscribeDataChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeDataChangeHandler)">
+            <summary>
+            取消订阅节点数据变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.SubscribeStatusChange(XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeHandler)">
+            <summary>
+            订阅连接状态变更。
+            </summary>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.UnSubscribeStatusChange(XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeHandler)">
+            <summary>
+            取消订阅连接状态变更。
+            </summary>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.SubscribeChildrenChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeHandler)">
+            <summary>
+            订阅节点子节点变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.UnSubscribeChildrenChange(System.String,XNode.ServiceDiscovery.Zookeeper.NodeChildrenChangeHandler)">
+            <summary>
+            取消订阅节点子节点变更。
+            </summary>
+            <param name="path">节点路径。</param>
+            <param name="listener">监听者。</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.process(org.apache.zookeeper.WatchedEvent)">
+            <summary>Processes the specified event.</summary>
+            <param name="watchedEvent">The event.</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClient.Dispose">
+            <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions">
+            <summary>
+            ZooKeeper客户端选项。
+            </summary>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.#ctor">
+            <summary>
+            创建一个新的ZooKeeper客户端选项。
+            </summary>
+            <remarks>
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ConnectionTimeout"/> 为10秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionTimeout"/> 为20秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.OperatingTimeout"/> 为60秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ReadOnly"/> 为false。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionId"/> 为0。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionPasswd"/> 为null。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.BasePath"/> 为null。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.EnableEphemeralNodeRestore"/> 为true。
+            </remarks>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.#ctor(System.String)">
+            <summary>
+            创建一个新的ZooKeeper客户端选项。
+            </summary>
+            <param name="connectionString">连接字符串。</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="connectionString"/> 为空。</exception>
+            <remarks>
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ConnectionTimeout"/> 为10秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionTimeout"/> 为20秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.OperatingTimeout"/> 为60秒。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ReadOnly"/> 为false。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionId"/> 为0。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionPasswd"/> 为null。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.BasePath"/> 为null。
+            <see cref="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.EnableEphemeralNodeRestore"/> 为true。
+            </remarks>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ConnectionString">
+            <summary>
+            连接字符串。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ConnectionTimeout">
+            <summary>
+            等待ZooKeeper连接的时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.OperatingTimeout">
+            <summary>
+            执行ZooKeeper操作的重试等待时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionTimeout">
+            <summary>
+            zookeeper会话超时时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.ReadOnly">
+            <summary>
+            是否只读，默认为false。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionId">
+            <summary>
+            会话Id。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.SessionPasswd">
+            <summary>
+            会话密码。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.BasePath">
+            <summary>
+            基础路径，会在所有的zk操作节点路径上加入此基础路径。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientOptions.EnableEphemeralNodeRestore">
+            <summary>
+            是否启用短暂类型节点的恢复。
+            </summary>
+        </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfigurationExtensions">
             <summary>
             Zookeeper配置扩展方法类

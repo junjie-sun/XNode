@@ -4,8 +4,6 @@
 using MessagePack;
 using Microsoft.Extensions.Logging;
 using org.apache.zookeeper;
-using Rabbit.Zookeeper;
-using Rabbit.Zookeeper.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Text;
