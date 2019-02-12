@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.5.1</Version>
+    <Version>0.5.2</Version>
     <Description>Service discovery for XNode.</Description>
     <Copyright></Copyright>
     <PackageLicenseUrl>https://github.com/junjie-sun/XNode/blob/master/LICENSE.txt</PackageLicenseUrl>
@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>XNode.ServiceDiscovery.xml</DocumentationFile>
+    <DocumentationFile>XNode.ServiceDiscovery.Zookeeper.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>XNode.ServiceDiscovery.xml</DocumentationFile>
+    <DocumentationFile>XNode.ServiceDiscovery.Zookeeper.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

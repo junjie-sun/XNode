@@ -2153,6 +2153,197 @@ GoodsId = 1, GoodsName = C, Price = 5.5, Amount = 5
 ### 完整示例代码
 XNode-Sample/08-ServiceTrace
 
+## 服务发现
+在前面的章节中，所有XNode服务端与客户端都需要手动配置连接信息，当服务数量达到一定规模、调整服务器数量或者服务器意外宕机时，手动调整连接配置即不方便也不及时。因此，XNode提供了服务发现功能，使得服务连接配置能自动的完成，默认的XNode服务发现（XNode.ServiceDiscovery.Zookeeper）是基于Zookeeper实现的。当XNode服务端开启服务发现并启动后，会将服务的连接信息（例如IP与端口）发布到Zookeeper服务器中，而XNode客户端会从Zookeeper获取所需要的服务连接信息，并且订阅服务器调整通知，以便于动态的调整与服务器的连接。下面演示在XNode中使用服务发现功能，本示例基于06-LoginValidate进行修改。
+
+### 服务端配置
+首先引用默认服务发现XNode.ServiceDiscovery.Zookeeper。然后打开config.json对配置文件进行修改：
+``` c#
+{
+  "xnode": {
+    "zookeeper": {
+      "connectionString": "192.168.108.135:2181"
+    },
+    "server": {
+      "serverInfo": {
+        "host": "127.0.0.1",
+        "port": 9001
+      },
+      "services": [
+        {
+          "serviceId": 10001,
+          "enabled": true,
+          "actions": [
+            {
+              "actionId": 1,
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "security": {
+        "loginValidator": {
+          "accounts": [
+            {
+              "accountName": "Test01",
+              "accountKey": "123456",
+              "ipWhiteList": [ "127.0.0.1" ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+从配置文件中可以看到增加了zookeeper配置节，其中的connectionString便是Zookeeper的连接字符串，本示例假设Zookeeper安装在192.168.108.135的服务器上。其它的配置与06-LoginValidate中的一样，其中需要注意的是host配置节，这个配置的值会作为服务连接信息提交到Zookeeper，这里为了demo运行方便配置了127.0.0.1，在实际使用中应配置真实的IP或主机名。
+
+配置文件修改完成后，在启动代码中也加上服务发现相关的代码：
+``` c#
+...
+//配置服务端日志工厂
+LoggerManager.ServerLoggerFactory.AddConsole(LogLevel.Error);
+
+//加载配置文件
+string path = Path.Combine(Directory.GetCurrentDirectory(), "config.json");
+var configRoot = new ConfigurationBuilder()
+    .AddJsonFile(path)
+    .Build();
+
+var serverConfig = configRoot.GetServerConfig();
+
+var loginValidator = new DefaultLoginValidator(configRoot.GetDefaultLoginValidatorConfig(), LoggerManager.ServerLoggerFactory);     //创建LoginValidator实例
+
+var serializer = new ProtoBufSerializer(LoggerManager.ServerLoggerFactory);
+
+//配置服务
+var nodeServer = new NodeServerBuilder()
+    .ApplyConfig(serverConfig)
+    .ConfigSerializer(serializer)
+    .ConfigLoginValidator(loginValidator)       //配置LoginValidator
+    .ConfigServiceProvider(GetServiceProvider())
+    .UseDotNetty(serverConfig.ServerInfo)
+    .Build();
+
+//配置服务发现
+var zookeeperConfig = configRoot.GetZookeeperConfig();
+var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);
+nodeServer.UseServicePublish(servicePublisher, serializer.Name);
+
+//启动服务
+nodeServer.StartAsync().Wait();
+...
+```
+与服务发现相关的只有3行代码：
+var zookeeperConfig = configRoot.GetZookeeperConfig();
+获取zookeeper相关配置。
+
+var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);
+创建服务发布器实例
+
+nodeServer.UseServicePublish(servicePublisher, serializer.Name);
+使用服务发布，当XNode服务器启动后会将已注册且启用的服务相关信息发布到Zookeeper，serializer.Name表示当前服务使用的序列化方式，其中服务名称使用ServiceAttribute中配置的名称。
+
+### 客户端配置
+与服务端一样，首先引用默认服务发现XNode.ServiceDiscovery.Zookeeper。然后打开config.json对配置文件进行修改：
+``` c#
+{
+  "xnode": {
+    "zookeeper": {
+      "connectionString": "192.168.108.135:2181"
+    },
+    "client": {
+      "serviceProxies": [
+        {
+          "proxyName": "SampleService",
+          "security": {
+            "login": {
+              "accountName": "Test01",
+              "accountKey": "123456"
+            }
+          },
+          "services": [
+            {
+              "serviceId": 10001,
+              "enabled": true,
+              "actions": [
+                {
+                  "actionId": 1,
+                  "enabled": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+与服务端的配置一样，zookeeper配置节配置Zookeeper服务器的连接字符串。client配置节中不在有connections和proxyTypes的相关配置。其中connections配置节的内容将动态的从Zookeeper中获取，而proxyTypes配置节则需要先说明一些概念。
+
+通常在一台服务器中可能会部署多个共享相同配置的XNode服务（例如寄宿在同一个进程、使用相同的端口、登录账号和密码），在这种情况下为了避免XNode客户端进行重复配置，便设计了Proxy。Proxy保存了代理类（业务代码中使用的类，例如CustomerService、OrderService）与XNode服务的映射关系、代理配置以及连接信息。一个Proxy对象包含了多个代理类并共享相同的连接、登录、重连策略等配置，所以前面的章节中配置文件会有proxyTypes配置节，就是为了建立Proxy与代理类的映射关系。当Proxy与代理类的映射发生变化后（例如某个服务需要单独的部署到其它服务器上），需要手动修改映射配置并重启服务。
+
+在使用默认的服务发现功能后，XNode客户端为了能实现XNode服务部署变化时动态地调整，同时降低实现复杂性，一个Proxy将只对应一个服务，即使多个服务在服务端运行在同一进程中。由于是一对一的映射关系，ProxyName就等于SerivceProxyAttribute配置的ServiceName，所以也不再需要proxyTypes配置节。
+
+下面看一下客户端启动方法中的相关代码：
+``` c#
+...
+var clientConfig = configRoot.GetClientConfig();
+
+var serviceProxyManager = new ServiceProxyManager();
+
+//创建Autofac容器并注册服务类型
+var container = GetAutofacContainer(serviceProxyManager);
+
+//配置服务发现
+var serviceProxyConfig = clientConfig.ServiceProxies.Where(s => s.ProxyName == "SampleService").Single();
+var zookeeperConfig = configRoot.GetZookeeperConfig();
+
+var serializerList = new List<ISerializer>()
+{
+    new MsgPackSerializer(LoggerManager.ClientLoggerFactory),
+    new ProtoBufSerializer(LoggerManager.ClientLoggerFactory)
+};
+
+IServiceProxy serviceProxyFactory(ServiceProxyArgs arg)
+{
+    return new ServiceProxy(
+    arg.Name,
+    new List<ServiceInfo>() { arg.ServiceInfo });
+}
+
+IList<INodeClient> nodeClientFactory(NodeClientArgs arg)
+{
+    var serializer = serializerList.Where(s => s.Name == arg.SerializerName).Single();
+
+    return new NodeClientBuilder()
+        .ConfigConnections(arg.ConnectionInfos)
+        .ConfigSerializer(serializer)
+        .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
+        .UseDotNetty()
+        .Build();
+}
+
+var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+    LoggerManager.ClientLoggerFactory,
+    new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
+    new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))
+    .Subscribe(container.GetNodeServiceProxyTypes())
+    .RegistTo(serviceProxyManager);
+...
+```
+serializerList对象保存了可用的序列化器的实例列表，以便于在创建NodeClient时根据服务端的要求自动选择匹配的序列化方式。
+
+serviceProxyFactory用于创建ServiceProxy实例。
+
+nodeClientFactory用于创建NodeClient实例。本例中假设所有服务都使用相同的账号密码，如果在实际使用中服务使用的账号密码不相同，则需要自行维护它们之间的关系，通过NodeClientArgs.ServiceName属性找到相应的配置。
+
+通过ServiceSubscriber.Subscribe方法可以对服务进行订阅并通过RegistTo方法将ServiceProxy注册到ServiceProxyManager。
+
+### 完整示例代码
+XNode-Sample/09-ServiceDiscovery
+
 ## 扩展点
 XNode服务端和客户端分别提供了接口用于功能的扩展，开发人员可以实现扩展接口为XNode增加所需要的功能。
 

@@ -167,9 +167,10 @@ XNode.ServiceDiscovery.Zookeeper
 --------------------------------------------------------------------------------
 
 2019-2-12
-XNode Tag：0.5.1
+XNode Tag：0.5.2
 
 XNode.ServiceDiscovery.Zookeeper
 NodeClientArgs类增加ServiceName属性
+修复注释文件
 
 --------------------------------------------------------------------------------
