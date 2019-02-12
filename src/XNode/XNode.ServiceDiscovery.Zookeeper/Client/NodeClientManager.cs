@@ -46,22 +46,23 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 创建NodeClient
         /// </summary>
+        /// <param name="serviceName">服务名称</param>
         /// <param name="connectionInfos">连接信息</param>
         /// <param name="serializerName">序列化器名称</param>
         /// <param name="useNewClient">是否强制创建新的NodeClient实例</param>
         /// <param name="isConnect">NodeClient实例创建后是否进行连接</param>
         /// <returns></returns>
-        public IList<INodeClient> CreateNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false)
+        public IList<INodeClient> CreateNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false)
         {
             SetConnectionInfos(connectionInfos);
 
             if (useNewClient)
             {
-                return CreateNewNodeClientList(connectionInfos, serializerName, isConnect);
+                return CreateNewNodeClientList(serviceName, connectionInfos, serializerName, isConnect);
             }
             else
             {
-                return CreateSharedNodeClientList(connectionInfos, serializerName, isConnect);
+                return CreateSharedNodeClientList(serviceName, connectionInfos, serializerName, isConnect);
             }
         }
 
@@ -101,10 +102,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
         }
 
-        private IList<INodeClient> CreateNewNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
+        private IList<INodeClient> CreateNewNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
         {
             var nodeClientList = nodeClientFactory(new NodeClientArgs()
             {
+                ServiceName = serviceName,
                 SerializerName = serializerName,
                 ConnectionInfos = connectionInfos
             });
@@ -129,7 +131,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return nodeClientList;
         }
 
-        private IList<INodeClient> CreateSharedNodeClientList(IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
+        private IList<INodeClient> CreateSharedNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
         {
             var nodeClientList = new List<INodeClient>();
             var newConnectionInfos = new List<ConnectionInfo>();
@@ -148,7 +150,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 }
             }
 
-            var newNodeClientList = CreateNewNodeClientList(newConnectionInfos, serializerName, isConnect);
+            var newNodeClientList = CreateNewNodeClientList(serviceName, newConnectionInfos, serializerName, isConnect);
 
             foreach (var nodeClient in newNodeClientList)
             {

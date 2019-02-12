@@ -14,6 +14,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
     public class NodeClientArgs
     {
         /// <summary>
+        /// 服务名称
+        /// </summary>
+        public string ServiceName { get; set; }
+
+        /// <summary>
         /// 服务代理连接信息
         /// </summary>
         public IList<ConnectionInfo> ConnectionInfos { get; set; }

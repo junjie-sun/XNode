@@ -101,7 +101,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             var connectionInfos = GetConnectionInfos(servicePublishInfos);
 
-            var nodeClientList = nodeClientManager.CreateNodeClientList(connectionInfos, serializerName, useNewClient);
+            var nodeClientList = nodeClientManager.CreateNodeClientList(serviceName, connectionInfos, serializerName, useNewClient);
 
             var serviceProxy = serviceProxyCreator.Create(serviceName, serviceProxyType, nodeClientList);
 
@@ -217,12 +217,12 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
                         if (deletedHosts.Count() > 0)
                         {
-                            HandleDeletedHosts(deletedHosts, serviceSubscriberInfo);
+                            HandleDeletedHosts(serviceName, deletedHosts, serviceSubscriberInfo);
                         }
 
                         if (insertedHosts.Count() > 0)
                         {
-                            HandleInsertedHosts(insertedHosts, serviceSubscriberInfo, path);
+                            HandleInsertedHosts(serviceName, insertedHosts, serviceSubscriberInfo, path);
                         }
                     }
                 }
@@ -230,7 +230,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             });
         }
 
-        private void HandleDeletedHosts(IEnumerable<string> deletedHosts, ServiceSubscriberInfo serviceSubscriberInfo)
+        private void HandleDeletedHosts(string serviceName, IEnumerable<string> deletedHosts, ServiceSubscriberInfo serviceSubscriberInfo)
         {
             logger.LogInformation($"Delete client begin. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
 
@@ -259,7 +259,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             logger.LogInformation($"Delete client finished. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
         }
 
-        private void HandleInsertedHosts(IEnumerable<string> insertedHosts, ServiceSubscriberInfo serviceSubscriberInfo, string path)
+        private void HandleInsertedHosts(string serviceName, IEnumerable<string> insertedHosts, ServiceSubscriberInfo serviceSubscriberInfo, string path)
         {
             var connectionInfos = new List<ConnectionInfo>();
             string serializerName = null;
@@ -299,7 +299,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             try
             {
-                nodeClientList = nodeClientManager.CreateNodeClientList(connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
+                nodeClientList = nodeClientManager.CreateNodeClientList(serviceName, connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
             }
             catch(Exception ex)
             {
