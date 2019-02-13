@@ -69,6 +69,23 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return serviceProxy;
         }
 
+        /// <summary>
+        /// 创建默认ServiceProxyFactory
+        /// </summary>
+        /// <param name="serviceCaller"></param>
+        /// <returns></returns>
+        public static Func<ServiceProxyArgs, IServiceProxy> CreateDefaultServiceProxyFactory(IServiceCaller serviceCaller)
+        {
+            IServiceProxy serviceProxyFactory(ServiceProxyArgs args)
+            {
+                return new ServiceProxy(
+                args.Name,
+                new List<ServiceInfo>() { args.ServiceInfo },
+                serviceCaller);
+            }
+            return serviceProxyFactory;
+        }
+
         #region 私有方法
 
         private ServiceInfo GetServiceInfo(ServiceProxyAttribute serviceProxyAttr)

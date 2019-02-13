@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XNode.Communication.DotNetty\XNode.Communication.DotNetty.csproj" />
     <ProjectReference Include="..\XNode\XNode.csproj" />
   </ItemGroup>
 

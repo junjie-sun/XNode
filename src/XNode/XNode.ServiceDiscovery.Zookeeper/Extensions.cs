@@ -28,6 +28,20 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 .Bind(zookepperConfig);
             return zookepperConfig;
         }
+
+        /// <summary>
+        /// 获取Zookeeper客户端配置
+        /// </summary>
+        /// <param name="config">配置对象</param>
+        /// <returns></returns>
+        public static ZookeeperClientConfig GetZookeeperClientConfig(this IConfiguration config)
+        {
+            var zookeeperClientConfig = new ZookeeperClientConfig();
+            config
+                .GetSection("xnode:client:serviceDiscovery")
+                .Bind(zookeeperClientConfig);
+            return zookeeperClientConfig;
+        }
     }
 
     /// <summary>

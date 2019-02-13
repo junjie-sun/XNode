@@ -543,29 +543,8 @@ namespace XNode.Client.Console
 
             var serviceProxyManager = new ServiceProxyManager();
 
-            var serviceProxyConfig = clientConfig.ServiceProxies.Where(s => s.ProxyName == "XNodeDemoService").Single();
             var zookeeperConfig = configRoot.GetZookeeperConfig();
-
-            IServiceProxy serviceProxyFactory(ServiceProxyArgs args)
-            {
-                return new ServiceProxy(
-                args.Name,
-                new List<ServiceInfo>() { args.ServiceInfo },
-                serviceCaller);
-            }
-
-            IList<INodeClient> nodeClientFactory(NodeClientArgs args)
-            {
-                var serializer = serializerList.Where(s => s.Name == args.SerializerName).Single();
-
-                return new NodeClientBuilder()
-                    .ConfigConnections(args.ConnectionInfos)
-                    .ConfigSerializer(serializer)
-                    .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
-                    .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(configRoot.GetDefaultPassiveClosedStrategyConfig(serviceProxyConfig.ProxyName), LoggerManager.ClientLoggerFactory))
-                    .UseDotNetty()
-                    .Build();
-            }
+            var zookeeperClientConfig = configRoot.GetZookeeperClientConfig();
 
             var builder = new ContainerBuilder();
             builder.Register(c => new ServiceProxyInterceptor(serviceProxyManager));
@@ -581,10 +560,13 @@ namespace XNode.Client.Console
                .SingleInstance();
 
             container = builder.Build();
+            
+            var serviceProxyFactory = ServiceProxyCreator.CreateDefaultServiceProxyFactory(serviceCaller);
+            var nodeClientFactory = NodeClientManager.CreateDefaultNodeClientFactory(zookeeperClientConfig, serializerList, LoggerManager.ClientLoggerFactory);
 
             serviceSubscriber = new ServiceSubscriber(zookeeperConfig,
                 LoggerManager.ClientLoggerFactory,
-                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
+                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, zookeeperClientConfig.Services),
                 new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))
                 .Subscribe(container.GetNodeServiceProxyTypes())
                 .RegistTo(serviceProxyManager);

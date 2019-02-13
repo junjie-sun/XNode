@@ -4,38 +4,57 @@
       "connectionString": "192.168.108.135:2181"
     },
     "client": {
-      "serviceProxies": [
-        {
-          "proxyName": "XNodeDemoService",
-          "security": {
-            "login": {
+      "serviceDiscovery": {
+        "security": [
+          {
+            "serviceName": "Default",
+            "config": {
               "accountName": "Test01",
               "accountKey": "123456"
             }
           },
-          "passiveClosedStrategy": {
-            "reconnectCount": 3,
-            "reconnectInterval": 3000
-          },
-          "services": [
-            {
-              "serviceId": 10001,
-              "enabled": true,
-              "actions": [
-                {
-                  "actionId": 1,
-                  "timeout": 10000,
-                  "enabled": true
-                }
-              ]
-            },
-            {
-              "serviceId": 10002,
-              "enabled": true
+          {
+            "serviceName": "CustomerService",
+            "config": {
+              "accountName": "Test01",
+              "accountKey": "123456"
             }
-          ]
-        }
-      ]
+          }
+        ],
+        "passiveClosedStrategy": [
+          {
+            "serviceName": "Default",
+            "config": {
+              "reconnectCount": 3,
+              "reconnectInterval": 3000
+            }
+          },
+          {
+            "serviceName": "CustomerService",
+            "config": {
+              "reconnectCount": 3,
+              "reconnectInterval": 3000
+            }
+          }
+        ],
+        "services": [
+          {
+            "serviceId": 10001,
+            "enabled": true,
+            "actions": [
+              {
+                "actionId": 1,
+                "timeout": 10000,
+                "enabled": true
+              }
+            ]
+          },
+          {
+            "serviceId": 10002,
+            "enabled": true
+          }
+        ]
+      }
     },
     "server": {
     }

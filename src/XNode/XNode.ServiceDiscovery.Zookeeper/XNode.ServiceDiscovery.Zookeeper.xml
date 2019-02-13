@@ -110,6 +110,15 @@
             </summary>
             <param name="hostName">Host名称</param>
         </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeClientManager.CreateDefaultNodeClientFactory(XNode.ServiceDiscovery.Zookeeper.ZookeeperClientConfig,System.Collections.Generic.IList{XNode.Serializer.ISerializer},Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            创建默认NodeClientFactory
+            </summary>
+            <param name="zookeeperClientConfig"></param>
+            <param name="serializerList"></param>
+            <param name="loggerFactory"></param>
+            <returns></returns>
+        </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ServiceProxyArgs">
             <summary>
             创建ServiceProxy相关参数
@@ -150,6 +159,13 @@
             <param name="proxyName">代理名称</param>
             <param name="serviceProxyType">服务代理类型</param>
             <param name="nodeClientList">NodeClient实例</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceProxyCreator.CreateDefaultServiceProxyFactory(XNode.Client.IServiceCaller)">
+            <summary>
+            创建默认ServiceProxyFactory
+            </summary>
+            <param name="serviceCaller"></param>
             <returns></returns>
         </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber">
@@ -197,6 +213,56 @@
         <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.Dispose">
             <summary>
             关闭订阅
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientConfig">
+            <summary>
+            客户端服务发现配置类
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientConfig.Security">
+            <summary>
+            安全配置
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientConfig.PassiveClosedStrategy">
+            <summary>
+            意外关闭处理策略配置
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperClientConfig.Services">
+            <summary>
+            服务配置
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig">
+            <summary>
+            客户端安全配置
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig.ServiceName">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig.Config">
+            <summary>
+            默认登录验证配置
+            </summary>
+        </member>
+        <member name="T:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy">
+            <summary>
+            客户端意外关闭处理策略配置
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy.ServiceName">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy.Config">
+            <summary>
+            默认处理策略配置
             </summary>
         </member>
         <member name="T:XNode.ServiceDiscovery.Zookeeper.ConnectionStateChangeArgs">
@@ -787,6 +853,13 @@
         <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfigurationExtensions.GetZookeeperConfig(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             获取Zookeeper配置
+            </summary>
+            <param name="config">配置对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfigurationExtensions.GetZookeeperClientConfig(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            获取Zookeeper客户端配置
             </summary>
             <param name="config">配置对象</param>
             <returns></returns>

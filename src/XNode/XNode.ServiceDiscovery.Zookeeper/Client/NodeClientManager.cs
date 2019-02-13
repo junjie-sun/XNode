@@ -4,9 +4,12 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using XNode.Client;
 using XNode.Client.Configuration;
+using XNode.Communication.DotNetty;
+using XNode.Security;
+using XNode.Serializer;
 
 namespace XNode.ServiceDiscovery.Zookeeper
 {
@@ -86,6 +89,52 @@ namespace XNode.ServiceDiscovery.Zookeeper
                     logger.LogError(ex, $"Close NodeClient failed. HostName={hostName}");
                 }
             }
+        }
+
+        /// <summary>
+        /// 创建默认NodeClientFactory
+        /// </summary>
+        /// <param name="zookeeperClientConfig"></param>
+        /// <param name="serializerList"></param>
+        /// <param name="loggerFactory"></param>
+        /// <returns></returns>
+        public static Func<NodeClientArgs, IList<INodeClient>> CreateDefaultNodeClientFactory(ZookeeperClientConfig zookeeperClientConfig,
+            IList<ISerializer> serializerList,
+            ILoggerFactory loggerFactory)
+        {
+            IList<INodeClient> nodeClientFactory(NodeClientArgs args)
+            {
+                var serializer = serializerList.Where(s => s.Name == args.SerializerName).Single();
+
+                var loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceName == args.ServiceName).SingleOrDefault();
+                if (loginHandlerConfig == null)
+                {
+                    loginHandlerConfig = zookeeperClientConfig.Security.Where(s => string.Compare(s.ServiceName, "Default", true) == 0).SingleOrDefault();
+                    if (loginHandlerConfig == null)
+                    {
+                        throw new Exception("Not found default security configuration.");
+                    }
+                }
+
+                var passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceName == args.ServiceName).SingleOrDefault();
+                if (passiveClosedStrategyConfig == null)
+                {
+                    passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => string.Compare(p.ServiceName, "Default", true) == 0).SingleOrDefault();
+                    if (passiveClosedStrategyConfig == null)
+                    {
+                        throw new Exception("Not found default passive closed strategy configuration.");
+                    }
+                }
+
+                return new NodeClientBuilder()
+                    .ConfigConnections(args.ConnectionInfos)
+                    .ConfigSerializer(serializer)
+                    .ConfigLoginHandler(new DefaultLoginHandler(loginHandlerConfig.Config, serializer))
+                    .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(passiveClosedStrategyConfig.Config, loggerFactory))
+                    .UseDotNetty()
+                    .Build();
+            }
+            return nodeClientFactory;
         }
 
         #region 私有方法
