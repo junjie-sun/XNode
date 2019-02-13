@@ -157,7 +157,16 @@
             服务订阅器
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,XNode.ServiceDiscovery.Zookeeper.IServiceProxyCreator,XNode.ServiceDiscovery.Zookeeper.INodeClientManager,System.String)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig,Microsoft.Extensions.Logging.ILoggerFactory,XNode.ServiceDiscovery.Zookeeper.IServiceProxyCreator,XNode.ServiceDiscovery.Zookeeper.INodeClientManager)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="zookeeperConfig">Zookeeper配置</param>
+            <param name="loggerFactory">日志工厂</param>
+            <param name="serviceProxyCreator">服务代理构造器</param>
+            <param name="nodeClientManager">NodeClient管理器</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,XNode.ServiceDiscovery.Zookeeper.IServiceProxyCreator,XNode.ServiceDiscovery.Zookeeper.INodeClientManager)">
             <summary>
             构造函数
             </summary>
@@ -165,12 +174,6 @@
             <param name="loggerFactory">日志工厂</param>
             <param name="serviceProxyCreator">服务代理构造器</param>
             <param name="nodeClientManager">NodeClient管理器</param>
-            <param name="basePath">Zookeeper根路径</param>
-        </member>
-        <member name="P:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.ConnectionString">
-            <summary>
-            Zookeeper连接字符串
-            </summary>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ServiceSubscriber.BasePath">
             <summary>

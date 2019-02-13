@@ -582,7 +582,7 @@ namespace XNode.Client.Console
 
             container = builder.Build();
 
-            serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+            serviceSubscriber = new ServiceSubscriber(zookeeperConfig,
                 LoggerManager.ClientLoggerFactory,
                 new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
                 new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))

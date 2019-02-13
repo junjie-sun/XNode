@@ -140,7 +140,7 @@ namespace XNode.Server.Console.XNodeServer
         private static void UseServicePublish(IConfigurationRoot configRoot, ISerializer serializer, INodeServer nodeServer)
         {
             var zookeeperConfig = configRoot.GetZookeeperConfig();
-            var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);
+            var servicePublisher = new ServicePublisher(zookeeperConfig, LoggerManager.ServerLoggerFactory);
             nodeServer.UseServicePublish(servicePublisher, serializer.Name);
         }
     }
