@@ -49,7 +49,7 @@ namespace Server
 
             //配置服务发现
             var zookeeperConfig = configRoot.GetZookeeperConfig();
-            var servicePublisher = new ServicePublisher(zookeeperConfig.ConnectionString, LoggerManager.ServerLoggerFactory);
+            var servicePublisher = new ServicePublisher(zookeeperConfig, LoggerManager.ServerLoggerFactory);
             nodeServer.UseServicePublish(servicePublisher, serializer.Name);
 
             //启动服务

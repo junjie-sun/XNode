@@ -4,29 +4,29 @@
       "connectionString": "192.168.108.135:2181"
     },
     "client": {
-      "serviceProxies": [
-        {
-          "proxyName": "SampleService",
-          "security": {
-            "login": {
+      "serviceDiscovery": {
+        "security": [
+          {
+            "serviceName": "Default",
+            "config": {
               "accountName": "Test01",
               "accountKey": "123456"
             }
-          },
-          "services": [
-            {
-              "serviceId": 10001,
-              "enabled": true,
-              "actions": [
-                {
-                  "actionId": 1,
-                  "enabled": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+          }
+        ],
+        "services": [
+          {
+            "serviceId": 10001,
+            "enabled": true,
+            "actions": [
+              {
+                "actionId": 1,
+                "enabled": true
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

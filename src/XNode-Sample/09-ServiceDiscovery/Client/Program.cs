@@ -52,8 +52,8 @@ namespace Client
             var container = GetAutofacContainer(serviceProxyManager);
 
             //配置服务发现
-            var serviceProxyConfig = clientConfig.ServiceProxies.Where(s => s.ProxyName == "SampleService").Single();
             var zookeeperConfig = configRoot.GetZookeeperConfig();
+            var zookeeperClientConfig = configRoot.GetZookeeperClientConfig();
 
             var serializerList = new List<ISerializer>()
             {
@@ -61,28 +61,12 @@ namespace Client
                 new ProtoBufSerializer(LoggerManager.ClientLoggerFactory)
             };
 
-            IServiceProxy serviceProxyFactory(ServiceProxyArgs arg)
-            {
-                return new ServiceProxy(
-                arg.Name,
-                new List<ServiceInfo>() { arg.ServiceInfo });
-            }
+            var serviceProxyFactory = ServiceProxyCreator.CreateDefaultServiceProxyFactory(null);
+            var nodeClientFactory = NodeClientManager.CreateDefaultNodeClientFactory(zookeeperClientConfig, serializerList, LoggerManager.ClientLoggerFactory);
 
-            IList<INodeClient> nodeClientFactory(NodeClientArgs arg)
-            {
-                var serializer = serializerList.Where(s => s.Name == arg.SerializerName).Single();
-
-                return new NodeClientBuilder()
-                    .ConfigConnections(arg.ConnectionInfos)
-                    .ConfigSerializer(serializer)
-                    .ConfigLoginHandler(new DefaultLoginHandler(configRoot.GetDefaultLoginHandlerConfig(serviceProxyConfig.ProxyName), serializer))
-                    .UseDotNetty()
-                    .Build();
-            }
-
-            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig.ConnectionString,
+            var serviceSubscriber = new ServiceSubscriber(zookeeperConfig,
                 LoggerManager.ClientLoggerFactory,
-                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, serviceProxyConfig.Services),
+                new ServiceProxyCreator(LoggerManager.ClientLoggerFactory, serviceProxyFactory, zookeeperClientConfig.Services),
                 new NodeClientManager(LoggerManager.ClientLoggerFactory, nodeClientFactory))
                 .Subscribe(container.GetNodeServiceProxyTypes())
                 .RegistTo(serviceProxyManager);

@@ -106,33 +106,50 @@ namespace XNode.ServiceDiscovery.Zookeeper
             {
                 var serializer = serializerList.Where(s => s.Name == args.SerializerName).Single();
 
-                var loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceName == args.ServiceName).SingleOrDefault();
-                if (loginHandlerConfig == null)
+                ClientSecurityConfig loginHandlerConfig = null;
+                if (zookeeperClientConfig.Security != null)
                 {
-                    loginHandlerConfig = zookeeperClientConfig.Security.Where(s => string.Compare(s.ServiceName, "Default", true) == 0).SingleOrDefault();
+                    loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceName == args.ServiceName).SingleOrDefault();
                     if (loginHandlerConfig == null)
                     {
-                        throw new Exception("Not found default security configuration.");
+                        loginHandlerConfig = zookeeperClientConfig.Security.Where(s => string.Compare(s.ServiceName, "Default", true) == 0).SingleOrDefault();
+                        if (loginHandlerConfig == null)
+                        {
+                            throw new Exception("Not found default security configuration.");
+                        }
                     }
                 }
 
-                var passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceName == args.ServiceName).SingleOrDefault();
-                if (passiveClosedStrategyConfig == null)
+                ClientPassiveClosedStrategy passiveClosedStrategyConfig = null;
+                if(zookeeperClientConfig.PassiveClosedStrategy != null)
                 {
-                    passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => string.Compare(p.ServiceName, "Default", true) == 0).SingleOrDefault();
+                    passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceName == args.ServiceName).SingleOrDefault();
                     if (passiveClosedStrategyConfig == null)
                     {
-                        throw new Exception("Not found default passive closed strategy configuration.");
+                        passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => string.Compare(p.ServiceName, "Default", true) == 0).SingleOrDefault();
+                        if (passiveClosedStrategyConfig == null)
+                        {
+                            throw new Exception("Not found default passive closed strategy configuration.");
+                        }
                     }
                 }
 
-                return new NodeClientBuilder()
+                var builder = new NodeClientBuilder()
                     .ConfigConnections(args.ConnectionInfos)
                     .ConfigSerializer(serializer)
-                    .ConfigLoginHandler(new DefaultLoginHandler(loginHandlerConfig.Config, serializer))
-                    .ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(passiveClosedStrategyConfig.Config, loggerFactory))
-                    .UseDotNetty()
-                    .Build();
+                    .UseDotNetty();
+
+                if (loginHandlerConfig != null)
+                {
+                    builder.ConfigLoginHandler(new DefaultLoginHandler(loginHandlerConfig.Config, serializer));
+                }
+
+                if (passiveClosedStrategyConfig != null)
+                {
+                    builder.ConfigPassiveClosedStrategy(new DefaultPassiveClosedStrategy(passiveClosedStrategyConfig.Config, loggerFactory));
+                }
+
+                return builder.Build();
             }
             return nodeClientFactory;
         }
