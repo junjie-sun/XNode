@@ -180,6 +180,7 @@ XNode Tag：0.5.3
 
 XNode.ServiceDiscovery.Zookeeper
 重构ServicePublisher，增加Zookeeper配置项
-重构ServiceSubscriber，增加Zookeeper配置项及改善开发体验
+重构ServiceSubscriber，增加Zookeeper配置项
+简化配置
 
 --------------------------------------------------------------------------------
