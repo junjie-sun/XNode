@@ -24,36 +24,47 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="connectionString">Zookeeper连接字符串</param>
+        /// <param name="zookeeperConfig">Zookeeper配置</param>
         /// <param name="loggerFactory">日志工厂</param>
-        /// <param name="basePath">Zookeeper根路径</param>
-        public ServicePublisher(string connectionString,
-            ILoggerFactory loggerFactory,
-            string basePath = "/XNode")
+        public ServicePublisher(ZookeeperConfig zookeeperConfig, ILoggerFactory loggerFactory)
         {
-            ConnectionString = connectionString;
-            BasePath = basePath;
             logger = loggerFactory.CreateLogger<ServicePublisher>();
+
+            BasePath = zookeeperConfig.BasePath;
 
             ZooKeeper.LogLevel = System.Diagnostics.TraceLevel.Error;
 
             try
             {
-                client = new ZookeeperClient(new ZookeeperClientOptions(connectionString));
+                client = new ZookeeperClient(new ZookeeperClientOptions()
+                {
+                    ConnectionString = zookeeperConfig.ConnectionString,
+                    ConnectionTimeout = zookeeperConfig.ConnectionTimeout,
+                    OperatingTimeout = zookeeperConfig.OperatingTimeout,
+                    EnableEphemeralNodeRestore = true,
+                    ReadOnly = zookeeperConfig.ReadOnly,
+                    SessionId = zookeeperConfig.SessionId,
+                    SessionPasswd = zookeeperConfig.SessionPasswd,
+                    SessionTimeout = zookeeperConfig.SessionTimeout
+                });
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Connect zookeeper failed. ConnectionString={connectionString}");
+                logger.LogError(ex, $"Connect zookeeper failed. ConnectionString={zookeeperConfig.ConnectionString}");
                 throw ex;
             }
 
-            logger.LogDebug($"Connect zookeeper success. ConnectionString={connectionString}");
+            logger.LogDebug($"Connect zookeeper success. ConnectionString={zookeeperConfig.ConnectionString}");
         }
 
         /// <summary>
-        /// Zookeeper连接字符串
+        /// 构造函数
         /// </summary>
-        public string ConnectionString { get; }
+        /// <param name="connectionString">Zookeeper连接字符串</param>
+        /// <param name="loggerFactory">日志工厂</param>
+        public ServicePublisher(string connectionString, ILoggerFactory loggerFactory) : this(new ZookeeperConfig() { ConnectionString = connectionString }, loggerFactory)
+        {
+        }
 
         /// <summary>
         /// Zookeeper根路径

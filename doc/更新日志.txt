@@ -174,3 +174,12 @@ NodeClientArgs类增加ServiceName属性
 修复注释文件
 
 --------------------------------------------------------------------------------
+
+2019-2-13
+XNode Tag：0.5.3
+
+XNode.ServiceDiscovery.Zookeeper
+重构ServicePublisher，增加Zookeeper配置项
+重构ServiceSubscriber，增加Zookeeper配置项及改善开发体验
+
+--------------------------------------------------------------------------------

@@ -867,18 +867,19 @@
             服务发布器
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory,System.String)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.#ctor(XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="zookeeperConfig">Zookeeper配置</param>
+            <param name="loggerFactory">日志工厂</param>
+        </member>
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.#ctor(System.String,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             构造函数
             </summary>
             <param name="connectionString">Zookeeper连接字符串</param>
             <param name="loggerFactory">日志工厂</param>
-            <param name="basePath">Zookeeper根路径</param>
-        </member>
-        <member name="P:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.ConnectionString">
-            <summary>
-            Zookeeper连接字符串
-            </summary>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ServicePublisher.BasePath">
             <summary>
@@ -928,6 +929,41 @@
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.ConnectionString">
             <summary>
             Zookeeper连接字符串
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.BasePath">
+            <summary>
+            Zookeeper根路径
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.ConnectionTimeout">
+            <summary>
+            等待ZooKeeper连接的时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.OperatingTimeout">
+            <summary>
+            执行ZooKeeper操作的重试等待时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.SessionTimeout">
+            <summary>
+            zookeeper会话超时时间。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.ReadOnly">
+            <summary>
+            是否只读，默认为false。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.SessionId">
+            <summary>
+            会话Id。
+            </summary>
+        </member>
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ZookeeperConfig.SessionPasswd">
+            <summary>
+            会话密码。
             </summary>
         </member>
     </members>
