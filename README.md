@@ -2284,11 +2284,11 @@ nodeServer.UseServicePublish(servicePublisher, serializer.Name);
   }
 }
 ```
-与服务端的配置一样，zookeeper配置节配置Zookeeper服务器的连接字符串。client配置节中有个新增的配置节serviceDiscovery用于替换serviceProxies配置。其原因涉及了一些底层概念：
+与服务端的配置一样，zookeeper配置节配置Zookeeper服务器的连接字符串。client配置节中有个新增的配置节serviceDiscovery用于替换serviceProxies配置节。其原因涉及了一些底层概念：
 
 通常在一台服务器中可能会部署多个共享相同配置的XNode服务（例如寄宿在同一个进程、使用相同的端口、登录账号和密码），在这种情况下为了避免XNode客户端进行重复配置，便设计了Proxy对象。Proxy对象保存了代理类（业务代码中使用的类，例如CustomerService、OrderService）与XNode服务的映射关系、代理配置以及连接信息。一个Proxy对象包含了多个代理类并共享相同的连接、登录、重连策略等配置，所以只要多个代理类对应的Service部署在同一个进程中，它们就会被包含在同一个Proxy对象里。当Proxy与代理类的映射发生变化后（例如某个服务需要单独的部署到其它服务器上或进程），则需要手动修改映射配置并重启服务。
 
-在使用默认的服务发现功能后，XNode客户端为了能实现XNode服务部署变化时动态地调整，同时降低实现复杂性，一个Proxy将只对应一个代理类。所以，在这种情况下Client也进行了相应的调整。security配置节用于配置默认登录验证参数，serviceName=Default下的配置用于未特定进行配置的所有代理，如果某个服务需要使用特定的账号密码，则可以增加相应的配置，如下：
+在使用默认的服务发现功能后，XNode客户端为了能实现XNode服务部署变化时动态地调整，同时降低实现复杂性，一个Proxy将只对应一个代理类。所以，在这种情况下Client的配置也进行了相应的调整。services配置节与原先的一样，只不过不再存在于某个代理下，所有的服务代理配置都统一在此处配置。security配置节用于配置默认登录验证参数，serviceName=Default下的配置用于未特定进行配置的所有代理，如果某个服务需要使用特定的账号密码，则可以增加相应的配置，如下：
 ``` c#
 {
   "xnode": {
