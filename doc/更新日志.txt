@@ -148,8 +148,8 @@ Host增加对主机名、域名和IPv6的支持
 
 --------------------------------------------------------------------------------
 
-2019-2-11
-XNode Tag：0.5.0
+2019-2-13
+XNode Tag：0.5.5
 
 XNode
 重构服务初始化相关代码
@@ -163,24 +163,5 @@ XNode.Communication.DotNetty
 
 XNode.ServiceDiscovery.Zookeeper
 新增服务发现模块
-
---------------------------------------------------------------------------------
-
-2019-2-12
-XNode Tag：0.5.2
-
-XNode.ServiceDiscovery.Zookeeper
-NodeClientArgs类增加ServiceName属性
-修复注释文件
-
---------------------------------------------------------------------------------
-
-2019-2-13
-XNode Tag：0.5.3
-
-XNode.ServiceDiscovery.Zookeeper
-重构ServicePublisher，增加Zookeeper配置项
-重构ServiceSubscriber，增加Zookeeper配置项
-简化配置
 
 --------------------------------------------------------------------------------
