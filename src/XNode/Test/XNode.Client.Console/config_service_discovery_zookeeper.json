@@ -7,14 +7,13 @@
       "serviceDiscovery": {
         "security": [
           {
-            "serviceName": "Default",
             "config": {
               "accountName": "Test01",
               "accountKey": "123456"
             }
           },
           {
-            "serviceName": "CustomerService",
+            "serviceId": 10001,
             "config": {
               "accountName": "Test01",
               "accountKey": "123456"
@@ -23,14 +22,13 @@
         ],
         "passiveClosedStrategy": [
           {
-            "serviceName": "Default",
             "config": {
               "reconnectCount": 3,
               "reconnectInterval": 3000
             }
           },
           {
-            "serviceName": "CustomerService",
+            "serviceId": 10001,
             "config": {
               "reconnectCount": 3,
               "reconnectInterval": 3000

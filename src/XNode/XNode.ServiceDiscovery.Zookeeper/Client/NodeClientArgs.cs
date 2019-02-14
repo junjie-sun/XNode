@@ -14,9 +14,9 @@ namespace XNode.ServiceDiscovery.Zookeeper
     public class NodeClientArgs
     {
         /// <summary>
-        /// 服务名称
+        /// 服务Id
         /// </summary>
-        public string ServiceName { get; set; }
+        public int ServiceId { get; set; }
 
         /// <summary>
         /// 服务代理连接信息

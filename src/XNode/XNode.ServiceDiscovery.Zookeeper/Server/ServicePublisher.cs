@@ -90,11 +90,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 throw new InvalidOperationException($"ServiceType has not set ServiceAttribute. Type={serviceType.FullName}");
             }
 
-            var serviceName = serviceAttr.Name;
+            var serviceId = serviceAttr.ServiceId;
 
             CreateBaseNode();
 
-            var servicePath = CreateServiceNode(serviceName);
+            var servicePath = CreateServiceNode(serviceId);
 
             var servicePublishInfo = new ServicePublishInfo()
             {
@@ -121,9 +121,9 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         #region 私有方法
 
-        private string GetServicePath(string serviceName)
+        private string GetServicePath(int serviceId)
         {
-            return $"{BasePath}/{serviceName}";
+            return $"{BasePath}/{serviceId}";
         }
 
         private string GetHostPath(string servicePath, string hostName)
@@ -149,9 +149,9 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
         }
 
-        private string CreateServiceNode(string serviceName)
+        private string CreateServiceNode(int serviceId)
         {
-            var servicePath = GetServicePath(serviceName);
+            var servicePath = GetServicePath(serviceId);
 
             if (!client.ExistsAsync(servicePath).Result)
             {

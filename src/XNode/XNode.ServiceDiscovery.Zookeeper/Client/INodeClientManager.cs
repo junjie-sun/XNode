@@ -17,13 +17,13 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 创建NodeClient
         /// </summary>
-        /// <param name="serviceName">服务名称</param>
+        /// <param name="serviceId">服务Id</param>
         /// <param name="connectionInfos">连接信息</param>
         /// <param name="serializerName">序列化器名称</param>
         /// <param name="useNewClient">是否强制创建新的NodeClient实例</param>
         /// <param name="isConnect">NodeClient实例创建后是否进行连接</param>
         /// <returns></returns>
-        IList<INodeClient> CreateNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false);
+        IList<INodeClient> CreateNodeClientList(int serviceId, IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false);
 
         /// <summary>
         /// 移除NodeClient

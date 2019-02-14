@@ -9,11 +9,11 @@
             NodeClient管理器接口
             </summary>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.INodeClientManager.CreateNodeClientList(System.String,System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},System.String,System.Boolean,System.Boolean)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.INodeClientManager.CreateNodeClientList(System.Int32,System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},System.String,System.Boolean,System.Boolean)">
             <summary>
             创建NodeClient
             </summary>
-            <param name="serviceName">服务名称</param>
+            <param name="serviceId">服务Id</param>
             <param name="connectionInfos">连接信息</param>
             <param name="serializerName">序列化器名称</param>
             <param name="useNewClient">是否强制创建新的NodeClient实例</param>
@@ -64,9 +64,9 @@
             创建NodeClient相关参数
             </summary>
         </member>
-        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeClientArgs.ServiceName">
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeClientArgs.ServiceId">
             <summary>
-            服务名称
+            服务Id
             </summary>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.NodeClientArgs.ConnectionInfos">
@@ -93,11 +93,11 @@
             <param name="localHost">本地Host</param>
             <param name="localPort">本地端口</param>
         </member>
-        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeClientManager.CreateNodeClientList(System.String,System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},System.String,System.Boolean,System.Boolean)">
+        <member name="M:XNode.ServiceDiscovery.Zookeeper.NodeClientManager.CreateNodeClientList(System.Int32,System.Collections.Generic.IList{XNode.Client.Configuration.ConnectionInfo},System.String,System.Boolean,System.Boolean)">
             <summary>
             创建NodeClient
             </summary>
-            <param name="serviceName">服务名称</param>
+            <param name="serviceId">服务Id</param>
             <param name="connectionInfos">连接信息</param>
             <param name="serializerName">序列化器名称</param>
             <param name="useNewClient">是否强制创建新的NodeClient实例</param>
@@ -240,9 +240,9 @@
             客户端安全配置
             </summary>
         </member>
-        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig.ServiceName">
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig.ServiceId">
             <summary>
-            服务名称
+            服务Id
             </summary>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientSecurityConfig.Config">
@@ -255,9 +255,9 @@
             客户端意外关闭处理策略配置
             </summary>
         </member>
-        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy.ServiceName">
+        <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy.ServiceId">
             <summary>
-            服务名称
+            服务Id
             </summary>
         </member>
         <member name="P:XNode.ServiceDiscovery.Zookeeper.ClientPassiveClosedStrategy.Config">

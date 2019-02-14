@@ -27,7 +27,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         private INodeClientManager nodeClientManager;
 
-        private IDictionary<string, ServiceSubscriberInfo> serviceSubscriberList = new Dictionary<string, ServiceSubscriberInfo>();
+        private IDictionary<int, ServiceSubscriberInfo> serviceSubscriberList = new Dictionary<int, ServiceSubscriberInfo>();
 
         private object hostsChangedLockObj = new object();
 
@@ -110,26 +110,26 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 throw new InvalidOperationException($"ServiceProxyType has not set ServiceProxyAttribute. Type={serviceProxyType.FullName}");
             }
 
-            var serviceName = serviceProxyAttr.Name;
+            var serviceId = serviceProxyAttr.ServiceId;
 
-            var servicePublishInfos = GetServicePublishInfos(serviceName);
+            var servicePublishInfos = GetServicePublishInfos(serviceId);
 
             var serializerName = servicePublishInfos[0].SerializerName;
 
             var connectionInfos = GetConnectionInfos(servicePublishInfos);
 
-            var nodeClientList = nodeClientManager.CreateNodeClientList(serviceName, connectionInfos, serializerName, useNewClient);
+            var nodeClientList = nodeClientManager.CreateNodeClientList(serviceId, connectionInfos, serializerName, useNewClient);
 
-            var serviceProxy = serviceProxyCreator.Create(serviceName, serviceProxyType, nodeClientList);
+            var serviceProxy = serviceProxyCreator.Create(serviceProxyAttr.Name, serviceProxyType, nodeClientList);
 
-            serviceSubscriberList.Add(serviceName, new ServiceSubscriberInfo()
+            serviceSubscriberList.Add(serviceId, new ServiceSubscriberInfo()
             {
                 ServiceProxy = serviceProxy,
                 ConnectionInfos = connectionInfos,
                 UseNewClient = useNewClient
             });
 
-            HostsChangedHandler(serviceName);
+            HostsChangedHandler(serviceId);
 
             logger.LogDebug($"Subscribe service finished. ServiceProxyType={serviceProxyType.FullName}, UseNewClient={useNewClient}");
 
@@ -156,22 +156,22 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
         #region 私有方法
 
-        private IList<ServicePublishInfo> GetServicePublishInfos(string serviceName)
+        private IList<ServicePublishInfo> GetServicePublishInfos(int serviceId)
         {
-            var path = GetServicePath(serviceName);
+            var path = GetServicePath(serviceId);
 
             if (!client.ExistsAsync(path).Result)
             {
-                logger.LogDebug($"Service not found on zookeeper. ServiceName={serviceName}");
-                throw new Exception($"Service not found on zookeeper. ServiceName={serviceName}");
+                logger.LogDebug($"Service not found on zookeeper. ServiceId={serviceId}");
+                throw new Exception($"Service not found on zookeeper. ServiceId={serviceId}");
             }
 
             var hosts = client.GetChildrenAsync(path).Result.ToList();
 
             if (hosts.Count == 0)
             {
-                logger.LogDebug($"No host config on zookeeper. ServiceName={serviceName}");
-                throw new Exception($"No host config on zookeeper. ServiceName={serviceName}");
+                logger.LogDebug($"No host config on zookeeper. ServiceId={serviceId}");
+                throw new Exception($"No host config on zookeeper. ServiceId={serviceId}");
             }
 
             var list = new List<ServicePublishInfo>();
@@ -207,22 +207,22 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return list;
         }
 
-        private string GetServicePath(string serviceName)
+        private string GetServicePath(int serviceId)
         {
-            return $"{BasePath}/{serviceName}";
+            return $"{BasePath}/{serviceId}";
         }
 
-        private void HostsChangedHandler(string serviceName)
+        private void HostsChangedHandler(int serviceId)
         {
-            var path = GetServicePath(serviceName);
+            var path = GetServicePath(serviceId);
 
             client.SubscribeChildrenChange(path, (ct, args) =>
             {
                 if (args.Type == EventType.NodeChildrenChanged)
                 {
-                    logger.LogInformation($"Hosts changed on zookeeper. ServiceName={serviceName}");
+                    logger.LogInformation($"Hosts changed on zookeeper. ServiceId={serviceId}");
 
-                    var serviceSubscriberInfo = serviceSubscriberList[serviceName];
+                    var serviceSubscriberInfo = serviceSubscriberList[serviceId];
 
                     lock (hostsChangedLockObj)
                     {
@@ -234,12 +234,12 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
                         if (deletedHosts.Count() > 0)
                         {
-                            HandleDeletedHosts(serviceName, deletedHosts, serviceSubscriberInfo);
+                            HandleDeletedHosts(serviceId, deletedHosts, serviceSubscriberInfo);
                         }
 
                         if (insertedHosts.Count() > 0)
                         {
-                            HandleInsertedHosts(serviceName, insertedHosts, serviceSubscriberInfo, path);
+                            HandleInsertedHosts(serviceId, insertedHosts, serviceSubscriberInfo, path);
                         }
                     }
                 }
@@ -247,7 +247,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             });
         }
 
-        private void HandleDeletedHosts(string serviceName, IEnumerable<string> deletedHosts, ServiceSubscriberInfo serviceSubscriberInfo)
+        private void HandleDeletedHosts(int serviceId, IEnumerable<string> deletedHosts, ServiceSubscriberInfo serviceSubscriberInfo)
         {
             logger.LogInformation($"Delete client begin. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
 
@@ -276,7 +276,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             logger.LogInformation($"Delete client finished. ProxyName={serviceSubscriberInfo.ServiceProxy.ProxyName}");
         }
 
-        private void HandleInsertedHosts(string serviceName, IEnumerable<string> insertedHosts, ServiceSubscriberInfo serviceSubscriberInfo, string path)
+        private void HandleInsertedHosts(int serviceId, IEnumerable<string> insertedHosts, ServiceSubscriberInfo serviceSubscriberInfo, string path)
         {
             var connectionInfos = new List<ConnectionInfo>();
             string serializerName = null;
@@ -316,7 +316,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
 
             try
             {
-                nodeClientList = nodeClientManager.CreateNodeClientList(serviceName, connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
+                nodeClientList = nodeClientManager.CreateNodeClientList(serviceId, connectionInfos, serializerName, serviceSubscriberInfo.UseNewClient, true);
             }
             catch(Exception ex)
             {

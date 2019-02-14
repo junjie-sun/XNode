@@ -49,23 +49,23 @@ namespace XNode.ServiceDiscovery.Zookeeper
         /// <summary>
         /// 创建NodeClient
         /// </summary>
-        /// <param name="serviceName">服务名称</param>
+        /// <param name="serviceId">服务Id</param>
         /// <param name="connectionInfos">连接信息</param>
         /// <param name="serializerName">序列化器名称</param>
         /// <param name="useNewClient">是否强制创建新的NodeClient实例</param>
         /// <param name="isConnect">NodeClient实例创建后是否进行连接</param>
         /// <returns></returns>
-        public IList<INodeClient> CreateNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false)
+        public IList<INodeClient> CreateNodeClientList(int serviceId, IList<ConnectionInfo> connectionInfos, string serializerName, bool useNewClient, bool isConnect = false)
         {
             SetConnectionInfos(connectionInfos);
 
             if (useNewClient)
             {
-                return CreateNewNodeClientList(serviceName, connectionInfos, serializerName, isConnect);
+                return CreateNewNodeClientList(serviceId, connectionInfos, serializerName, isConnect);
             }
             else
             {
-                return CreateSharedNodeClientList(serviceName, connectionInfos, serializerName, isConnect);
+                return CreateSharedNodeClientList(serviceId, connectionInfos, serializerName, isConnect);
             }
         }
 
@@ -109,10 +109,10 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 ClientSecurityConfig loginHandlerConfig = null;
                 if (zookeeperClientConfig.Security != null)
                 {
-                    loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceName == args.ServiceName).SingleOrDefault();
+                    loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceId == args.ServiceId).SingleOrDefault();
                     if (loginHandlerConfig == null)
                     {
-                        loginHandlerConfig = zookeeperClientConfig.Security.Where(s => string.Compare(s.ServiceName, "Default", true) == 0).SingleOrDefault();
+                        loginHandlerConfig = zookeeperClientConfig.Security.Where(s => s.ServiceId == null).SingleOrDefault();
                         if (loginHandlerConfig == null)
                         {
                             throw new Exception("Not found default security configuration.");
@@ -123,10 +123,10 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 ClientPassiveClosedStrategy passiveClosedStrategyConfig = null;
                 if(zookeeperClientConfig.PassiveClosedStrategy != null)
                 {
-                    passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceName == args.ServiceName).SingleOrDefault();
+                    passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceId == args.ServiceId).SingleOrDefault();
                     if (passiveClosedStrategyConfig == null)
                     {
-                        passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => string.Compare(p.ServiceName, "Default", true) == 0).SingleOrDefault();
+                        passiveClosedStrategyConfig = zookeeperClientConfig.PassiveClosedStrategy.Where(p => p.ServiceId == null).SingleOrDefault();
                         if (passiveClosedStrategyConfig == null)
                         {
                             throw new Exception("Not found default passive closed strategy configuration.");
@@ -168,11 +168,11 @@ namespace XNode.ServiceDiscovery.Zookeeper
             }
         }
 
-        private IList<INodeClient> CreateNewNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
+        private IList<INodeClient> CreateNewNodeClientList(int serviceId, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
         {
             var nodeClientList = nodeClientFactory(new NodeClientArgs()
             {
-                ServiceName = serviceName,
+                ServiceId = serviceId,
                 SerializerName = serializerName,
                 ConnectionInfos = connectionInfos
             });
@@ -197,7 +197,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
             return nodeClientList;
         }
 
-        private IList<INodeClient> CreateSharedNodeClientList(string serviceName, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
+        private IList<INodeClient> CreateSharedNodeClientList(int serviceId, IList<ConnectionInfo> connectionInfos, string serializerName, bool isConnect)
         {
             var nodeClientList = new List<INodeClient>();
             var newConnectionInfos = new List<ConnectionInfo>();
@@ -216,7 +216,7 @@ namespace XNode.ServiceDiscovery.Zookeeper
                 }
             }
 
-            var newNodeClientList = CreateNewNodeClientList(serviceName, newConnectionInfos, serializerName, isConnect);
+            var newNodeClientList = CreateNewNodeClientList(serviceId, newConnectionInfos, serializerName, isConnect);
 
             foreach (var nodeClient in newNodeClientList)
             {
