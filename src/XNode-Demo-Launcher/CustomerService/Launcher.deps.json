@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "c6a11f34ba714c0a87be9bb9f7ff27e4b844a190"
+    "signature": "05c8e5a101b12ea50d8910b163ed46a2c6be0a29"
   },
   "compilationOptions": {},
   "targets": {
@@ -16,10 +16,10 @@
           "Repository": "1.0.0",
           "Service": "1.0.0",
           "System.Text.Encoding.CodePages": "4.4.0",
-          "XNode": "0.5.5",
-          "XNode.Autofac": "0.5.5",
-          "XNode.Communication.DotNetty": "0.5.5",
-          "XNode.Serializer.ProtoBuf": "0.5.5"
+          "XNode": "0.5.6",
+          "XNode.Autofac": "0.5.6",
+          "XNode.Communication.DotNetty": "0.5.6",
+          "XNode.Serializer.ProtoBuf": "0.5.6"
         },
         "runtime": {
           "Launcher.dll": {}
@@ -1501,70 +1501,70 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
-      "XNode/0.5.5": {
+      "XNode/0.5.6": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Binder": "2.0.1",
           "Microsoft.Extensions.Logging": "2.0.1",
           "System.Runtime.Serialization.Primitives": "4.3.0",
-          "XNode.Common": "0.5.5"
+          "XNode.Common": "0.5.6"
         },
         "runtime": {
           "lib/netstandard2.0/XNode.dll": {
-            "assemblyVersion": "0.5.5.0",
-            "fileVersion": "0.5.5.0"
+            "assemblyVersion": "0.5.6.0",
+            "fileVersion": "0.5.6.0"
           }
         }
       },
-      "XNode.Autofac/0.5.5": {
+      "XNode.Autofac/0.5.6": {
         "dependencies": {
           "Autofac": "4.8.1",
           "Autofac.Extras.DynamicProxy": "4.5.0",
-          "XNode": "0.5.5"
+          "XNode": "0.5.6"
         },
         "runtime": {
           "lib/netstandard2.0/XNode.Autofac.dll": {
-            "assemblyVersion": "0.5.5.0",
-            "fileVersion": "0.5.5.0"
+            "assemblyVersion": "0.5.6.0",
+            "fileVersion": "0.5.6.0"
           }
         }
       },
-      "XNode.Common/0.5.5": {
+      "XNode.Common/0.5.6": {
         "runtime": {
           "lib/netstandard2.0/XNode.Common.dll": {
-            "assemblyVersion": "0.5.5.0",
-            "fileVersion": "0.5.5.0"
+            "assemblyVersion": "0.5.6.0",
+            "fileVersion": "0.5.6.0"
           }
         }
       },
-      "XNode.Communication.DotNetty/0.5.5": {
+      "XNode.Communication.DotNetty/0.5.6": {
         "dependencies": {
           "DotNetty.Handlers": "0.6.0",
-          "XNode": "0.5.5"
+          "XNode": "0.5.6"
         },
         "runtime": {
           "lib/netstandard2.0/XNode.Communication.DotNetty.dll": {
-            "assemblyVersion": "0.5.5.0",
-            "fileVersion": "0.5.5.0"
+            "assemblyVersion": "0.5.6.0",
+            "fileVersion": "0.5.6.0"
           }
         }
       },
-      "XNode.Serializer.ProtoBuf/0.5.5": {
+      "XNode.Serializer.ProtoBuf/0.5.6": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.0.1",
-          "XNode": "0.5.5",
+          "XNode": "0.5.6",
           "protobuf-net": "2.4.0"
         },
         "runtime": {
           "lib/netstandard2.0/XNode.Serializer.ProtoBuf.dll": {
-            "assemblyVersion": "0.5.5.0",
-            "fileVersion": "0.5.5.0"
+            "assemblyVersion": "0.5.6.0",
+            "fileVersion": "0.5.6.0"
           }
         }
       },
       "Contract/1.0.0": {
         "dependencies": {
           "Entity": "1.0.0",
-          "XNode.Common": "0.5.5"
+          "XNode.Common": "0.5.6"
         },
         "runtime": {
           "Contract.dll": {}
@@ -2441,40 +2441,40 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
-    "XNode/0.5.5": {
+    "XNode/0.5.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0H3YzUpXLvPHEi9Wd7mfHre+F+YG6sxUILN8VCgeroyM8d+7zyzxccBdxf+IUKYsoNMsX/Yz45itqXkz5wgkEw==",
-      "path": "xnode/0.5.5",
-      "hashPath": "xnode.0.5.5.nupkg.sha512"
+      "sha512": "sha512-rcBUZrCw8IMnZQjU2xZZoxkVFsyWNQI5Bstl9Go/jzTX8Zhh2NFc+mP87LEqcKgCHWUjnuvbp5xL2SFToGMB9w==",
+      "path": "xnode/0.5.6",
+      "hashPath": "xnode.0.5.6.nupkg.sha512"
     },
-    "XNode.Autofac/0.5.5": {
+    "XNode.Autofac/0.5.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-e5zRDcT3k+IqY+3/P8QfMQqFCvFoN0/9mc8VNykmJdmgi+Kcc4XaibDLxDx7woZndQ1w2zdjbPRiyHt1JgOXPw==",
-      "path": "xnode.autofac/0.5.5",
-      "hashPath": "xnode.autofac.0.5.5.nupkg.sha512"
+      "sha512": "sha512-YRdJY5JMhDHsAJ9Dg8/GM/Uxen+vCLLfSOXOw/fRDSkT8H4qrPSs1A4JPTu7cmtT8rDnWjEzDmB96i1MizKMqg==",
+      "path": "xnode.autofac/0.5.6",
+      "hashPath": "xnode.autofac.0.5.6.nupkg.sha512"
     },
-    "XNode.Common/0.5.5": {
+    "XNode.Common/0.5.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dxR2x3CUcIzKvLb1YDTmalRVlOd5iL2exeWu83FeAAvBaq3flb8Kv7Riq+VrwkIjr90mGWvt3evw7BSLL2tNhQ==",
-      "path": "xnode.common/0.5.5",
-      "hashPath": "xnode.common.0.5.5.nupkg.sha512"
+      "sha512": "sha512-WdmhYKH/ApSw8unlzIBLkepv7g1OMTIxxbq5kl56HXBgT23oId+N03WZlDPLWA82dBSiUlOXHVfc4Kkp3KDLqA==",
+      "path": "xnode.common/0.5.6",
+      "hashPath": "xnode.common.0.5.6.nupkg.sha512"
     },
-    "XNode.Communication.DotNetty/0.5.5": {
+    "XNode.Communication.DotNetty/0.5.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-x3uOKGnGMsVQEuBY7qQPIjfyS63bsTr51pjnsGOplCJykR3K7RN9L2iWS/nxYBKA4sjWqi1Xe8GbGBS2GSv0VQ==",
-      "path": "xnode.communication.dotnetty/0.5.5",
-      "hashPath": "xnode.communication.dotnetty.0.5.5.nupkg.sha512"
+      "sha512": "sha512-4OFQnG0D3+LtkjIkqTUbkC9tbNN8koYf4/azoj5wtY1u0bE1memKtb28/oVUr2SU6noRuyFPrcJb875X8/CakQ==",
+      "path": "xnode.communication.dotnetty/0.5.6",
+      "hashPath": "xnode.communication.dotnetty.0.5.6.nupkg.sha512"
     },
-    "XNode.Serializer.ProtoBuf/0.5.5": {
+    "XNode.Serializer.ProtoBuf/0.5.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Kfc/wu59pVG9YuYfbzOjiODiJmHXvbc7FU7NFz79WM/fWi2nbDOi6EGXfuizYoYuVpoyrxDjdSL8CnHs6seVPQ==",
-      "path": "xnode.serializer.protobuf/0.5.5",
-      "hashPath": "xnode.serializer.protobuf.0.5.5.nupkg.sha512"
+      "sha512": "sha512-zwzj1I95zBBacdx+W9XdGettNMo+WXdmlGg1bkCVe04Ipod6sq02dF82d5OVtgiEA1U4P7FuVXITm/QFbil0GQ==",
+      "path": "xnode.serializer.protobuf/0.5.6",
+      "hashPath": "xnode.serializer.protobuf.0.5.6.nupkg.sha512"
     },
     "Contract/1.0.0": {
       "type": "project",

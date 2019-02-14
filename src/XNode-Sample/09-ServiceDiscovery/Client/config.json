@@ -7,7 +7,6 @@
       "serviceDiscovery": {
         "security": [
           {
-            "serviceName": "Default",
             "config": {
               "accountName": "Test01",
               "accountKey": "123456"

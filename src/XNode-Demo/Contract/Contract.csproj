@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="XNode.Common" Version="0.5.5" />
+    <PackageReference Include="XNode.Common" Version="0.5.6" />
   </ItemGroup>
 
   <ItemGroup>
