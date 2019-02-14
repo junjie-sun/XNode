@@ -2296,14 +2296,13 @@ nodeServer.UseServicePublish(servicePublisher, serializer.Name);
       "serviceDiscovery": {
         "security": [
           {
-            "serviceId": 10001,
             "config": {
               "accountName": "Test01",
               "accountKey": "123456"
             }
           },
           {
-            "serviceName": "CustomerService",
+            "serviceId": 10001,
             "config": {
               "accountName": "Test02",
               "accountKey": "123456"
@@ -2340,14 +2339,13 @@ nodeServer.UseServicePublish(servicePublisher, serializer.Name);
         ],
         "passiveClosedStrategy": [
           {
-            "serviceName": "Default",
             "config": {
               "reconnectCount": 3,
               "reconnectInterval": 3000
             }
           },
           {
-            "serviceName": "CustomerService",
+            "serviceId": 10001,
             "config": {
               "reconnectCount": 5,
               "reconnectInterval": 1000
